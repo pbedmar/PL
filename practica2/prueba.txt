@@ -1,1 +1,1 @@
-xd/hola
+booleano victor_tonto = verdadero

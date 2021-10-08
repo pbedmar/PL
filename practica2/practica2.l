@@ -17,7 +17,7 @@ op3 "no"|"#"|"?"
 op4 "+"|"-"
 op5 "*"|"/"|"**"|"%"|"=="|"!="|"<"|"<="|">"|"y"|"o"|"o_exclusiva"
 constante ([1-9])+([0-9])*|([0-9])+.([0-9])+|"verdadero"|"falso"
-tipos "HOLA"
+tipos "entero"|"real"|"booleano"|"caracter"
 %%
 
 
@@ -40,6 +40,8 @@ tipos "HOLA"
 "hacer" return HACER;
 "leer" return LEER;
 "imprimir" return IMPRIMIR;
+{constante} return CONSTANTE;
+{tipos} return TIPOS;
 {cadena} return CADENA;
 {id} return ID;
 {retroceder} return RETROCEDER;
@@ -51,8 +53,7 @@ tipos "HOLA"
 {op4} return OP4;
 {op5} return OP5;
 "@" return OP6;
-{constante} return CONSTANTE;
-{tipos} return TIPOS;
+
 " " return ESPACIO;
 
 . printf("\n(Linea %d) Error lexico: token %s\n", yylineno, yytext);
