@@ -10,7 +10,7 @@
 
 %}
 
-cadena "\""([a-z]|[A-z]|[0-9]|_|" ")*"\""
+cadena \"[^\"]*\"
 id ([a-z]|[A-Z])+([a-z]|[A-Z]|[0-9]|_)*
 retroceder "<<"|">>"
 op3 "no"|"#"|"?"
@@ -32,11 +32,14 @@ tipos "entero"|"real"|"booleano"|"caracter"
 "[" return CORCHIZQ;
 "]" return CORCHDER;
 "=" return IGUAL;
+"inicio_var" return INICIOVAR;
+"fin_var" return FINVAR;
 "si" return SI;
 "mientras" return MIENTRAS;
 "en otro caso" return OTROCASO;
 "para" return PARA;
 "hasta" return HASTA;
+"iterando" return ITERANDO;
 "hacer" return HACER;
 "leer" return LEER;
 "imprimir" return IMPRIMIR;
@@ -54,7 +57,7 @@ tipos "entero"|"real"|"booleano"|"caracter"
 {op5} return OP5;
 "@" return OP6;
 
-" " return ESPACIO;
+" "|"\t";
 
 . printf("\n(Linea %d) Error lexico: token %s\n", yylineno, yytext);
 

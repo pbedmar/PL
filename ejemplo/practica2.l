@@ -19,6 +19,7 @@
     };
 
     map<string,datos> data;
+    map<string,datos>::iterator it_data = data.begin();
 
     void escribir_datos();
 %}
@@ -48,7 +49,7 @@ IP {RANGOIP}"."{RANGOIP}"."{RANGOIP}"."{RANGOIP}" - -"
     ip_activa = ip_activa.substr(0,ip_activa.size()-4);
     if(data.find(ip_activa) == data.end()){
         datos d;
-        data.insert({ip_activa,d});
+        data.insert(pair<string,datos>(ip_activa,d));
         data[ip_activa].peticiones++;
     }else{
         data[ip_activa].peticiones++;

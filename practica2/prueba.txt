@@ -1,2 +1,16 @@
-booleano victor_tonto = verdadero
-hola = "hola que tal"
+entero n = 3, i;
+real f1 = 2.1, f2 = 7.8;
+lista de booleano l1;
+
+l1 = [verdadero, falso]
+
+si (n == 3) {
+    f1 = 0;
+} en otro caso {
+    f2 = 0;
+}
+
+para i = 0 hasta i < 10 iterando i++ hacer n = n + 1;
+
+l1 >> 
+$ l2;
