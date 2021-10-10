@@ -7,6 +7,7 @@
     
 
     int val;
+    int num_lineas = 1;
 
 %}
 
@@ -58,8 +59,9 @@ tipos "entero"|"real"|"booleano"|"caracter"
 "@" return OP6;
 
 " "|"\t";
+"\n" ++num_lineas;
 
-. printf("\n(Linea %d) Error lexico: token %s\n", yylineno, yytext);
+. printf("\n(Linea %d) Error lexico: token %s\n", num_lineas, yytext);
 
 %%
 
