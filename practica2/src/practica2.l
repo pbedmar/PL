@@ -12,7 +12,7 @@
 
 %}
 
-letra [a-z,A-Z]
+letra [a-z]|[A-Z]
 digitoSC [1-9]
 digitoCC [0-9]
 
