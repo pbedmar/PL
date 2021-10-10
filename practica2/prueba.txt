@@ -1,8 +1,9 @@
+principal
 entero n = 3, i;
 real f1 = 2.1, f2 = 7.8;
 lista de booleano l1;
 
-l1 = [verdadero, falso]
+l1 = [falso,  verdadero]
 
 si (n == 3) {
     f1 = 0;
