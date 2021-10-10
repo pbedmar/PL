@@ -11,13 +11,21 @@
 
 %}
 
+letra [a-z,A-Z]
+digitoSC [1-9]
+digitoCC [0-9]
+
 cadena \"[^\"]*\"
-id ([a-z]|[A-Z])+([a-z]|[A-Z]|[0-9]|_)*
+id ({letra})+({letra}|{digitoCC}|_)*
 retroceder "<<"|">>"
 op3 "no"|"#"|"?"
 op4 "+"|"-"
 op5 "*"|"/"|"**"|"%"|"=="|"!="|"<"|"<="|">"|"y"|"o"|"o_exclusiva"
-constante [1-9]([0-9])*|0|([1-9]([0-9])*|0).([0-9])+|“verdadero”|“falso”|‘[a-z]‘|‘[A-Z]‘
+constante_entero {digitoSC}({digitoCC})*|0
+constante_flotante ({digitoSC}(digitoCC)*|0).({digitoCC})+
+constante_booleano “verdadero”|“falso”
+constante_caracter ‘{letra}‘
+constante {constante_entero}|{constante_flotante}|{constante_booleano}|{constante_caracter}
 tipos "entero"|"real"|"booleano"|"caracter"
 %%
 
