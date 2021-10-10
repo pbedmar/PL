@@ -17,7 +17,7 @@ retroceder "<<"|">>"
 op3 "no"|"#"|"?"
 op4 "+"|"-"
 op5 "*"|"/"|"**"|"%"|"=="|"!="|"<"|"<="|">"|"y"|"o"|"o_exclusiva"
-constante ([1-9])+([0-9])*|([0-9])+.([0-9])+|"verdadero"|"falso"
+constante [1-9]([0-9])*|0|([1-9]([0-9])*|0).([0-9])+|“verdadero”|“falso”|‘[a-z]‘|‘[A-Z]‘
 tipos "entero"|"real"|"booleano"|"caracter"
 %%
 

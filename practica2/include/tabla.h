@@ -36,6 +36,5 @@
 #define OP6 289
 #define TIPOS 290
 #define CONSTANTE 291
-#define ESPACIOTAB 292
 
 #endif
