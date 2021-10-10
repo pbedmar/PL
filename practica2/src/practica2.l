@@ -7,7 +7,7 @@
     
 
     int val;
-    int num_lineas = 1;
+    static unsigned num_lineas = 1;     /* # de lineas  */
 
 %}
 

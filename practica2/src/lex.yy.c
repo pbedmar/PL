@@ -650,7 +650,7 @@ char *yytext;
     
 
     int val;
-    int num_lineas = 1;
+    static unsigned num_lineas = 1;
 
 #line 656 "lex.yy.c"
 #line 657 "lex.yy.c"
