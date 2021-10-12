@@ -658,15 +658,17 @@ char *yytext;
 #line 4 "src/practica2.l"
     #include <stdio.h>
     #include <stdlib.h>
+    #include "string.h"
     #include "tabla.h"
+    #include <regex.h>
     
 
     int val;
     static unsigned num_lineas = 1;     /* # de lineas  */
-    void imprimir_inf(int cod, char *b);
+    void imprimir_inf(int cod, char *b, char *atr);
 
-#line 669 "lex.yy.c"
-#line 670 "lex.yy.c"
+#line 671 "lex.yy.c"
+#line 672 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -883,11 +885,11 @@ YY_DECL
 		}
 
 	{
-#line 31 "src/practica2.l"
+#line 33 "src/practica2.l"
 
 
 
-#line 891 "lex.yy.c"
+#line 893 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -946,202 +948,202 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 34 "src/practica2.l"
-{imprimir_inf(PRINCIPAL,yytext); return PRINCIPAL;}
+#line 36 "src/practica2.l"
+{imprimir_inf(PRINCIPAL, yytext, yytext); return PRINCIPAL;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 35 "src/practica2.l"
-{imprimir_inf(LLAVEIZQ,yytext); return LLAVEIZQ;}
+#line 37 "src/practica2.l"
+{imprimir_inf(LLAVEIZQ, yytext, yytext); return LLAVEIZQ;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 36 "src/practica2.l"
-{imprimir_inf(LLAVEDER,yytext); return LLAVEDER;}
+#line 38 "src/practica2.l"
+{imprimir_inf(LLAVEDER, yytext, yytext); return LLAVEDER;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 37 "src/practica2.l"
-{imprimir_inf(COMA,yytext); return COMA;}
+#line 39 "src/practica2.l"
+{imprimir_inf(COMA, yytext, yytext); return COMA;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 38 "src/practica2.l"
-{imprimir_inf(LISTADE,yytext); return LISTADE;}
+#line 40 "src/practica2.l"
+{imprimir_inf(LISTADE, yytext, yytext); return LISTADE;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 39 "src/practica2.l"
-{imprimir_inf(PROCEDIMIENTO,yytext); return PROCEDIMIENTO;}
+#line 41 "src/practica2.l"
+{imprimir_inf(PROCEDIMIENTO, yytext, yytext); return PROCEDIMIENTO;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 40 "src/practica2.l"
-{imprimir_inf(PARDER,yytext); return PARDER;}
+#line 42 "src/practica2.l"
+{imprimir_inf(PARDER, yytext, yytext); return PARDER;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 41 "src/practica2.l"
-{imprimir_inf(PARIZQ,yytext); return PARIZQ;}
+#line 43 "src/practica2.l"
+{imprimir_inf(PARIZQ, yytext, yytext); return PARIZQ;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 42 "src/practica2.l"
-{imprimir_inf(CORCHIZQ,yytext); return CORCHIZQ;}
+#line 44 "src/practica2.l"
+{imprimir_inf(CORCHIZQ, yytext, yytext); return CORCHIZQ;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 43 "src/practica2.l"
-{imprimir_inf(CORCHDER,yytext); return CORCHDER;}
+#line 45 "src/practica2.l"
+{imprimir_inf(CORCHDER, yytext, yytext); return CORCHDER;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 44 "src/practica2.l"
-{imprimir_inf(IGUAL,yytext); return IGUAL;}
+#line 46 "src/practica2.l"
+{imprimir_inf(IGUAL, yytext, yytext); return IGUAL;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 45 "src/practica2.l"
-{imprimir_inf(INICIOVAR,yytext); return INICIOVAR;}
+#line 47 "src/practica2.l"
+{imprimir_inf(INICIOVAR, yytext, yytext); return INICIOVAR;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 46 "src/practica2.l"
-{imprimir_inf(FINVAR,yytext); return FINVAR;}
+#line 48 "src/practica2.l"
+{imprimir_inf(FINVAR, yytext, yytext); return FINVAR;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 47 "src/practica2.l"
-{imprimir_inf(SI,yytext); return SI;}
+#line 49 "src/practica2.l"
+{imprimir_inf(SI, yytext, yytext); return SI;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 48 "src/practica2.l"
-{imprimir_inf(MIENTRAS,yytext); return MIENTRAS;}
+#line 50 "src/practica2.l"
+{imprimir_inf(MIENTRAS, yytext, yytext); return MIENTRAS;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 49 "src/practica2.l"
-{imprimir_inf(OTROCASO,yytext); return OTROCASO;}
+#line 51 "src/practica2.l"
+{imprimir_inf(OTROCASO, yytext, yytext); return OTROCASO;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 50 "src/practica2.l"
-{imprimir_inf(PARA,yytext); return PARA;}
+#line 52 "src/practica2.l"
+{imprimir_inf(PARA, yytext, yytext); return PARA;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 51 "src/practica2.l"
-{imprimir_inf(HASTA,yytext); return HASTA;}
+#line 53 "src/practica2.l"
+{imprimir_inf(HASTA, yytext, yytext); return HASTA;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 52 "src/practica2.l"
-{imprimir_inf(ITERANDO,yytext); return ITERANDO;}
+#line 54 "src/practica2.l"
+{imprimir_inf(ITERANDO, yytext, yytext); return ITERANDO;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 53 "src/practica2.l"
-{imprimir_inf(HACER,yytext); return HACER;}
+#line 55 "src/practica2.l"
+{imprimir_inf(HACER, yytext, yytext); return HACER;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 54 "src/practica2.l"
-{imprimir_inf(LEER,yytext); return LEER;}
+#line 56 "src/practica2.l"
+{imprimir_inf(LEER, yytext, yytext); return LEER;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 55 "src/practica2.l"
-{imprimir_inf(IMPRIMIR,yytext); return IMPRIMIR;}
+#line 57 "src/practica2.l"
+{imprimir_inf(IMPRIMIR, yytext, yytext); return IMPRIMIR;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 56 "src/practica2.l"
-{imprimir_inf(CONSTANTE,yytext); return CONSTANTE;}
+#line 58 "src/practica2.l"
+{imprimir_inf(CONSTANTE, yytext, yytext); return CONSTANTE;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 57 "src/practica2.l"
-{imprimir_inf(TIPOS,yytext); return TIPOS;}
+#line 59 "src/practica2.l"
+{imprimir_inf(TIPOS, yytext, yytext); return TIPOS;}
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 58 "src/practica2.l"
-{imprimir_inf(CADENA,yytext); return CADENA;}
+#line 60 "src/practica2.l"
+{imprimir_inf(CADENA, yytext, yytext); return CADENA;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 59 "src/practica2.l"
-{imprimir_inf(ID,yytext); return ID;}
+#line 61 "src/practica2.l"
+{imprimir_inf(ID, yytext, yytext); return ID;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 60 "src/practica2.l"
-{imprimir_inf(RETROCEDER,yytext); return RETROCEDER;}
+#line 62 "src/practica2.l"
+{imprimir_inf(RETROCEDER, yytext, yytext); return RETROCEDER;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 61 "src/practica2.l"
-{imprimir_inf(DOLLAR,yytext); return DOLLAR;}
+#line 63 "src/practica2.l"
+{imprimir_inf(DOLLAR, yytext, yytext); return DOLLAR;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 62 "src/practica2.l"
-{imprimir_inf(PYC,yytext); return PYC;}
+#line 64 "src/practica2.l"
+{imprimir_inf(PYC, yytext, yytext); return PYC;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 63 "src/practica2.l"
-{imprimir_inf(OP1,yytext); return OP1;}
+#line 65 "src/practica2.l"
+{imprimir_inf(OP1, yytext, yytext); return OP1;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 64 "src/practica2.l"
-{imprimir_inf(OP2,yytext); return OP2;}
+#line 66 "src/practica2.l"
+{imprimir_inf(OP2, yytext, yytext); return OP2;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 65 "src/practica2.l"
-{imprimir_inf(OP3,yytext); return OP3;}
+#line 67 "src/practica2.l"
+{imprimir_inf(OP3, yytext, yytext); return OP3;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 66 "src/practica2.l"
-{imprimir_inf(OP4,yytext); return OP4;}
+#line 68 "src/practica2.l"
+{imprimir_inf(OP4, yytext, yytext); return OP4;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 67 "src/practica2.l"
-{imprimir_inf(OP5,yytext); return OP5;}
+#line 69 "src/practica2.l"
+{imprimir_inf(OP5, yytext, yytext); return OP5;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 68 "src/practica2.l"
-{imprimir_inf(OP6,yytext); return OP6;}
+#line 70 "src/practica2.l"
+{imprimir_inf(OP6, yytext, yytext); return OP6;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 70 "src/practica2.l"
+#line 72 "src/practica2.l"
 
 	YY_BREAK
 case 37:
 /* rule 37 can match eol */
 YY_RULE_SETUP
-#line 71 "src/practica2.l"
+#line 73 "src/practica2.l"
 ++num_lineas;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 73 "src/practica2.l"
+#line 75 "src/practica2.l"
 printf("\n(Linea %d) Error lexico: token %s\n", num_lineas, yytext);
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 75 "src/practica2.l"
+#line 77 "src/practica2.l"
 ECHO;
 	YY_BREAK
-#line 1145 "lex.yy.c"
+#line 1147 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2146,7 +2148,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 75 "src/practica2.l"
+#line 77 "src/practica2.l"
 
 
 
@@ -2169,14 +2171,75 @@ void yyfree (void * ptr )
         return 0;
     }
 
-    void imprimir_inf(int cod, char *b){
+    void imprimir_inf(int cod, char *b, char *atr){
         char mensaje[strlen(b)+100];
         char num[5];
         strcat(mensaje,"Codigo: ");
-        sprintf(num, "%d,", cod);
-        strcat(mensaje,num);
-        strcat(mensaje, " Atributo: temporal, "); 
-        strcat(mensaje, "Lexema: ");
+        sprintf(num, "%d", cod);
+        strcat(mensaje, num);
+        strcat(mensaje, ", Atributo: "); 
+
+        // Compilo expresiones regulares
+        regex_t regex0, regex1, regex2, regex3;
+        int c_entero = regcomp(&regex0, "([1-9]([0-9])* | 0)", 0);
+        int c_real = regcomp(&regex1, "([1-9]([0-9])* | 0).([0-9])", 1);
+        int c_booleano = regcomp(&regex2, "(“verdadero” | “falso”)", 2);
+        int c_caracter = regcomp(&regex3, "(‘[a-z]‘ | ‘[A-Z]‘)", 3);
+
+        if(c_entero || c_real || c_booleano || c_caracter){
+            fprintf(stderr, "Error compilando regex\n");
+            exit(1);
+        }
+
+        // Ejecuto expresiones regulares
+
+        // La función regexec () compara la cadena terminada en nulo especificada por cadena con la expresión regular compilada preg inicializada
+        // por una llamada anterior a regcomp () . Si encuentra una coincidencia, regexec () devuelve 0; de lo contrario, devuelve un valor 
+        // distinto de cero, lo que indica que no hay coincidencia o un error.
+
+        if (cod != 281 && cod != 286 && cod != 287 && cod != 288 && cod != 290 && cod != 291)
+            strcat(mensaje, "0");
+        else if (cod == 291){
+            if (regexec (&regex1, b, 0, NULL, 1))
+                strcat(mensaje, "1");
+            else if (regexec (&regex0, b, 0, NULL, 0))
+                strcat(mensaje, "0");
+            else if (regexec (&regex2, b, 0, NULL, 2))
+                strcat(mensaje, "2");
+            else if (regexec (&regex3, b, 0, NULL, 3))
+                strcat(mensaje, "3");
+
+        }
+        else{
+            if (!strcmp(b, "<<") || !strcmp(b, "no") || !strcmp(b, "+") || !strcmp(b, "*") || !strcmp(b, "entero") || !strcmp(b, "constante_entero"))
+                strcat(mensaje, "0");
+            else if (!strcmp(b, ">>") || !strcmp(b, "#") || !strcmp(b, "-") || !strcmp(b, "/") || !strcmp(b, "real") || !strcmp(b, "constante_real"))
+                strcat(mensaje, "1");
+            else if (!strcmp(b, "?") || !strcmp(b, "**") || !strcmp(b, "booleano") || !strcmp(b, "constante_booleano"))
+                strcat(mensaje, "2");
+            else if (!strcmp(b, "%") || !strcmp(b, "caracter") || !strcmp(b, "constante_caracter"))
+                strcat(mensaje, "3");
+            else if (!strcmp(b, "=="))
+                strcat(mensaje, "4");
+            else if (!strcmp(b, "!="))
+                strcat(mensaje, "5");
+            else if (!strcmp(b, "<"))
+                strcat(mensaje, "6");
+            else if (!strcmp(b, "<="))
+                strcat(mensaje, "7");
+            else if (!strcmp(b, ">"))
+                strcat(mensaje, "8");
+            else if (!strcmp(b, ">="))
+                strcat(mensaje, "9");
+            else if (!strcmp(b, "y"))
+                strcat(mensaje, "10");
+            else if (!strcmp(b, "o"))
+                strcat(mensaje, "11");
+            else if (!strcmp(b, "o_exclusiva"))
+                strcat(mensaje, "12");
+        }
+        
+        strcat(mensaje, ", Lexema: ");
         strcat(mensaje, b);
         strcat(mensaje, "\n");
         printf(mensaje);
