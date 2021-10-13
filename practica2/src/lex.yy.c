@@ -2179,34 +2179,35 @@ void yyfree (void * ptr )
         strcat(mensaje, num);
         strcat(mensaje, ", Atributo: "); 
 
-        // Compilo expresiones regulares
-        regex_t regex0, regex1, regex2, regex3;
-        int c_entero = regcomp(&regex0, "([1-9]([0-9])* | 0)", 0);
-        int c_real = regcomp(&regex1, "([1-9]([0-9])* | 0).([0-9])", 1);
-        int c_booleano = regcomp(&regex2, "(“verdadero” | “falso”)", 2);
-        int c_caracter = regcomp(&regex3, "(‘[a-z]‘ | ‘[A-Z]‘)", 3);
-
-        if(c_entero || c_real || c_booleano || c_caracter){
-            fprintf(stderr, "Error compilando regex\n");
-            exit(1);
-        }
-
-        // Ejecuto expresiones regulares
-
-        // La función regexec () compara la cadena terminada en nulo especificada por cadena con la expresión regular compilada preg inicializada
-        // por una llamada anterior a regcomp () . Si encuentra una coincidencia, regexec () devuelve 0; de lo contrario, devuelve un valor 
-        // distinto de cero, lo que indica que no hay coincidencia o un error.
-
         if (cod != 281 && cod != 286 && cod != 287 && cod != 288 && cod != 290 && cod != 291)
             strcat(mensaje, "0");
         else if (cod == 291){
-            if (regexec (&regex1, b, 0, NULL, 1))
-                strcat(mensaje, "1");
-            else if (regexec (&regex0, b, 0, NULL, 0))
+            // Compilo expresiones regulares
+            regex_t regex0, regex1, regex2, regex3;
+            int c_entero = regcomp(&regex0, "([1-9]([0-9])* | 0)", 0);
+            int c_real = regcomp(&regex1, "([1-9]([0-9])* | 0).([0-9])+", 0);
+            int c_booleano = regcomp(&regex2, "(“verdadero” | “falso”)", 0);
+            int c_caracter = regcomp(&regex3, "(‘[a-z]‘ | ‘[A-Z]‘)", 0);
+
+            if(c_entero || c_real || c_booleano || c_caracter){
+                fprintf(stderr, "Error compilando regex\n");
+                exit(1);
+            }
+
+            // Ejecuto expresiones regulares
+
+            // La función regexec () compara la cadena terminada en nulo especificada por cadena con la expresión regular compilada preg inicializada
+            // por una llamada anterior a regcomp () . Si encuentra una coincidencia, regexec () devuelve 0; de lo contrario, devuelve un valor 
+            // distinto de cero, lo que indica que no hay coincidencia o un error.
+
+            
+            if (regexec (&regex0, b, 0, NULL, 0))
                 strcat(mensaje, "0");
-            else if (regexec (&regex2, b, 0, NULL, 2))
+            else if (regexec (&regex1, b, 0, NULL, 0))
+                strcat(mensaje, "1");
+            else if (regexec (&regex2, b, 0, NULL, 0))
                 strcat(mensaje, "2");
-            else if (regexec (&regex3, b, 0, NULL, 3))
+            else if (regexec (&regex3, b, 0, NULL, 0))
                 strcat(mensaje, "3");
 
         }
