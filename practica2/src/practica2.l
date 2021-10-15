@@ -25,7 +25,7 @@ op3 "no"|"#"|"?"
 op4 "+"|"-"
 op5 "*"|"/"|"**"|"%"|"=="|"!="|"<"|"<="|">"|"y"|"o"|"o_exclusiva"
 constante_entero {digitoSC}({digitoCC})*|0
-constante_flotante ({digitoSC}(digitoCC)*|0).({digitoCC})+
+constante_flotante ({digitoSC}({digitoCC})*|0).({digitoCC})+
 constante_booleano "verdadero"|"falso"
 constante_caracter ‘{letra}‘
 constante {constante_entero}|{constante_flotante}|{constante_booleano}|{constante_caracter}
