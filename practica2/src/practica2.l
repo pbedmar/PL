@@ -10,7 +10,7 @@
 
     int val;
     static unsigned num_lineas = 1;     /* # de lineas  */
-    void imprimir_inf(int cod, char *b, char *atr);
+    void imprimir_inf(int cod, char *b);
 
 %}
 
@@ -33,41 +33,41 @@ tipos "entero"|"real"|"booleano"|"caracter"
 %%
 
 
-"principal" {imprimir_inf(PRINCIPAL, yytext, yytext); return PRINCIPAL;}
-"{"  {imprimir_inf(LLAVEIZQ, yytext, yytext); return LLAVEIZQ;}
-"}"  {imprimir_inf(LLAVEDER, yytext, yytext); return LLAVEDER;}
-","  {imprimir_inf(COMA, yytext, yytext); return COMA;}
-"lista de" {imprimir_inf(LISTADE, yytext, yytext); return LISTADE;}
-"procedimiento"  {imprimir_inf(PROCEDIMIENTO, yytext, yytext); return PROCEDIMIENTO;}
-")"  {imprimir_inf(PARDER, yytext, yytext); return PARDER;}
-"("  {imprimir_inf(PARIZQ, yytext, yytext); return PARIZQ;}
-"["  {imprimir_inf(CORCHIZQ, yytext, yytext); return CORCHIZQ;}
-"]"  {imprimir_inf(CORCHDER, yytext, yytext); return CORCHDER;}
-"="  {imprimir_inf(IGUAL, yytext, yytext); return IGUAL;}
-"inicio_var" {imprimir_inf(INICIOVAR, yytext, yytext); return INICIOVAR;}
-"fin_var" {imprimir_inf(FINVAR, yytext, yytext); return FINVAR;}
-"si" {imprimir_inf(SI, yytext, yytext); return SI;}
-"mientras" {imprimir_inf(MIENTRAS, yytext, yytext); return MIENTRAS;}
-"en otro caso" {imprimir_inf(OTROCASO, yytext, yytext); return OTROCASO;}
-"para" {imprimir_inf(PARA, yytext, yytext); return PARA;}
-"hasta" {imprimir_inf(HASTA, yytext, yytext); return HASTA;}
-"iterando" {imprimir_inf(ITERANDO, yytext, yytext); return ITERANDO;}
-"hacer" {imprimir_inf(HACER, yytext, yytext); return HACER;}
-"leer" {imprimir_inf(LEER, yytext, yytext); return LEER;}
-"imprimir" {imprimir_inf(IMPRIMIR, yytext, yytext); return IMPRIMIR;}
-{constante} {imprimir_inf(CONSTANTE, yytext, yytext); return CONSTANTE;}
-{tipos} {imprimir_inf(TIPOS, yytext, yytext); return TIPOS;}
-{cadena} {imprimir_inf(CADENA, yytext, yytext); return CADENA;}
-{id} {imprimir_inf(ID, yytext, yytext); return ID;}
-{retroceder} {imprimir_inf(RETROCEDER, yytext, yytext); return RETROCEDER;}
-"$" {imprimir_inf(DOLLAR, yytext, yytext); return DOLLAR;}
-";" {imprimir_inf(PYC, yytext, yytext); return PYC;}
-"++" {imprimir_inf(OP1, yytext, yytext); return OP1;}
-"--" {imprimir_inf(OP2, yytext, yytext); return OP2;}
-{op3} {imprimir_inf(OP3, yytext, yytext); return OP3;}
-{op4} {imprimir_inf(OP4, yytext, yytext); return OP4;}
-{op5} {imprimir_inf(OP5, yytext, yytext); return OP5;}
-"@" {imprimir_inf(OP6, yytext, yytext); return OP6;}
+"principal" {imprimir_inf(PRINCIPAL, yytext); return PRINCIPAL;}
+"{"  {imprimir_inf(LLAVEIZQ, yytext); return LLAVEIZQ;}
+"}"  {imprimir_inf(LLAVEDER, yytext); return LLAVEDER;}
+","  {imprimir_inf(COMA, yytext); return COMA;}
+"lista de" {imprimir_inf(LISTADE, yytext); return LISTADE;}
+"procedimiento"  {imprimir_inf(PROCEDIMIENTO, yytext); return PROCEDIMIENTO;}
+")"  {imprimir_inf(PARDER, yytext); return PARDER;}
+"("  {imprimir_inf(PARIZQ, yytext); return PARIZQ;}
+"["  {imprimir_inf(CORCHIZQ, yytext); return CORCHIZQ;}
+"]"  {imprimir_inf(CORCHDER, yytext); return CORCHDER;}
+"="  {imprimir_inf(IGUAL, yytext); return IGUAL;}
+"inicio_var" {imprimir_inf(INICIOVAR, yytext); return INICIOVAR;}
+"fin_var" {imprimir_inf(FINVAR, yytext); return FINVAR;}
+"si" {imprimir_inf(SI, yytext); return SI;}
+"mientras" {imprimir_inf(MIENTRAS, yytext); return MIENTRAS;}
+"en otro caso" {imprimir_inf(OTROCASO, yytext); return OTROCASO;}
+"para" {imprimir_inf(PARA, yytext); return PARA;}
+"hasta" {imprimir_inf(HASTA, yytext); return HASTA;}
+"iterando" {imprimir_inf(ITERANDO, yytext); return ITERANDO;}
+"hacer" {imprimir_inf(HACER, yytext); return HACER;}
+"leer" {imprimir_inf(LEER, yytext); return LEER;}
+"imprimir" {imprimir_inf(IMPRIMIR, yytext); return IMPRIMIR;}
+{constante} {imprimir_inf(CONSTANTE, yytext); return CONSTANTE;}
+{tipos} {imprimir_inf(TIPOS, yytext); return TIPOS;}
+{cadena} {imprimir_inf(CADENA, yytext); return CADENA;}
+{id} {imprimir_inf(ID, yytext); return ID;}
+{retroceder} {imprimir_inf(RETROCEDER, yytext); return RETROCEDER;}
+"$" {imprimir_inf(DOLLAR, yytext); return DOLLAR;}
+";" {imprimir_inf(PYC, yytext); return PYC;}
+"++" {imprimir_inf(OP1, yytext); return OP1;}
+"--" {imprimir_inf(OP2, yytext); return OP2;}
+{op3} {imprimir_inf(OP3, yytext); return OP3;}
+{op4} {imprimir_inf(OP4, yytext); return OP4;}
+{op5} {imprimir_inf(OP5, yytext); return OP5;}
+"@" {imprimir_inf(OP6, yytext); return OP6;}
 
 " "|"\t";
 "\n" ++num_lineas;
@@ -96,7 +96,7 @@ tipos "entero"|"real"|"booleano"|"caracter"
         return 0;
     }
 
-    void imprimir_inf(int cod, char *b, char *atr){
+    void imprimir_inf(int cod, char *b){
         char mensaje[strlen(b)+100];
         char num[5];
         strcat(mensaje,"Codigo: ");

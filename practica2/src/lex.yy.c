@@ -622,7 +622,7 @@ char *yytext;
 
     int val;
     static unsigned num_lineas = 1;     /* # de lineas  */
-    void imprimir_inf(int cod, char *b, char *atr);
+    void imprimir_inf(int cod, char *b);
 
 #line 628 "lex.yy.c"
 #line 629 "lex.yy.c"
@@ -906,178 +906,178 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 36 "src/practica2.l"
-{imprimir_inf(PRINCIPAL, yytext, yytext); return PRINCIPAL;}
+{imprimir_inf(PRINCIPAL, yytext); return PRINCIPAL;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 37 "src/practica2.l"
-{imprimir_inf(LLAVEIZQ, yytext, yytext); return LLAVEIZQ;}
+{imprimir_inf(LLAVEIZQ, yytext); return LLAVEIZQ;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 38 "src/practica2.l"
-{imprimir_inf(LLAVEDER, yytext, yytext); return LLAVEDER;}
+{imprimir_inf(LLAVEDER, yytext); return LLAVEDER;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 39 "src/practica2.l"
-{imprimir_inf(COMA, yytext, yytext); return COMA;}
+{imprimir_inf(COMA, yytext); return COMA;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 40 "src/practica2.l"
-{imprimir_inf(LISTADE, yytext, yytext); return LISTADE;}
+{imprimir_inf(LISTADE, yytext); return LISTADE;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 41 "src/practica2.l"
-{imprimir_inf(PROCEDIMIENTO, yytext, yytext); return PROCEDIMIENTO;}
+{imprimir_inf(PROCEDIMIENTO, yytext); return PROCEDIMIENTO;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 42 "src/practica2.l"
-{imprimir_inf(PARDER, yytext, yytext); return PARDER;}
+{imprimir_inf(PARDER, yytext); return PARDER;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 43 "src/practica2.l"
-{imprimir_inf(PARIZQ, yytext, yytext); return PARIZQ;}
+{imprimir_inf(PARIZQ, yytext); return PARIZQ;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 44 "src/practica2.l"
-{imprimir_inf(CORCHIZQ, yytext, yytext); return CORCHIZQ;}
+{imprimir_inf(CORCHIZQ, yytext); return CORCHIZQ;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 45 "src/practica2.l"
-{imprimir_inf(CORCHDER, yytext, yytext); return CORCHDER;}
+{imprimir_inf(CORCHDER, yytext); return CORCHDER;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 46 "src/practica2.l"
-{imprimir_inf(IGUAL, yytext, yytext); return IGUAL;}
+{imprimir_inf(IGUAL, yytext); return IGUAL;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 47 "src/practica2.l"
-{imprimir_inf(INICIOVAR, yytext, yytext); return INICIOVAR;}
+{imprimir_inf(INICIOVAR, yytext); return INICIOVAR;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 48 "src/practica2.l"
-{imprimir_inf(FINVAR, yytext, yytext); return FINVAR;}
+{imprimir_inf(FINVAR, yytext); return FINVAR;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 49 "src/practica2.l"
-{imprimir_inf(SI, yytext, yytext); return SI;}
+{imprimir_inf(SI, yytext); return SI;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 50 "src/practica2.l"
-{imprimir_inf(MIENTRAS, yytext, yytext); return MIENTRAS;}
+{imprimir_inf(MIENTRAS, yytext); return MIENTRAS;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 51 "src/practica2.l"
-{imprimir_inf(OTROCASO, yytext, yytext); return OTROCASO;}
+{imprimir_inf(OTROCASO, yytext); return OTROCASO;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 52 "src/practica2.l"
-{imprimir_inf(PARA, yytext, yytext); return PARA;}
+{imprimir_inf(PARA, yytext); return PARA;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 53 "src/practica2.l"
-{imprimir_inf(HASTA, yytext, yytext); return HASTA;}
+{imprimir_inf(HASTA, yytext); return HASTA;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 54 "src/practica2.l"
-{imprimir_inf(ITERANDO, yytext, yytext); return ITERANDO;}
+{imprimir_inf(ITERANDO, yytext); return ITERANDO;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 55 "src/practica2.l"
-{imprimir_inf(HACER, yytext, yytext); return HACER;}
+{imprimir_inf(HACER, yytext); return HACER;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 56 "src/practica2.l"
-{imprimir_inf(LEER, yytext, yytext); return LEER;}
+{imprimir_inf(LEER, yytext); return LEER;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 57 "src/practica2.l"
-{imprimir_inf(IMPRIMIR, yytext, yytext); return IMPRIMIR;}
+{imprimir_inf(IMPRIMIR, yytext); return IMPRIMIR;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 58 "src/practica2.l"
-{imprimir_inf(CONSTANTE, yytext, yytext); return CONSTANTE;}
+{imprimir_inf(CONSTANTE, yytext); return CONSTANTE;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 59 "src/practica2.l"
-{imprimir_inf(TIPOS, yytext, yytext); return TIPOS;}
+{imprimir_inf(TIPOS, yytext); return TIPOS;}
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
 #line 60 "src/practica2.l"
-{imprimir_inf(CADENA, yytext, yytext); return CADENA;}
+{imprimir_inf(CADENA, yytext); return CADENA;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 61 "src/practica2.l"
-{imprimir_inf(ID, yytext, yytext); return ID;}
+{imprimir_inf(ID, yytext); return ID;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 62 "src/practica2.l"
-{imprimir_inf(RETROCEDER, yytext, yytext); return RETROCEDER;}
+{imprimir_inf(RETROCEDER, yytext); return RETROCEDER;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 63 "src/practica2.l"
-{imprimir_inf(DOLLAR, yytext, yytext); return DOLLAR;}
+{imprimir_inf(DOLLAR, yytext); return DOLLAR;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 64 "src/practica2.l"
-{imprimir_inf(PYC, yytext, yytext); return PYC;}
+{imprimir_inf(PYC, yytext); return PYC;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 65 "src/practica2.l"
-{imprimir_inf(OP1, yytext, yytext); return OP1;}
+{imprimir_inf(OP1, yytext); return OP1;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 66 "src/practica2.l"
-{imprimir_inf(OP2, yytext, yytext); return OP2;}
+{imprimir_inf(OP2, yytext); return OP2;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 67 "src/practica2.l"
-{imprimir_inf(OP3, yytext, yytext); return OP3;}
+{imprimir_inf(OP3, yytext); return OP3;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 68 "src/practica2.l"
-{imprimir_inf(OP4, yytext, yytext); return OP4;}
+{imprimir_inf(OP4, yytext); return OP4;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 69 "src/practica2.l"
-{imprimir_inf(OP5, yytext, yytext); return OP5;}
+{imprimir_inf(OP5, yytext); return OP5;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 70 "src/practica2.l"
-{imprimir_inf(OP6, yytext, yytext); return OP6;}
+{imprimir_inf(OP6, yytext); return OP6;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
@@ -2128,7 +2128,7 @@ void yyfree (void * ptr )
         return 0;
     }
 
-    void imprimir_inf(int cod, char *b, char *atr){
+    void imprimir_inf(int cod, char *b){
         char mensaje[strlen(b)+100];
         char num[5];
         strcat(mensaje,"Codigo: ");
