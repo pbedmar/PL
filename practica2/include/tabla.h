@@ -1,5 +1,5 @@
 #ifndef _TABLA_H_INCLUDED
-#define TABLA_H_INCLUDED
+#define _TABLA_H_INCLUDED
 
 #define PRINCIPAL 257
 #define LLAVEIZQ 258
