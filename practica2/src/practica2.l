@@ -126,13 +126,13 @@ tipos "entero"|"real"|"booleano"|"caracter"
             // distinto de cero, lo que indica que no hay coincidencia o un error.
 
             
-            if (regexec(&regex0, b, 0, NULL, 0))
+            if (!regexec(&regex0, b, 0, NULL, 0))
                 strcat(mensaje, "0");
-            else if (regexec(&regex1, b, 0, NULL, 0))
+            else if (!regexec(&regex1, b, 0, NULL, 0))
                 strcat(mensaje, "1");
-            else if (regexec(&regex2, b, 0, NULL, 0))
+            else if (!regexec(&regex2, b, 0, NULL, 0))
                 strcat(mensaje, "2");
-            else if (regexec(&regex3, b, 0, NULL, 0))
+            else if (!regexec (&regex3, b, 0, NULL, 0))
                 strcat(mensaje, "3");
 
         }
