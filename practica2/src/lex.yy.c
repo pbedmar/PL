@@ -375,26 +375,26 @@ struct yy_trans_info
 static yyconst flex_int16_t yy_accept[201] =
     {   0,
         0,    0,   62,   60,   58,   59,   60,   60,   30,   25,
-       37,   60,    8,    7,   34,   32,    4,   33,   35,   54,
-       54,   26,   40,   11,   42,   31,   47,   53,    9,   10,
-       53,   53,   53,   53,   53,   53,   53,   53,   53,   45,
-       53,   53,   53,   44,    2,    3,   39,    0,   52,    0,
-       36,   27,   28,    0,   54,   23,   41,   38,   43,   24,
-       53,   53,   53,   53,   53,   53,   53,   53,   53,   53,
-       53,   53,   53,   53,   53,   29,   53,   53,   53,   14,
-       53,   57,   55,   54,   53,   53,    0,   53,   53,   53,
-       53,   53,   53,   53,   53,   53,   53,   53,   53,   53,
+       37,   60,    8,    7,   34,   32,    4,   33,   35,   53,
+       53,   26,   40,   11,   42,   31,   47,   57,    9,   10,
+       57,   57,   57,   57,   57,   57,   57,   57,   57,   45,
+       57,   57,   57,   44,    2,    3,   39,    0,   52,    0,
+       36,   27,   28,    0,   53,   23,   41,   38,   43,   24,
+       57,   57,   57,   57,   57,   57,   57,   57,   57,   57,
+       57,   57,   57,   57,   57,   29,   57,   57,   57,   14,
+       57,   56,   54,   53,   57,   57,    0,   57,   57,   57,
+       57,   57,   57,   57,   57,   57,   57,   57,   57,   57,
 
-       53,   53,   53,   53,   53,   53,    0,   53,   53,   53,
-       53,   53,   53,   53,   53,   53,   21,   53,   53,   53,
-       17,   53,   53,   53,   53,   53,    0,   53,   53,   53,
-       53,   20,   18,   53,   53,   53,   53,   53,   53,   53,
-       53,   53,   53,   53,    0,   48,   53,   53,   53,   53,
-       53,    0,   53,   53,   53,   53,   53,   53,   53,    0,
-       13,   53,   53,   53,   53,    0,   53,   53,   53,   53,
-       53,   50,   51,    0,   49,   22,   53,   19,    5,   15,
-       53,   53,   53,   53,    0,   53,   53,    1,   53,    0,
-       12,   53,   53,    0,   46,   53,   16,   53,    6,    0
+       57,   57,   57,   57,   57,   57,    0,   57,   57,   57,
+       57,   57,   57,   57,   57,   57,   21,   57,   57,   57,
+       17,   57,   57,   57,   57,   57,    0,   57,   55,   57,
+       57,   20,   18,   57,   57,   57,   57,   57,   57,   57,
+       57,   57,   57,   57,    0,   48,   57,   57,   57,   57,
+       57,    0,   57,   57,   57,   57,   57,   57,   57,    0,
+       13,   57,   57,   57,   57,    0,   57,   57,   57,   57,
+       57,   50,   51,    0,   49,   22,   57,   19,    5,   15,
+       57,   57,   57,   57,    0,   57,   57,    1,   57,    0,
+       12,   57,   57,    0,   46,   57,   16,   57,    6,    0
 
     } ;
 
@@ -1175,28 +1175,28 @@ YY_RULE_SETUP
 case 53:
 YY_RULE_SETUP
 #line 81 "src/practica2.l"
-{imprimir_inf(ID, yytext, 0); return ID;}
+{imprimir_inf(CONSTANTE, yytext, 0); return CONSTANTE;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 82 "src/practica2.l"
-{imprimir_inf(CONSTANTE, yytext, 0); return CONSTANTE;}
+{imprimir_inf(CONSTANTE, yytext, 1); return CONSTANTE;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 #line 83 "src/practica2.l"
-{imprimir_inf(CONSTANTE, yytext, 1); return CONSTANTE;}
-	YY_BREAK
-case 56:
-YY_RULE_SETUP
-#line 84 "src/practica2.l"
 {imprimir_inf(CONSTANTE, yytext, 2); return CONSTANTE;}
 	YY_BREAK
+case 56:
+/* rule 56 can match eol */
+YY_RULE_SETUP
+#line 84 "src/practica2.l"
+{imprimir_inf(CONSTANTE, yytext, 3); return CONSTANTE;}
+	YY_BREAK
 case 57:
-/* rule 57 can match eol */
 YY_RULE_SETUP
 #line 85 "src/practica2.l"
-{imprimir_inf(CONSTANTE, yytext, 3); return CONSTANTE;}
+{imprimir_inf(ID, yytext, 0); return ID;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP

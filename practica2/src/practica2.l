@@ -86,7 +86,7 @@ constante_caracter '[^\"']'
 " "|"\t" ;
 "\n" ++num_lineas;
 
-. printf("\n(Linea %d) Error lexico: token %s\n", num_lineas, yytext, 0);
+. printf("\nError lexico [Linea %d]: token %s\n", num_lineas, yytext, 0);
 
 %%
 
