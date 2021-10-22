@@ -3,17 +3,25 @@ INC = include
 BIN = bin
 SRC = src
 
-all: analizadorLexico
+all:
+	make clean
+	make analizadorSintactico
 
-analizadorLexico: $(OBJ)/lex.yy.o
-	gcc  $(OBJ)/lex.yy.o -o $(BIN)/analizadorLexico
+analizadorSintactico: $(OBJ)/main.o $(OBJ)/y.tab.o
+	gcc $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/analizadorSintactico
 
-$(SRC)/lex.yy.c:
-	lex $(SRC)/practica2.l
+$(OBJ)/y.tab.o: $(SRC)/y.tab.c
+	gcc -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
+
+$(OBJ)/main.o: $(SRC)/main.c
+	gcc -c $(SRC)/main.c -o $(OBJ)/main.o
+
+$(SRC)/y.tab.c: $(SRC)/practica3.y $(SRC)/lex.yy.c
+	bison -o $(SRC)/y.tab.c $(SRC)/practica3.y
+
+$(SRC)/lex.yy.c: $(SRC)/practica3.l
+	lex $(SRC)/practica3.l
 	mv lex.yy.c $(SRC)
 
-$(OBJ)/lex.yy.o: $(SRC)/lex.yy.c $(INC)/tabla.h
-	gcc -g -I$(INC) -c $(SRC)/lex.yy.c -o $(OBJ)/lex.yy.o
-
 clean:
-	rm $(SRC)/*.c $(OBJ)/*.o
+	rm $(SRC)/lex.yy.c $(OBJ)/*.o $(BIN)/*
