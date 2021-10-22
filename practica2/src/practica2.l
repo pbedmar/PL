@@ -78,11 +78,11 @@ constante_caracter '[^\"']'
 "booleano"  {imprimir_inf(TIPOS, yytext, 2); return TIPOS;}
 "caracter"  {imprimir_inf(TIPOS, yytext, 3); return TIPOS;}
 {cadena} {imprimir_inf(CADENA, yytext, 0); return CADENA;}
-{id} {imprimir_inf(ID, yytext, 0); return ID;}
 {constante_entero}    {imprimir_inf(CONSTANTE, yytext, 0); return CONSTANTE;}
 {constante_real}  {imprimir_inf(CONSTANTE, yytext, 1); return CONSTANTE;}
 {constante_booleano}  {imprimir_inf(CONSTANTE, yytext, 2); return CONSTANTE;}
 {constante_caracter}  {imprimir_inf(CONSTANTE, yytext, 3); return CONSTANTE;}
+{id} {imprimir_inf(ID, yytext, 0); return ID;}
 " "|"\t" ;
 "\n" ++num_lineas;
 
