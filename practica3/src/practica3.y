@@ -14,7 +14,8 @@
  ** fuente de lex (practica3.l)
  **/
 
-void yyerror(char *msg);
+void lexerror(const char *msg);
+void yyerror(const char *msg);
 
 /** La siguiente variable se usará para conocer el numero de la línea
  ** que se esta leyendo en cada momento. Tambies es posible usar la variable
@@ -38,16 +39,47 @@ int linea_actual = 1;
  ** nada de lo anterior debe tenerse en cuenta.
  **/
 
-%error-verbose
+%define parse.error verbose
 
 /** A continuacion declaramos los nombres simbolicos de los tokens.
  ** byacc se encarga de asociar a cada uno un codigo
  **/
 
-%token NOMBRE VERBO
-%token NOMBRE_PROPIO
-%token ARTICULO ARTICULO_A
-%token DESCONOCIDO
+%token PRINCIPAL
+%token LLAVEIZQ
+%token LLAVEDER
+%token COMA
+%token LISTADE
+%token PROCEDIMIENTO
+%token PARDER
+%token PARIZQ
+%token CORCHIZQ
+%token CORCHDER
+%token IGUAL
+%token INICIOVAR
+%token FINVAR
+%token SI
+%token MIENTRAS
+%token OTROCASO
+%token PARA
+%token HASTA
+%token ITERANDO
+%token HACER
+%token LEER
+%token IMPRIMIR
+%token CADENA
+%token ID
+%token RETROCEDER
+%token DOLLAR
+%token PYC
+%token OP1
+%token OP2
+%token OP3
+%token OP4
+%token OP5
+%token OP6
+%token TIPOS
+%token CONSTANTE
 
 %%
 
@@ -72,7 +104,7 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE
                         | lista_para_por_defecto COMA parametro IGUAL agregado_lista
                         | parametro IGUAL agregado_lista ;
 
-parametro   : TIPOS ID ;
+parametro   : tipos ID ;
 
 declar_de_variables_locales : INICIOVAR variables_locales FINVAR
                             | ;
@@ -80,7 +112,7 @@ declar_de_variables_locales : INICIOVAR variables_locales FINVAR
 variables_locales   : variables_locales cuerpo_declar_variables
                     | cuerpo_declar_variables ;
 
-cuerpo_declar_variables : TIPOS declar_variables PYC ;
+cuerpo_declar_variables : tipos declar_variables PYC ;
 
 declar_variables    : ID
                     | ID IGUAL expresion
@@ -132,8 +164,7 @@ mensaje : expresion
         | CADENA ;
 
 llamada_proced  : ID PARIZQ lista_expresiones PARDER PYC
-                | ID PARIZQ PARDER PYC
-                | ;
+                | ID PARIZQ PARDER PYC ;
 
 lista_expresiones   : lista_expresiones COMA expresion
                     | expresion ;
@@ -164,8 +195,8 @@ op_binario  : OP4
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
-lista_expresiones   : lista_expresiones COMA expresion
-                    | expresion ;
+tipos   : TIPOS 
+        | LISTADE TIPOS ;
 
 %%
 
@@ -177,12 +208,18 @@ lista_expresiones   : lista_expresiones COMA expresion
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLACK   "\x1b[0m"
 
 /** Se debe implementar la funcion yyerror. En este caso
  ** simplemente escribimos el mensaje de error en pantalla
  **/
 
-void yyerror(char *msg)
+void lexerror(const char *msg)
 {
-    printf(stderr, ANSI_COLOR_RED"[Error Léxico]"ANSI_COLOR_RED"(Linea %d) %s\n", linea_actual, msg);
+  printf(ANSI_COLOR_RED "[Error Lexico]" ANSI_COLOR_BLACK "(Linea %d) Caracter no reconocido: %s\n", linea_actual, msg);
+}
+
+void yyerror(const char *msg)
+{
+  printf(ANSI_COLOR_YELLOW "[Error sintactico]" ANSI_COLOR_BLACK "(Linea %d) Error: %s\n", linea_actual, msg);
 }

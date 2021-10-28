@@ -1,3 +1,5 @@
+%option noyywrap
+
 %{
 /**********************************************************
  **
@@ -6,18 +8,22 @@
  **
  **********************************************************/
 
-/** Buffer usado para almacenamiento temporal de cadenas de texto **/
 
-#define MAXLONBUFFER 200
-char buffer[MAXLONBUFFER];
-
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include "string.h"
 %}
 
-/** La siguiente declaración indica que no se va a escribir la función 'yywrap'
-/** evita que se tenga que enlazar con -lfl, o que se tenga que escribir 'yywrap'
+letra [a-z]|[A-Z]
+digitoSC [1-9]
+digitoCC [0-9]
 
-%option noyywrap
-
+cadena \"[^\"]*\"
+id ({letra})+({letra}|{digitoCC}|_)*
+constante_entero {digitoSC}({digitoCC})*|0
+constante_real ({digitoSC}({digitoCC})*|0).({digitoCC})+
+constante_booleano "verdadero"|"falso"
+constante_caracter '[^\"']'
 %%
 
 "principal" { return PRINCIPAL; }
@@ -77,11 +83,8 @@ char buffer[MAXLONBUFFER];
 {constante_booleano}  { return CONSTANTE; }
 {constante_caracter}  { return CONSTANTE; }
 {id} { return ID; }
-\n  { /** lleva la cuenta de las líneas **/ 
-      linea_actual++;
-    }
-[ \t]+  { /** accion vacia: se ignoran los espacios y tabuladores **/ }
-.       { /** token desconocido, se produce un mensaje de error **/ 
-            snprintf(buffer, MAXLONBUFFER, "Cadena de caracteres no reconocida: %s, yytext);
-            yyerror(buffer);
-        }
+\n  {linea_actual++; }
+[ \t]+  ;
+.       { lexerror(yytext); }
+
+%%

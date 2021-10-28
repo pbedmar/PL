@@ -24,7 +24,7 @@ FILE *abrir_entrada(int argc, char *argv[])
             exit(1);
         }
         else
-            printf("leyendo_fichero_'%s'.\n", argv[1]);
+            printf("leyendo fichero '%s'.\n", argv[1]);
     }
     else
         printf("leyendo entrada estándar.\n");
