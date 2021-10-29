@@ -2,17 +2,18 @@ OBJ = obj
 INC = include
 BIN = bin
 SRC = src
+VERSION = c99
 
 all: analizadorSintactico
 
 analizadorSintactico: $(OBJ)/main.o $(OBJ)/y.tab.o
-	gcc $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/analizadorSintactico
+	gcc -std=$(VERSION) $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/analizadorSintactico
 
 $(OBJ)/y.tab.o: $(SRC)/y.tab.c
-	gcc -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
+	gcc -std=$(VERSION) -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
 
 $(OBJ)/main.o: $(SRC)/main.c
-	gcc -c $(SRC)/main.c -o $(OBJ)/main.o
+	gcc -std=$(VERSION) -c $(SRC)/main.c -o $(OBJ)/main.o
 
 $(SRC)/y.tab.c: $(SRC)/practica3.y $(SRC)/lex.yy.c
 	bison -v -d -o $(SRC)/y.tab.c $(SRC)/practica3.y
