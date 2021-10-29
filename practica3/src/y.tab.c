@@ -126,7 +126,10 @@ int linea_actual = 1;
 # define YYERROR_VERBOSE 1
 #endif
 
-
+/* Use api.header.include to #include this header
+   instead of duplicating it here.  */
+#ifndef YY_YY_SRC_Y_TAB_H_INCLUDED
+# define YY_YY_SRC_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -190,7 +193,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-
+#endif /* !YY_YY_SRC_Y_TAB_H_INCLUDED  */
 
 
 
@@ -1468,7 +1471,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1472 "src/y.tab.c"
+#line 1475 "src/y.tab.c"
 
       default: break;
     }
