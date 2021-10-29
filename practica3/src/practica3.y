@@ -76,14 +76,23 @@ int linea_actual = 1;
 %token RETROCEDER
 %token DOLLAR
 %token PYC
-%token OP1
-%token OP2
-%token OP3
-%token OP4
-%token OP5
-%token OP6
 %token TIPOS
 %token CONSTANTE
+
+%right OP1
+
+%right OP2
+
+%left OP_POSFIJO
+
+%left OP4
+
+%right OP_UNARIO
+
+
+%left OP5
+
+%start programa
 
 %%
 
