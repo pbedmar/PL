@@ -3,8 +3,7 @@ INC = include
 BIN = bin
 SRC = src
 
-all:
-	make analizadorSintactico
+all: analizadorSintactico
 
 analizadorSintactico: $(OBJ)/main.o $(OBJ)/y.tab.o
 	gcc $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/analizadorSintactico
