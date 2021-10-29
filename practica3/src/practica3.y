@@ -39,7 +39,7 @@ int linea_actual = 1;
  ** nada de lo anterior debe tenerse en cuenta.
  **/
 
-%define parse.error verbose
+%error-verbose
 
 /** A continuacion declaramos los nombres simbolicos de los tokens.
  ** byacc se encarga de asociar a cada uno un codigo
