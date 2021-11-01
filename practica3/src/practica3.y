@@ -157,9 +157,11 @@ declar_proced   : cabecera_proced bloque
 cabecera_proced : PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
                 | PROCEDIMIENTO ID PARIZQ PARDER ;
 
-sentencias  : sentencias sentencia
-            | sentencia
+sentencias  : secu_sentencia
             | ;
+
+secu_sentencia  : secu_sentencia sentencia
+                | sentencia ;
 
 sentencia   : bloque
             | sentencia_asignacion
