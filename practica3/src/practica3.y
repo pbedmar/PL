@@ -127,8 +127,7 @@ bloque  : LLAVEIZQ
           sentencias 
           LLAVEDER ;
 
-lista_parametros    : lista_parametros COMA lista_para_por_defecto
-                    | lista_parametros COMA parametro
+lista_parametros    : lista_parametros COMA parametro
                     | parametro ;
 
 lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE
@@ -154,7 +153,8 @@ declar_variables    : ID
 declar_proced   : cabecera_proced bloque
                 | ;
 
-cabecera_proced : PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
+cabecera_proced : PROCEDIMIENTO ID PARIZQ lista_parametros COMA lista_para_por_defecto PARDER
+                | PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
                 | PROCEDIMIENTO ID PARIZQ PARDER ;
 
 sentencias  : secu_sentencia

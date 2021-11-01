@@ -3,7 +3,6 @@ La regla es inútil debido a los conflictos
    74 parteIzq: expresion INCRE_PRE expresion
 
 
-Estado 139 conflictos: 1 desplazamiento/reducción
 Estado 141 conflictos: 1 desplazamiento/reducción
 
 
@@ -17,34 +16,34 @@ Gramática
 
     3 bloque: LLAVEIZQ declar_de_variables_locales declar_proced sentencias LLAVEDER
 
-    4 lista_parametros: lista_parametros COMA lista_para_por_defecto
-    5                 | lista_parametros COMA parametro
-    6                 | parametro
+    4 lista_parametros: lista_parametros COMA parametro
+    5                 | parametro
 
-    7 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL CONSTANTE
-    8                       | parametro IGUAL CONSTANTE
-    9                       | lista_para_por_defecto COMA parametro IGUAL agregado_lista
-   10                       | parametro IGUAL agregado_lista
+    6 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL CONSTANTE
+    7                       | parametro IGUAL CONSTANTE
+    8                       | lista_para_por_defecto COMA parametro IGUAL agregado_lista
+    9                       | parametro IGUAL agregado_lista
 
-   11 parametro: tipos ID
+   10 parametro: tipos ID
 
-   12 declar_de_variables_locales: INICIOVAR variables_locales FINVAR
-   13                            | %empty
+   11 declar_de_variables_locales: INICIOVAR variables_locales FINVAR
+   12                            | %empty
 
-   14 variables_locales: variables_locales cuerpo_declar_variables
-   15                  | cuerpo_declar_variables
+   13 variables_locales: variables_locales cuerpo_declar_variables
+   14                  | cuerpo_declar_variables
 
-   16 cuerpo_declar_variables: tipos declar_variables PYC
+   15 cuerpo_declar_variables: tipos declar_variables PYC
 
-   17 declar_variables: ID
-   18                 | ID IGUAL expresion
-   19                 | declar_variables COMA ID
-   20                 | declar_variables COMA ID IGUAL expresion
+   16 declar_variables: ID
+   17                 | ID IGUAL expresion
+   18                 | declar_variables COMA ID
+   19                 | declar_variables COMA ID IGUAL expresion
 
-   21 declar_proced: cabecera_proced bloque
-   22              | %empty
+   20 declar_proced: cabecera_proced bloque
+   21              | %empty
 
-   23 cabecera_proced: PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
+   22 cabecera_proced: PROCEDIMIENTO ID PARIZQ lista_parametros COMA lista_para_por_defecto PARDER
+   23                | PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
    24                | PROCEDIMIENTO ID PARIZQ PARDER
 
    25 sentencias: secu_sentencia
@@ -122,16 +121,16 @@ Terminales con las reglas donde aparecen
     PRINCIPAL (258) 2
     LLAVEIZQ (259) 3
     LLAVEDER (260) 3
-    COMA (261) 4 5 7 9 19 20 42 44 50
+    COMA (261) 4 6 8 18 19 22 42 44 50
     LISTADE (262) 77
-    PROCEDIMIENTO (263) 23 24
-    PARDER (264) 2 23 24 32 40 41 48 49 52
-    PARIZQ (265) 2 23 24 32 40 41 48 49 52
+    PROCEDIMIENTO (263) 22 23 24
+    PARDER (264) 2 22 23 24 32 40 41 48 49 52
+    PARIZQ (265) 2 22 23 24 32 40 41 48 49 52
     CORCHIZQ (266) 75
     CORCHDER (267) 75
-    IGUAL (268) 7 8 9 10 18 20 39
-    INICIOVAR (269) 12
-    FINVAR (270) 12
+    IGUAL (268) 6 7 8 9 17 19 39
+    INICIOVAR (269) 11
+    FINVAR (270) 11
     SI (271) 40 41
     MIENTRAS (272) 32
     OTROCASO (273) 41
@@ -142,10 +141,10 @@ Terminales con las reglas donde aparecen
     LEER (278) 34
     IMPRIMIR (279) 35
     CADENA (280) 47
-    ID (281) 11 17 18 19 20 23 24 39 42 43 48 49 71
-    PYC (282) 16 34 35 37 38 39 48 49
+    ID (281) 10 16 17 18 19 22 23 24 39 42 43 48 49 71
+    PYC (282) 15 34 35 37 38 39 48 49
     TIPOS (283) 76 77
-    CONSTANTE (284) 7 8 72
+    CONSTANTE (284) 6 7 72
     OR (285) 67
     AND (286) 68
     XOR (287) 69
@@ -178,34 +177,34 @@ No terminales con las reglas donde aparecen
         on right: 1
     bloque (51)
         on left: 3
-        on right: 1 21 29
+        on right: 1 20 29
     lista_parametros (52)
-        on left: 4 5 6
-        on right: 4 5 23
+        on left: 4 5
+        on right: 4 22 23
     lista_para_por_defecto (53)
-        on left: 7 8 9 10
-        on right: 4 7 9
+        on left: 6 7 8 9
+        on right: 6 8 22
     parametro (54)
-        on left: 11
-        on right: 5 6 7 8 9 10
+        on left: 10
+        on right: 4 5 6 7 8 9
     declar_de_variables_locales (55)
-        on left: 12 13
+        on left: 11 12
         on right: 3
     variables_locales (56)
-        on left: 14 15
-        on right: 12 14
+        on left: 13 14
+        on right: 11 13
     cuerpo_declar_variables (57)
-        on left: 16
-        on right: 14 15
+        on left: 15
+        on right: 13 14
     declar_variables (58)
-        on left: 17 18 19 20
-        on right: 16 19 20
+        on left: 16 17 18 19
+        on right: 15 18 19
     declar_proced (59)
-        on left: 21 22
+        on left: 20 21
         on right: 3
     cabecera_proced (60)
-        on left: 23 24
-        on right: 21
+        on left: 22 23 24
+        on right: 20
     sentencias (61)
         on left: 25 26
         on right: 3
@@ -238,16 +237,16 @@ No terminales con las reglas donde aparecen
         on right: 48 50 75
     expresion (71)
         on left: 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73
-        on right: 18 20 32 33 37 38 39 40 41 46 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 74
+        on right: 17 19 32 33 37 38 39 40 41 46 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 74
     parteIzq (72)
         on left: 74
         on right: 70
     agregado_lista (73)
         on left: 75
-        on right: 9 10 73
+        on right: 8 9 73
     tipos (74)
         on left: 76 77
-        on right: 11 16
+        on right: 10 15
 
 
 Estado 0
@@ -303,7 +302,7 @@ Estado 6
 
     INICIOVAR  desplazar e ir al estado 9
 
-    $default  reduce usando la regla 13 (declar_de_variables_locales)
+    $default  reduce usando la regla 12 (declar_de_variables_locales)
 
     declar_de_variables_locales  ir al estado 10
 
@@ -324,7 +323,7 @@ Estado 8
 
 Estado 9
 
-   12 declar_de_variables_locales: INICIOVAR . variables_locales FINVAR
+   11 declar_de_variables_locales: INICIOVAR . variables_locales FINVAR
 
     LISTADE  desplazar e ir al estado 11
     TIPOS    desplazar e ir al estado 12
@@ -340,7 +339,7 @@ Estado 10
 
     PROCEDIMIENTO  desplazar e ir al estado 16
 
-    $default  reduce usando la regla 22 (declar_proced)
+    $default  reduce usando la regla 21 (declar_proced)
 
     declar_proced    ir al estado 17
     cabecera_proced  ir al estado 18
@@ -362,8 +361,8 @@ Estado 12
 
 Estado 13
 
-   12 declar_de_variables_locales: INICIOVAR variables_locales . FINVAR
-   14 variables_locales: variables_locales . cuerpo_declar_variables
+   11 declar_de_variables_locales: INICIOVAR variables_locales . FINVAR
+   13 variables_locales: variables_locales . cuerpo_declar_variables
 
     LISTADE  desplazar e ir al estado 11
     FINVAR   desplazar e ir al estado 20
@@ -375,14 +374,14 @@ Estado 13
 
 Estado 14
 
-   15 variables_locales: cuerpo_declar_variables .
+   14 variables_locales: cuerpo_declar_variables .
 
-    $default  reduce usando la regla 15 (variables_locales)
+    $default  reduce usando la regla 14 (variables_locales)
 
 
 Estado 15
 
-   16 cuerpo_declar_variables: tipos . declar_variables PYC
+   15 cuerpo_declar_variables: tipos . declar_variables PYC
 
     ID  desplazar e ir al estado 22
 
@@ -391,7 +390,8 @@ Estado 15
 
 Estado 16
 
-   23 cabecera_proced: PROCEDIMIENTO . ID PARIZQ lista_parametros PARDER
+   22 cabecera_proced: PROCEDIMIENTO . ID PARIZQ lista_parametros COMA lista_para_por_defecto PARDER
+   23                | PROCEDIMIENTO . ID PARIZQ lista_parametros PARDER
    24                | PROCEDIMIENTO . ID PARIZQ PARDER
 
     ID  desplazar e ir al estado 24
@@ -434,7 +434,7 @@ Estado 17
 
 Estado 18
 
-   21 declar_proced: cabecera_proced . bloque
+   20 declar_proced: cabecera_proced . bloque
 
     LLAVEIZQ  desplazar e ir al estado 6
 
@@ -450,33 +450,33 @@ Estado 19
 
 Estado 20
 
-   12 declar_de_variables_locales: INICIOVAR variables_locales FINVAR .
+   11 declar_de_variables_locales: INICIOVAR variables_locales FINVAR .
 
-    $default  reduce usando la regla 12 (declar_de_variables_locales)
+    $default  reduce usando la regla 11 (declar_de_variables_locales)
 
 
 Estado 21
 
-   14 variables_locales: variables_locales cuerpo_declar_variables .
+   13 variables_locales: variables_locales cuerpo_declar_variables .
 
-    $default  reduce usando la regla 14 (variables_locales)
+    $default  reduce usando la regla 13 (variables_locales)
 
 
 Estado 22
 
-   17 declar_variables: ID .
-   18                 | ID . IGUAL expresion
+   16 declar_variables: ID .
+   17                 | ID . IGUAL expresion
 
     IGUAL  desplazar e ir al estado 51
 
-    $default  reduce usando la regla 17 (declar_variables)
+    $default  reduce usando la regla 16 (declar_variables)
 
 
 Estado 23
 
-   16 cuerpo_declar_variables: tipos declar_variables . PYC
-   19 declar_variables: declar_variables . COMA ID
-   20                 | declar_variables . COMA ID IGUAL expresion
+   15 cuerpo_declar_variables: tipos declar_variables . PYC
+   18 declar_variables: declar_variables . COMA ID
+   19                 | declar_variables . COMA ID IGUAL expresion
 
     COMA  desplazar e ir al estado 52
     PYC   desplazar e ir al estado 53
@@ -484,7 +484,8 @@ Estado 23
 
 Estado 24
 
-   23 cabecera_proced: PROCEDIMIENTO ID . PARIZQ lista_parametros PARDER
+   22 cabecera_proced: PROCEDIMIENTO ID . PARIZQ lista_parametros COMA lista_para_por_defecto PARDER
+   23                | PROCEDIMIENTO ID . PARIZQ lista_parametros PARDER
    24                | PROCEDIMIENTO ID . PARIZQ PARDER
 
     PARIZQ  desplazar e ir al estado 54
@@ -841,14 +842,14 @@ Estado 49
 
 Estado 50
 
-   21 declar_proced: cabecera_proced bloque .
+   20 declar_proced: cabecera_proced bloque .
 
-    $default  reduce usando la regla 21 (declar_proced)
+    $default  reduce usando la regla 20 (declar_proced)
 
 
 Estado 51
 
-   18 declar_variables: ID IGUAL . expresion
+   17 declar_variables: ID IGUAL . expresion
 
     PARIZQ            desplazar e ir al estado 25
     CORCHIZQ          desplazar e ir al estado 26
@@ -867,22 +868,23 @@ Estado 51
 
 Estado 52
 
-   19 declar_variables: declar_variables COMA . ID
-   20                 | declar_variables COMA . ID IGUAL expresion
+   18 declar_variables: declar_variables COMA . ID
+   19                 | declar_variables COMA . ID IGUAL expresion
 
     ID  desplazar e ir al estado 93
 
 
 Estado 53
 
-   16 cuerpo_declar_variables: tipos declar_variables PYC .
+   15 cuerpo_declar_variables: tipos declar_variables PYC .
 
-    $default  reduce usando la regla 16 (cuerpo_declar_variables)
+    $default  reduce usando la regla 15 (cuerpo_declar_variables)
 
 
 Estado 54
 
-   23 cabecera_proced: PROCEDIMIENTO ID PARIZQ . lista_parametros PARDER
+   22 cabecera_proced: PROCEDIMIENTO ID PARIZQ . lista_parametros COMA lista_para_por_defecto PARDER
+   23                | PROCEDIMIENTO ID PARIZQ . lista_parametros PARDER
    24                | PROCEDIMIENTO ID PARIZQ . PARDER
 
     LISTADE  desplazar e ir al estado 11
@@ -1537,7 +1539,7 @@ Estado 91
 
 Estado 92
 
-   18 declar_variables: ID IGUAL expresion .
+   17 declar_variables: ID IGUAL expresion .
    58 expresion: expresion . DECRE_PRE
    59          | expresion . INCRE_PRE
    60          | expresion . ADITIVOS expresion
@@ -1564,17 +1566,17 @@ Estado 92
     INCRE_PRE        desplazar e ir al estado 88
     ELEM_POSI        desplazar e ir al estado 89
 
-    $default  reduce usando la regla 18 (declar_variables)
+    $default  reduce usando la regla 17 (declar_variables)
 
 
 Estado 93
 
-   19 declar_variables: declar_variables COMA ID .
-   20                 | declar_variables COMA ID . IGUAL expresion
+   18 declar_variables: declar_variables COMA ID .
+   19                 | declar_variables COMA ID . IGUAL expresion
 
     IGUAL  desplazar e ir al estado 125
 
-    $default  reduce usando la regla 19 (declar_variables)
+    $default  reduce usando la regla 18 (declar_variables)
 
 
 Estado 94
@@ -1586,9 +1588,9 @@ Estado 94
 
 Estado 95
 
-    4 lista_parametros: lista_parametros . COMA lista_para_por_defecto
-    5                 | lista_parametros . COMA parametro
-   23 cabecera_proced: PROCEDIMIENTO ID PARIZQ lista_parametros . PARDER
+    4 lista_parametros: lista_parametros . COMA parametro
+   22 cabecera_proced: PROCEDIMIENTO ID PARIZQ lista_parametros . COMA lista_para_por_defecto PARDER
+   23                | PROCEDIMIENTO ID PARIZQ lista_parametros . PARDER
 
     COMA    desplazar e ir al estado 126
     PARDER  desplazar e ir al estado 127
@@ -1596,14 +1598,14 @@ Estado 95
 
 Estado 96
 
-    6 lista_parametros: parametro .
+    5 lista_parametros: parametro .
 
-    $default  reduce usando la regla 6 (lista_parametros)
+    $default  reduce usando la regla 5 (lista_parametros)
 
 
 Estado 97
 
-   11 parametro: tipos . ID
+   10 parametro: tipos . ID
 
     ID  desplazar e ir al estado 128
 
@@ -2140,7 +2142,7 @@ Estado 124
 
 Estado 125
 
-   20 declar_variables: declar_variables COMA ID IGUAL . expresion
+   19 declar_variables: declar_variables COMA ID IGUAL . expresion
 
     PARIZQ            desplazar e ir al estado 25
     CORCHIZQ          desplazar e ir al estado 26
@@ -2159,8 +2161,8 @@ Estado 125
 
 Estado 126
 
-    4 lista_parametros: lista_parametros COMA . lista_para_por_defecto
-    5                 | lista_parametros COMA . parametro
+    4 lista_parametros: lista_parametros COMA . parametro
+   22 cabecera_proced: PROCEDIMIENTO ID PARIZQ lista_parametros COMA . lista_para_por_defecto PARDER
 
     LISTADE  desplazar e ir al estado 11
     TIPOS    desplazar e ir al estado 12
@@ -2179,9 +2181,9 @@ Estado 127
 
 Estado 128
 
-   11 parametro: tipos ID .
+   10 parametro: tipos ID .
 
-    $default  reduce usando la regla 11 (parametro)
+    $default  reduce usando la regla 10 (parametro)
 
 
 Estado 129
@@ -2347,7 +2349,7 @@ Estado 137
 
 Estado 138
 
-   20 declar_variables: declar_variables COMA ID IGUAL expresion .
+   19 declar_variables: declar_variables COMA ID IGUAL expresion .
    58 expresion: expresion . DECRE_PRE
    59          | expresion . INCRE_PRE
    60          | expresion . ADITIVOS expresion
@@ -2374,30 +2376,28 @@ Estado 138
     INCRE_PRE        desplazar e ir al estado 88
     ELEM_POSI        desplazar e ir al estado 89
 
-    $default  reduce usando la regla 20 (declar_variables)
+    $default  reduce usando la regla 19 (declar_variables)
 
 
 Estado 139
 
-    4 lista_parametros: lista_parametros COMA lista_para_por_defecto .
-    7 lista_para_por_defecto: lista_para_por_defecto . COMA parametro IGUAL CONSTANTE
-    9                       | lista_para_por_defecto . COMA parametro IGUAL agregado_lista
+    6 lista_para_por_defecto: lista_para_por_defecto . COMA parametro IGUAL CONSTANTE
+    8                       | lista_para_por_defecto . COMA parametro IGUAL agregado_lista
+   22 cabecera_proced: PROCEDIMIENTO ID PARIZQ lista_parametros COMA lista_para_por_defecto . PARDER
 
-    COMA  desplazar e ir al estado 145
-
-    COMA      [reduce usando la regla 4 (lista_parametros)]
-    $default  reduce usando la regla 4 (lista_parametros)
+    COMA    desplazar e ir al estado 145
+    PARDER  desplazar e ir al estado 146
 
 
 Estado 140
 
-    5 lista_parametros: lista_parametros COMA parametro .
-    8 lista_para_por_defecto: parametro . IGUAL CONSTANTE
-   10                       | parametro . IGUAL agregado_lista
+    4 lista_parametros: lista_parametros COMA parametro .
+    7 lista_para_por_defecto: parametro . IGUAL CONSTANTE
+    9                       | parametro . IGUAL agregado_lista
 
-    IGUAL  desplazar e ir al estado 146
+    IGUAL  desplazar e ir al estado 147
 
-    $default  reduce usando la regla 5 (lista_parametros)
+    $default  reduce usando la regla 4 (lista_parametros)
 
 
 Estado 141
@@ -2405,7 +2405,7 @@ Estado 141
    40 sentencia_if: SI PARIZQ expresion PARDER sentencia .
    41             | SI PARIZQ expresion PARDER sentencia . OTROCASO sentencia
 
-    OTROCASO  desplazar e ir al estado 147
+    OTROCASO  desplazar e ir al estado 148
 
     OTROCASO  [reduce usando la regla 40 (sentencia_if)]
     $default  reduce usando la regla 40 (sentencia_if)
@@ -2432,7 +2432,7 @@ Estado 143
     INCRE_PRE         desplazar e ir al estado 37
     UNARIO_PRE_LISTA  desplazar e ir al estado 38
 
-    expresion       ir al estado 148
+    expresion       ir al estado 149
     parteIzq        ir al estado 48
     agregado_lista  ir al estado 49
 
@@ -2446,28 +2446,35 @@ Estado 144
 
 Estado 145
 
-    7 lista_para_por_defecto: lista_para_por_defecto COMA . parametro IGUAL CONSTANTE
-    9                       | lista_para_por_defecto COMA . parametro IGUAL agregado_lista
+    6 lista_para_por_defecto: lista_para_por_defecto COMA . parametro IGUAL CONSTANTE
+    8                       | lista_para_por_defecto COMA . parametro IGUAL agregado_lista
 
     LISTADE  desplazar e ir al estado 11
     TIPOS    desplazar e ir al estado 12
 
-    parametro  ir al estado 149
+    parametro  ir al estado 150
     tipos      ir al estado 97
 
 
 Estado 146
 
-    8 lista_para_por_defecto: parametro IGUAL . CONSTANTE
-   10                       | parametro IGUAL . agregado_lista
+   22 cabecera_proced: PROCEDIMIENTO ID PARIZQ lista_parametros COMA lista_para_por_defecto PARDER .
 
-    CORCHIZQ   desplazar e ir al estado 26
-    CONSTANTE  desplazar e ir al estado 150
-
-    agregado_lista  ir al estado 151
+    $default  reduce usando la regla 22 (cabecera_proced)
 
 
 Estado 147
+
+    7 lista_para_por_defecto: parametro IGUAL . CONSTANTE
+    9                       | parametro IGUAL . agregado_lista
+
+    CORCHIZQ   desplazar e ir al estado 26
+    CONSTANTE  desplazar e ir al estado 151
+
+    agregado_lista  ir al estado 152
+
+
+Estado 148
 
    41 sentencia_if: SI PARIZQ expresion PARDER sentencia OTROCASO . sentencia
 
@@ -2489,7 +2496,7 @@ Estado 147
     DOLLAR            desplazar e ir al estado 39
 
     bloque                ir al estado 40
-    sentencia             ir al estado 152
+    sentencia             ir al estado 153
     sentencia_asignacion  ir al estado 44
     sentencia_if          ir al estado 45
     llamada_proced        ir al estado 46
@@ -2498,7 +2505,7 @@ Estado 147
     agregado_lista        ir al estado 49
 
 
-Estado 148
+Estado 149
 
    33 sentencia: PARA sentencia_asignacion HASTA expresion ITERANDO expresion . HACER sentencia
    58 expresion: expresion . DECRE_PRE
@@ -2515,7 +2522,7 @@ Estado 148
    69          | expresion . XOR expresion
    74 parteIzq: expresion . INCRE_PRE expresion
 
-    HACER            desplazar e ir al estado 153
+    HACER            desplazar e ir al estado 154
     OR               desplazar e ir al estado 79
     AND              desplazar e ir al estado 80
     XOR              desplazar e ir al estado 81
@@ -2529,36 +2536,36 @@ Estado 148
     ELEM_POSI        desplazar e ir al estado 89
 
 
-Estado 149
-
-    7 lista_para_por_defecto: lista_para_por_defecto COMA parametro . IGUAL CONSTANTE
-    9                       | lista_para_por_defecto COMA parametro . IGUAL agregado_lista
-
-    IGUAL  desplazar e ir al estado 154
-
-
 Estado 150
 
-    8 lista_para_por_defecto: parametro IGUAL CONSTANTE .
+    6 lista_para_por_defecto: lista_para_por_defecto COMA parametro . IGUAL CONSTANTE
+    8                       | lista_para_por_defecto COMA parametro . IGUAL agregado_lista
 
-    $default  reduce usando la regla 8 (lista_para_por_defecto)
+    IGUAL  desplazar e ir al estado 155
 
 
 Estado 151
 
-   10 lista_para_por_defecto: parametro IGUAL agregado_lista .
+    7 lista_para_por_defecto: parametro IGUAL CONSTANTE .
 
-    $default  reduce usando la regla 10 (lista_para_por_defecto)
+    $default  reduce usando la regla 7 (lista_para_por_defecto)
 
 
 Estado 152
+
+    9 lista_para_por_defecto: parametro IGUAL agregado_lista .
+
+    $default  reduce usando la regla 9 (lista_para_por_defecto)
+
+
+Estado 153
 
    41 sentencia_if: SI PARIZQ expresion PARDER sentencia OTROCASO sentencia .
 
     $default  reduce usando la regla 41 (sentencia_if)
 
 
-Estado 153
+Estado 154
 
    33 sentencia: PARA sentencia_asignacion HASTA expresion ITERANDO expresion HACER . sentencia
 
@@ -2580,7 +2587,7 @@ Estado 153
     DOLLAR            desplazar e ir al estado 39
 
     bloque                ir al estado 40
-    sentencia             ir al estado 155
+    sentencia             ir al estado 156
     sentencia_asignacion  ir al estado 44
     sentencia_if          ir al estado 45
     llamada_proced        ir al estado 46
@@ -2589,33 +2596,33 @@ Estado 153
     agregado_lista        ir al estado 49
 
 
-Estado 154
+Estado 155
 
-    7 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL . CONSTANTE
-    9                       | lista_para_por_defecto COMA parametro IGUAL . agregado_lista
+    6 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL . CONSTANTE
+    8                       | lista_para_por_defecto COMA parametro IGUAL . agregado_lista
 
     CORCHIZQ   desplazar e ir al estado 26
-    CONSTANTE  desplazar e ir al estado 156
+    CONSTANTE  desplazar e ir al estado 157
 
-    agregado_lista  ir al estado 157
+    agregado_lista  ir al estado 158
 
 
-Estado 155
+Estado 156
 
    33 sentencia: PARA sentencia_asignacion HASTA expresion ITERANDO expresion HACER sentencia .
 
     $default  reduce usando la regla 33 (sentencia)
 
 
-Estado 156
-
-    7 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL CONSTANTE .
-
-    $default  reduce usando la regla 7 (lista_para_por_defecto)
-
-
 Estado 157
 
-    9 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL agregado_lista .
+    6 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL CONSTANTE .
 
-    $default  reduce usando la regla 9 (lista_para_por_defecto)
+    $default  reduce usando la regla 6 (lista_para_por_defecto)
+
+
+Estado 158
+
+    8 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL agregado_lista .
+
+    $default  reduce usando la regla 8 (lista_para_por_defecto)
