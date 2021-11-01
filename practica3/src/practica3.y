@@ -158,7 +158,8 @@ cabecera_proced : PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
                 | PROCEDIMIENTO ID PARIZQ PARDER ;
 
 sentencias  : sentencias sentencia
-            | sentencia ;
+            | sentencia
+            | ;
 
 sentencia   : bloque
             | sentencia_asignacion
@@ -169,8 +170,7 @@ sentencia   : bloque
             | IMPRIMIR mensajes PYC
             | llamada_proced
             | expresion MOV_LISTA PYC
-            | DOLLAR expresion PYC
-            | ;
+            | DOLLAR expresion PYC ;
 
 sentencia_asignacion  : ID IGUAL expresion PYC ;
 
@@ -194,33 +194,27 @@ lista_expresiones   : lista_expresiones COMA expresion
                     | expresion ;
 
 expresion   : PARIZQ expresion PARDER
-            | op_unario_izq expresion
-            | expresion op_unario_der
-            | expresion op_binario expresion
+            | DECRE_PRE expresion
+            | INCRE_PRE expresion
+            | NOT expresion
+            | UNARIO_PRE_LISTA expresion
+            | ADITIVOS expresion %prec UNARIOS
+            | expresion DECRE_PRE %prec DECRE_POS
+            | expresion INCRE_PRE %prec INCRE_POS
+            | expresion ADITIVOS expresion
+            | expresion DECRE_PRE expresion %prec DECRE_POS
+            | expresion ELEM_POSI expresion
+            | expresion MULTIPLICATIVOS expresion
+            | expresion POTENCIAS expresion
+            | expresion IGUALDAD expresion
+            | expresion RELACION expresion
+            | expresion OR expresion
+            | expresion AND expresion
+            | expresion XOR expresion
             | expresion INCRE_PRE %prec INCRE_POS expresion ELEM_POSI expresion
             | ID
             | CONSTANTE
             | agregado_lista ;
-
-op_unario_izq   : DECRE_PRE
-                | INCRE_PRE 
-                | NOT
-                | UNARIO_PRE_LISTA
-                | ADITIVOS %prec UNARIOS ;
-
-op_unario_der   : DECRE_PRE %prec DECRE_POS
-                | INCRE_PRE %prec INCRE_POS ;
-
-op_binario  : ADITIVOS
-            | DECRE_PRE %prec DECRE_POS
-            | ELEM_POSI
-            | MULTIPLICATIVOS
-            | POTENCIAS
-            | IGUALDAD
-            | RELACION
-            | OR
-            | AND
-            | XOR ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
