@@ -73,24 +73,43 @@ int linea_actual = 1;
 %token IMPRIMIR
 %token CADENA
 %token ID
-%token RETROCEDER
-%token DOLLAR
 %token PYC
 %token TIPOS
 %token CONSTANTE
 
-%right OP1
+%left OR // Operador or lógico
 
-%right OP2
+%left AND // Operador and lógico
 
-%left OP_POSFIJO
+%left XOR // Operador or exclusivo
 
-%left OP4
+%left IGUALDAD
 
-%right OP_UNARIO
+%left RELACION
 
+%left ADITIVOS
 
-%left OP5
+%left MULTIPLICATIVOS
+
+%left POTENCIAS
+
+%right UNARIOS NOT
+
+%right DECRE_PRE
+
+%right INCRE_PRE
+
+%left DECRE_POS
+
+%left INCRE_POS
+
+%right UNARIO_PRE_LISTA
+
+%left ELEM_POSI
+
+%left MOV_LISTA
+
+%right DOLLAR
 
 %start programa
 
@@ -144,31 +163,23 @@ sentencias  : sentencias sentencia
 sentencia   : bloque
             | sentencia_asignacion
             | sentencia_if
-            | sentencia_while
-            | sentencia_for
-            | sentencia_entrada
-            | sentencia_salida
+            | MIENTRAS PARIZQ expresion PARDER sentencia
+            | PARA sentencia_asignacion HASTA expresion ITERANDO expresion HACER sentencia
+            | LEER lista_identificadores PYC
+            | IMPRIMIR mensajes PYC
             | llamada_proced
-            | expresion RETROCEDER PYC
-            | sentencia_al_comi_lista
+            | expresion MOV_LISTA PYC
+            | DOLLAR expresion PYC
             | ;
 
-sentencia_asignacion    : ID IGUAL expresion PYC
+sentencia_asignacion  : ID IGUAL expresion PYC ;
 
 sentencia_if    : SI PARIZQ expresion PARDER sentencia
                 | SI PARIZQ expresion PARDER sentencia
                   OTROCASO sentencia ;
 
-sentencia_while : MIENTRAS PARIZQ expresion PARDER sentencia ;
-
-sentencia_for   : PARA sentencia_asignacion HASTA expresion ITERANDO expresion HACER sentencia ;
-
-sentencia_entrada   : LEER lista_identificadores PYC ;
-
 lista_identificadores   : lista_identificadores COMA ID
                         | ID ;
-
-sentencia_salida    : IMPRIMIR mensajes PYC ;
 
 mensajes    : mensajes COMA mensaje
             | mensaje ;
@@ -182,29 +193,34 @@ llamada_proced  : ID PARIZQ lista_expresiones PARDER PYC
 lista_expresiones   : lista_expresiones COMA expresion
                     | expresion ;
 
-sentencia_al_comi_lista : DOLLAR expresion PYC ;
-
 expresion   : PARIZQ expresion PARDER
             | op_unario_izq expresion
             | expresion op_unario_der
             | expresion op_binario expresion
-            | expresion OP1 expresion OP6 expresion
+            | expresion INCRE_PRE %prec INCRE_POS expresion ELEM_POSI expresion
             | ID
             | CONSTANTE
             | agregado_lista ;
 
-op_unario_izq   : OP4
-                | OP1
-                | OP2
-                | OP3 ;
+op_unario_izq   : DECRE_PRE
+                | INCRE_PRE 
+                | NOT
+                | UNARIO_PRE_LISTA
+                | ADITIVOS %prec UNARIOS ;
 
-op_unario_der   : OP1
-                | OP2 ;
+op_unario_der   : DECRE_PRE %prec DECRE_POS
+                | INCRE_PRE %prec INCRE_POS ;
 
-op_binario  : OP4
-            | OP5
-            | OP6
-            | OP2 ;
+op_binario  : ADITIVOS
+            | DECRE_PRE %prec DECRE_POS
+            | ELEM_POSI
+            | MULTIPLICATIVOS
+            | POTENCIAS
+            | IGUALDAD
+            | RELACION
+            | OR
+            | AND
+            | XOR ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
