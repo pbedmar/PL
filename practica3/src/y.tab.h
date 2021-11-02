@@ -89,12 +89,10 @@ extern int yydebug;
     NOT = 295,
     DECRE_PRE = 296,
     INCRE_PRE = 297,
-    DECRE_POS = 298,
-    INCRE_POS = 299,
-    UNARIO_PRE_LISTA = 300,
-    ELEM_POSI = 301,
-    MOV_LISTA = 302,
-    DOLLAR = 303
+    UNARIO_PRE_LISTA = 298,
+    ELEM_POSI = 299,
+    MOV_LISTA = 300,
+    DOLLAR = 301
   };
 #endif
 

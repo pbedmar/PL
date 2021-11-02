@@ -100,6 +100,10 @@ int linea_actual = 1;
 
 %right INCRE_PRE
 
+%left DECRE_POS
+
+%left INCRE_POS
+
 %right UNARIO_PRE_LISTA
 
 %left ELEM_POSI
@@ -198,8 +202,10 @@ expresion   : PARIZQ expresion PARDER
             | NOT expresion
             | UNARIO_PRE_LISTA expresion
             | ADITIVOS expresion %prec UNARIOS
+            | expresion DECRE_PRE %prec DECRE_POS
+            | expresion INCRE_PRE %prec INCRE_POS
             | expresion ADITIVOS expresion
-            | expresion DECRE_PRE expresion
+            | expresion DECRE_PRE expresion %prec DECRE_POS
             | expresion ELEM_POSI expresion
             | expresion MULTIPLICATIVOS expresion
             | expresion POTENCIAS expresion
@@ -210,8 +216,8 @@ expresion   : PARIZQ expresion PARDER
             | expresion XOR expresion
             | LLAVE_OP_TER expresion INCRE_PRE expresion ELEM_POSI expresion LLAVE_OP_TER
             | ID
-            | agregado_lista
-            | CONSTANTE ;
+            | CONSTANTE
+            | agregado_lista ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
