@@ -76,6 +76,7 @@ int linea_actual = 1;
 %token PYC
 %token TIPOS
 %token CONSTANTE
+%token LLAVE_OP_TER
 
 %left OR // Operador or lógico
 
@@ -213,7 +214,7 @@ expresion   : PARIZQ expresion PARDER
             | expresion OR expresion
             | expresion AND expresion
             | expresion XOR expresion
-            | expresion INCRE_PRE expresion ELEM_POSI expresion
+            | LLAVE_OP_TER expresion INCRE_PRE expresion ELEM_POSI expresion LLAVE_OP_TER
             | ID
             | CONSTANTE
             | agregado_lista ;

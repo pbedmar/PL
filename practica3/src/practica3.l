@@ -36,6 +36,7 @@ constante_caracter '[^\"']'
 "("  { return PARIZQ; }
 "["  { return CORCHIZQ; }
 "]"  { return CORCHDER; }
+"^"  { return LLAVE_OP_TER; }
 "="  { return IGUAL; } 
 "inicio_var" { return INICIOVAR; }
 "fin_var" { return FINVAR; }
