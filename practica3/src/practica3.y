@@ -145,7 +145,7 @@ variables_locales   : variables_locales cuerpo_declar_variables
                     | cuerpo_declar_variables ;
 
 cuerpo_declar_variables : tipos declar_variables PYC
-                        | error;
+                        | error ;
 
 declar_variables    : ID
                     | ID IGUAL expresion
