@@ -120,7 +120,7 @@ cabecera_programa   : PRINCIPAL PARIZQ PARDER ;
 
 bloque  : LLAVEIZQ 
           declar_de_variables_locales 
-          declar_proced 
+          declar_procedimientos 
           sentencias 
           LLAVEDER ;
 
@@ -140,25 +140,29 @@ declar_de_variables_locales : INICIOVAR variables_locales FINVAR
 variables_locales   : variables_locales cuerpo_declar_variables
                     | cuerpo_declar_variables ;
 
-cuerpo_declar_variables : tipos declar_variables PYC ;
+cuerpo_declar_variables : tipos declar_variables PYC
+                        | error;
 
 declar_variables    : ID
                     | ID IGUAL expresion
                     | declar_variables COMA ID  
                     | declar_variables COMA ID IGUAL expresion ;
 
-declar_proced   : cabecera_proced bloque
-                | ;
+declar_procedimientos : secu_declar_proced
+                      | ;
+
+secu_declar_proced  : secu_declar_proced declar_proced
+                    | declar_proced ;
+
+declar_proced : cabecera_proced bloque ;
 
 cabecera_proced : PROCEDIMIENTO ID PARIZQ lista_parametros COMA lista_para_por_defecto PARDER
                 | PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
-                | PROCEDIMIENTO ID PARIZQ PARDER ;
+                | PROCEDIMIENTO ID PARIZQ PARDER 
+                | error ;
 
-sentencias  : secu_sentencia
-            | ;
-
-secu_sentencia  : secu_sentencia sentencia
-                | sentencia ;
+sentencias  : sentencias sentencia
+            | sentencia ;
 
 sentencia   : bloque
             | sentencia_asignacion
