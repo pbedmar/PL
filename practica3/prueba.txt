@@ -1,8 +1,8 @@
 principal()
 {
     inicio_var
-        entero v1, v2, v3;
-        flotante t1, t2, t3;
+        entero v'1 v2, v3
+        flotante t1, t2 t3;
         caracter vc;
         booleano vl;
         lista de entero pe, pe2;
@@ -28,5 +28,10 @@ principal()
         c = 1;
     }
 
-    v1 = 1;   
+    v1 = 1;
+    v2 = (2*3 + 4);
+    v4 = 3;
+    if(v1 == v2) {
+        v3 = 4+2;
+    }   
 }

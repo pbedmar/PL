@@ -122,6 +122,10 @@ bloque  : LLAVEIZQ
           declar_de_variables_locales 
           declar_procedimientos 
           sentencias 
+          LLAVEDER 
+        | LLAVEIZQ 
+          declar_de_variables_locales 
+          sentencias 
           LLAVEDER ;
 
 lista_parametros    : lista_parametros COMA parametro
@@ -148,11 +152,8 @@ declar_variables    : ID
                     | declar_variables COMA ID  
                     | declar_variables COMA ID IGUAL expresion ;
 
-declar_procedimientos : secu_declar_proced
-                      | ;
-
-secu_declar_proced  : secu_declar_proced declar_proced
-                    | declar_proced ;
+declar_procedimientos : declar_procedimientos declar_proced
+                      | declar_proced ;
 
 declar_proced : cabecera_proced bloque ;
 
@@ -215,7 +216,8 @@ expresion   : PARIZQ expresion PARDER
             | LLAVE_OP_TER expresion INCRE_PRE expresion ELEM_POSI expresion LLAVE_OP_TER
             | ID
             | agregado_lista
-            | CONSTANTE ;
+            | CONSTANTE 
+            | error ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
