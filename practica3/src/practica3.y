@@ -213,12 +213,10 @@ expresion   : PARIZQ expresion PARDER
             | expresion OR expresion
             | expresion AND expresion
             | expresion XOR expresion
-            | parteIzq ELEM_POSI expresion
+            | expresion INCRE_PRE expresion ELEM_POSI expresion
             | ID
             | CONSTANTE
             | agregado_lista ;
-
-parteIzq  : expresion INCRE_PRE expresion ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 

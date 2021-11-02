@@ -92,8 +92,9 @@ extern int yydebug;
     INCRE_POS = 298,
     UNARIO_PRE_LISTA = 299,
     ELEM_POSI = 300,
-    MOV_LISTA = 301,
-    DOLLAR = 302
+    ELEM_POSI_AUX = 301,
+    MOV_LISTA = 302,
+    DOLLAR = 303
   };
 #endif
 
