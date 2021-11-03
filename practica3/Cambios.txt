@@ -1,0 +1,77 @@
+
+
+    Cambios en los tokens, sus precedencias y producciones
+    
+-------------------------------------------------------------------------------
+
+    1) Cambios de nombre a los tokens
+    
+RETROCEDER → MOV_LISTA
+
+OP1 → INCRE_PRE
+
+OP2 → DECRE_PRE
+
+OP3 →   NOT
+        UNARIO_PRE_LISTA
+        
+OP4 → ADITIVOS
+
+OP5 →   MULTIPLICATIVOS
+        POTENCIAS
+        IGUALDAD
+        RELACION
+        AND
+        OR
+        XOR
+        
+OP6 → ELEM_POSI
+
+
+    2) Cambios en las producciones de las sentencias
+    
+    3) Cambios en las producciones de las expresiones
+    
+    
+----------------------------------------------------------------------------------
+    
+    Cambios para solucionar los conflictos
+    
+----------------------------------------------------------------------------------
+
+    1) Solucionar conflicto con sentencias
+    
+Se cambio las producciones de sentencias y de sentencia. Se quito el poder no poner sentencias, cosa que no se debería permitir teniendo en cuenta la gramática base que aparece en el guión.
+
+    2) Solucionar conflicto reduce/reduce con el op. ternario
+    
+En primer lugar se dividió en dos partes, pero finalmente se delimitó entre dos símbolos "^". Es posible que haya que cambiarlo porque no sea correcta esta forma.
+
+    3) Solucionar conflicto desplaza/reduce con lista_parametros
+    
+Lo que hice es poner en la cabecera del procedimiento la lista de parámetros por defecto separada de la lista de parámetros. Cambio en las producciones de lista_parametros y cabecera_proced
+
+    4) Solucionar conflicto desplaza/reduce con los incrementos y decrementos posfijo
+    
+Para solucionarlo he quitado esta posibilidad ya que no es obligatoria para la práctica y no conseguía quitar el conflicto.
+
+
+----------------------------------------------------------------------------------
+    
+    Cambios para control de errores
+    
+----------------------------------------------------------------------------------
+
+    1) Control de errores en la declaración de variables y en la cabecera de los procedimientos
+    
+Añadida producción de error en cuerpo_declar_variables.
+
+    2) Control de errores en la cabecera de los procedimientos
+
+Añadida producción de error en cabecera_proced. Para solucionar nuevos conflictos desplaza/reduce he modificado las producciones de declar_procedimientos y las producciones de bloque (quito el poder dejar en blanco en las producciones de declar_procedimiento y en consecuencia pongo en bloque las posibilidades explicitamente).
+
+    3) Control de errores en las expresiones
+    
+Añadida producción de error en expresion.
+
+
