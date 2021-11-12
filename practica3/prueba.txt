@@ -39,3 +39,9 @@ principal()
     }
           
 }
+
+
+INCRE_PRE expresion · ELEM_POSI expresion
+expresion ELEM_POSI expresion
+expresion
+

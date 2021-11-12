@@ -76,7 +76,6 @@ int linea_actual = 1;
 %token PYC
 %token TIPOS
 %token CONSTANTE
-%token LLAVE_OP_TER
 
 %left OR // Operador or lógico
 
@@ -100,13 +99,9 @@ int linea_actual = 1;
 
 %right INCRE_PRE
 
-%left DECRE_POS
-
-%left INCRE_POS
-
 %right UNARIO_PRE_LISTA
 
-%left ELEM_POSI
+%right ELEM_POSI
 
 %left MOV_LISTA
 
@@ -124,7 +119,11 @@ cabecera_programa   : PRINCIPAL PARIZQ PARDER ;
 
 bloque  : LLAVEIZQ 
           declar_de_variables_locales 
-          declar_proced 
+          declar_procedimientos 
+          sentencias 
+          LLAVEDER 
+        | LLAVEIZQ 
+          declar_de_variables_locales 
           sentencias 
           LLAVEDER ;
 
@@ -144,25 +143,26 @@ declar_de_variables_locales : INICIOVAR variables_locales FINVAR
 variables_locales   : variables_locales cuerpo_declar_variables
                     | cuerpo_declar_variables ;
 
-cuerpo_declar_variables : tipos declar_variables PYC ;
+cuerpo_declar_variables : tipos declar_variables PYC
+                        | error ;
 
 declar_variables    : ID
                     | ID IGUAL expresion
                     | declar_variables COMA ID  
                     | declar_variables COMA ID IGUAL expresion ;
 
-declar_proced   : cabecera_proced bloque
-                | ;
+declar_procedimientos : declar_procedimientos declar_proced
+                      | declar_proced ;
+
+declar_proced : cabecera_proced bloque ;
 
 cabecera_proced : PROCEDIMIENTO ID PARIZQ lista_parametros COMA lista_para_por_defecto PARDER
                 | PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
-                | PROCEDIMIENTO ID PARIZQ PARDER ;
+                | PROCEDIMIENTO ID PARIZQ PARDER 
+                | error ;
 
-sentencias  : secu_sentencia
-            | ;
-
-secu_sentencia  : secu_sentencia sentencia
-                | sentencia ;
+sentencias  : sentencias sentencia
+            | sentencia ;
 
 sentencia   : bloque
             | sentencia_asignacion
@@ -202,10 +202,8 @@ expresion   : PARIZQ expresion PARDER
             | NOT expresion
             | UNARIO_PRE_LISTA expresion
             | ADITIVOS expresion %prec UNARIOS
-            | expresion DECRE_PRE %prec DECRE_POS
-            | expresion INCRE_PRE %prec INCRE_POS
             | expresion ADITIVOS expresion
-            | expresion DECRE_PRE expresion %prec DECRE_POS
+            | expresion DECRE_PRE expresion
             | expresion ELEM_POSI expresion
             | expresion MULTIPLICATIVOS expresion
             | expresion POTENCIAS expresion
@@ -214,10 +212,11 @@ expresion   : PARIZQ expresion PARDER
             | expresion OR expresion
             | expresion AND expresion
             | expresion XOR expresion
-            | LLAVE_OP_TER expresion INCRE_PRE expresion ELEM_POSI expresion LLAVE_OP_TER
+            | expresion INCRE_PRE expresion ELEM_POSI expresion
             | ID
-            | CONSTANTE
-            | agregado_lista ;
+            | agregado_lista
+            | CONSTANTE 
+            | error ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 

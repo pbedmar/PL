@@ -43,7 +43,7 @@ int linea_actual = 1;
  ** nada de lo anterior debe tenerse en cuenta.
  **/
 
-%error-verbose
+%define parse.error verbose
 
 /** A continuacion declaramos los nombres simbolicos de los tokens.
  ** byacc se encarga de asociar a cada uno un codigo
@@ -76,7 +76,8 @@ int linea_actual = 1;
 %token PYC
 %token TIPOS
 %token CONSTANTE
-%token LLAVE_OP_TER
+
+%right ELEM_POSI_BINA
 
 %left OR // Operador or lógico
 
@@ -102,7 +103,10 @@ int linea_actual = 1;
 
 %right UNARIO_PRE_LISTA
 
-%left ELEM_POSI
+
+
+%right ELEM_POSI
+
 
 %left MOV_LISTA
 
@@ -139,7 +143,7 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE
 parametro   : tipos ID ;
 
 declar_de_variables_locales : INICIOVAR variables_locales FINVAR
-                            | ;
+                            | %empty  ;
 
 variables_locales   : variables_locales cuerpo_declar_variables
                     | cuerpo_declar_variables ;
@@ -205,7 +209,7 @@ expresion   : PARIZQ expresion PARDER
             | ADITIVOS expresion %prec UNARIOS
             | expresion ADITIVOS expresion
             | expresion DECRE_PRE expresion
-            | expresion ELEM_POSI expresion
+            | expresion ELEM_POSI expresion %prec ELEM_POSI_BINA
             | expresion MULTIPLICATIVOS expresion
             | expresion POTENCIAS expresion
             | expresion IGUALDAD expresion
@@ -213,7 +217,7 @@ expresion   : PARIZQ expresion PARDER
             | expresion OR expresion
             | expresion AND expresion
             | expresion XOR expresion
-            | LLAVE_OP_TER expresion INCRE_PRE expresion ELEM_POSI expresion LLAVE_OP_TER
+            | expresion INCRE_PRE expresion ELEM_POSI expresion
             | ID
             | agregado_lista
             | CONSTANTE 

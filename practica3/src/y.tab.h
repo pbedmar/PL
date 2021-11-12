@@ -76,7 +76,7 @@ extern int yydebug;
     PYC = 282,
     TIPOS = 283,
     CONSTANTE = 284,
-    LLAVE_OP_TER = 285,
+    ELEM_POSI_BINA = 285,
     OR = 286,
     AND = 287,
     XOR = 288,
