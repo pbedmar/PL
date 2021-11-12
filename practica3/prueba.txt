@@ -1,8 +1,8 @@
 principal()
 {
     inicio_var
-        entero v'1 v2, v3
-        flotante t1, t2 t3;
+        entero v1, v2, v3;
+        flotante t1, t2, t3;
         caracter vc;
         booleano vl;
         lista de entero pe, pe2;
@@ -11,7 +11,7 @@ principal()
         lista de booleano pl;
     fin_var 
 
-    procedimiento procedimientoA(entero a = 2, entero b) {
+    procedimiento procedimientoA(entero a, entero b) {
         inicio_var
             entero c;
         fin_var
@@ -19,29 +19,14 @@ principal()
         c = 1;
     }
 
-    procedimiento procedimientoB(entero a = 2, entero b = 2) {
-        inicio_var
-            entero v1, v2 v3;
-            flotante t1, t2, t3;
-        fin_var
-
-        c = 1;
-    }
-
     v1 = 1;
     v2 = (2*3 + 4);
-    v3 = 2*3++4;
-    v2 = 2*3//4;
+    v3 = 2*3+4;
+    v2 = 2*3/4;
     v4 = 3;
-    si(v1 == == 5) {
-        v3 = 2//4; 
-        v3 = 2%%4;
+    si(v1 == 5) {
+        v3 = 2/4; 
+        v3 = 2%4;
     }
           
 }
-
-
-INCRE_PRE expresion · ELEM_POSI expresion
-expresion ELEM_POSI expresion
-expresion
-
