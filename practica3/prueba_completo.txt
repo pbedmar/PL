@@ -5,15 +5,15 @@ principal ()
         flotante vf ;
         caracter vc ;
         booleano vl ;
-        lista de entero     pe, pe2 pewr3
-        lista de flotante   pf pf2 ;
+        lista de entero     pe, pe2 ;
+        lista de flotante   pf, pf2 ;
         lista de caracter   pc, pc2 ;
         lista de booleano   pl ;
     fin_var 
 
     procedimiento procedimientoA (entero a1, flotante a2, caracter a3) {
         inicio_var
-            enter*o x1, x2 ;
+            entero x1, x2 ;
         fin_var
 
         procedimiento procedimientoB (caracter b1, booleano b2) {
@@ -21,7 +21,7 @@ principal ()
                 flotante xf, x2 ;
             fin_var
 
-            procedimiento procedmientoC (booleano c1 entero c2) {
+            procedimiento procedmientoC (booleano c1, entero c2) {
                 inicio_var
                     flotante x1 ;
                 fin_var
@@ -80,7 +80,7 @@ principal ()
         }
         en otro caso {
             pe = pe * pe2 ;
-            pe = pe2 - pe * (20/2000) ;
+            pe = pe2 - pe (20/2000) ;
         }
     }        
 }

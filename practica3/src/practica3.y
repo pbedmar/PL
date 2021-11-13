@@ -43,7 +43,7 @@ int linea_actual = 1;
  ** nada de lo anterior debe tenerse en cuenta.
  **/
 
-%define parse.error verbose
+%error-verbose
 
 /** A continuacion declaramos los nombres simbolicos de los tokens.
  ** byacc se encarga de asociar a cada uno un codigo
@@ -122,15 +122,11 @@ programa    : cabecera_programa bloque ;
 
 cabecera_programa   : PRINCIPAL PARIZQ PARDER ;
 
-bloque  : LLAVEIZQ 
-          declar_de_variables_locales 
-          declar_procedimientos 
-          sentencias 
-          LLAVEDER 
-        | LLAVEIZQ 
-          declar_de_variables_locales 
-          sentencias 
-          LLAVEDER ;
+bloque  : LLAVEIZQ contenido_bloque LLAVEDER ;
+
+contenido_bloque  : declar_de_variables_locales 
+                    declar_procedimientos 
+                    sentencias ;
 
 lista_parametros    : lista_parametros COMA parametro
                     | parametro ;
@@ -143,13 +139,13 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE
 parametro   : tipos ID ;
 
 declar_de_variables_locales : INICIOVAR variables_locales FINVAR
-                            | %empty  ;
+                            | ;
 
 variables_locales   : variables_locales cuerpo_declar_variables
                     | cuerpo_declar_variables ;
 
 cuerpo_declar_variables : tipos declar_variables PYC
-                        | error ;
+                        | error;
 
 declar_variables    : ID
                     | ID IGUAL expresion
@@ -157,17 +153,17 @@ declar_variables    : ID
                     | declar_variables COMA ID IGUAL expresion ;
 
 declar_procedimientos : declar_procedimientos declar_proced
-                      | declar_proced ;
+                      | ;
 
 declar_proced : cabecera_proced bloque ;
 
 cabecera_proced : PROCEDIMIENTO ID PARIZQ lista_parametros COMA lista_para_por_defecto PARDER
                 | PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
-                | PROCEDIMIENTO ID PARIZQ PARDER 
-                | error ;
+                | PROCEDIMIENTO ID PARIZQ PARDER ;
+                | error
 
 sentencias  : sentencias sentencia
-            | sentencia ;
+            | ;
 
 sentencia   : bloque
             | sentencia_asignacion
