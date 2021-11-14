@@ -70,17 +70,20 @@ principal ()
                 d1 = d1 / 1000.0 ;
             }
         }
+        
+        x1 = 1;
+        x2 = 2;
+    } 
 
-        pe = pe++(-10)@(#pe) ;
-        pf = pf++(-10.0)@(#pe) ;
-        pc = pc++('#')@(#pe) ;
+    pe = pe++(-10)@(#pe) ;
+    pf = pf++(-10.0)@(#pe) ;
+    pc = pc++('#')@(#pe) ;
 
-        si ((pe++(20)@(#pe))@(#pe-1) == 20) {
-            ve = pe--(#p-1) ;
-        }
-        en otro caso {
-            pe = pe * pe2 ;
-            pe = pe2 - pe (20/2000) ;
-        }
-    }        
+    si ((pe++(20)@(#pe))@(#pe-1) == 20) {
+        ve = pe--(#p-1) ;
+    }
+    en otro caso {
+        pe = pe * pe2 ;
+        pe = pe2 - pe * (20/2000) ;
+    }       
 }
