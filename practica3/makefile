@@ -16,7 +16,7 @@ $(OBJ)/main.o: $(SRC)/main.c
 	gcc -std=$(VERSION) -c $(SRC)/main.c -o $(OBJ)/main.o
 
 $(SRC)/y.tab.c: $(SRC)/practica3.y $(SRC)/lex.yy.c
-	bison -Wall -v -d -o $(SRC)/y.tab.c $(SRC)/practica3.y
+	bison -v -d -o $(SRC)/y.tab.c $(SRC)/practica3.y
 
 $(SRC)/lex.yy.c: $(SRC)/practica3.l
 	lex $(SRC)/practica3.l

@@ -43,7 +43,7 @@ int linea_actual = 1;
  ** nada de lo anterior debe tenerse en cuenta.
  **/
 
-%define parse.error verbose
+%error-verbose
 
 /** A continuacion declaramos los nombres simbolicos de los tokens.
  ** byacc se encarga de asociar a cada uno un codigo
@@ -143,7 +143,7 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE
 parametro   : tipos ID ;
 
 declar_de_variables_locales : INICIOVAR variables_locales FINVAR
-                            | %empty  ;
+                            | ;
 
 variables_locales   : variables_locales cuerpo_declar_variables
                     | cuerpo_declar_variables ;
