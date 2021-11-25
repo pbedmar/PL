@@ -29,6 +29,55 @@ void yyerror(const char *msg);
 
 int linea_actual = 1;
 
+
+typedef enum {
+  marca,
+  procedimiento,
+  variable,
+  parametro_formal
+} tipoEntrada ;
+
+typedef enum {
+  entero,
+  real,
+  caracter,
+  booleano,
+  lista,
+  desconocido,
+  no_asignado
+} dtipo ;
+
+typedef struct {
+  tipoEntrada   entrada ;
+  char          *nombre ;
+  dtipo         tipoDato ;
+  unsigned int  parametros ;
+} entradaTS ;
+
+
+#define MAX_TS 500
+
+unsigned int TOPE=0 ;
+unsigned int Subprog ;
+
+entradaTS TS[MAX_TS] ;
+
+typedef struct {
+  int   atrib ;
+  char  *lexema ;
+  dtipo tipo ;
+} atributos ;
+
+#define YYSTYPE atributos
+
+void pop() {
+  TOPE = Subprog;
+}
+
+void push(entradaTS nuevaEntrada) {
+  TS[TOPE] = nuevaEntrada;
+}
+
 %}
 
 /** Para uso de mensajes de error sintactivo con BISON.

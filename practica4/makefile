@@ -15,11 +15,11 @@ $(OBJ)/y.tab.o: $(SRC)/y.tab.c
 $(OBJ)/main.o: $(SRC)/main.c
 	gcc -std=$(VERSION) -c $(SRC)/main.c -o $(OBJ)/main.o
 
-$(SRC)/y.tab.c: $(SRC)/practica3.y $(SRC)/lex.yy.c
-	bison -v -d -o $(SRC)/y.tab.c $(SRC)/practica3.y
+$(SRC)/y.tab.c: $(SRC)/practica4.y $(SRC)/lex.yy.c
+	bison -v -d -o $(SRC)/y.tab.c $(SRC)/practica4.y
 
-$(SRC)/lex.yy.c: $(SRC)/practica3.l
-	lex $(SRC)/practica3.l
+$(SRC)/lex.yy.c: $(SRC)/practica4.l
+	lex $(SRC)/practica4.l
 	mv lex.yy.c $(SRC)
 
 clean:

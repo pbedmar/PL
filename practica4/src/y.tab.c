@@ -66,10 +66,10 @@
 
 
 /* First part of user prologue.  */
-#line 1 "src/practica3.y"
+#line 1 "src/practica4.y"
 
 int yylex();
-#line 5 "src/practica3.y"
+#line 5 "src/practica4.y"
 
 /****************************************************************
  **
@@ -98,7 +98,48 @@ void yyerror(const char *msg);
 int linea_actual = 1;
 
 
-#line 102 "src/y.tab.c"
+typedef enum {
+  marca,
+  procedimiento,
+  variable,
+  parametro_formal
+} tipoEntrada ;
+
+typedef enum {
+  entero,
+  real,
+  caracter,
+  booleano,
+  lista,
+  desconocido,
+  no_asignado
+} dtipo ;
+
+typedef struct {
+  tipoEntrada   entrada ;
+  char          *nombre ;
+  dtipo         tipoDato ;
+  unsigned int  parametros ;
+} entradaTS ;
+
+
+#define MAX_TS 500
+
+unsigned int TOPE=0 ;
+unsigned int Subprog ;
+
+entradaTS TS[MAX_TS] ;
+
+typedef struct {
+  int   atrib ;
+  char  *lexema ;
+  dtipo tipo ;
+} atributos ;
+
+#define YYSTYPE atributos
+
+
+#line 143 "src/y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -570,16 +611,16 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,   121,   121,   123,   125,   130,   135,   136,   138,   139,
-     140,   141,   143,   145,   146,   148,   149,   151,   152,   154,
-     155,   156,   157,   159,   160,   162,   164,   165,   166,   167,
-     169,   170,   172,   173,   174,   175,   176,   177,   178,   179,
-     180,   181,   183,   185,   186,   189,   190,   192,   193,   195,
-     196,   198,   199,   201,   202,   204,   205,   206,   207,   208,
-     209,   210,   211,   212,   213,   214,   215,   216,   217,   218,
-     219,   220,   221,   222,   223,   224,   226,   228,   229
+       0,   162,   162,   164,   166,   171,   176,   177,   179,   180,
+     181,   182,   184,   186,   187,   189,   190,   192,   193,   195,
+     196,   197,   198,   200,   201,   203,   205,   206,   207,   208,
+     210,   211,   213,   214,   215,   216,   217,   218,   219,   220,
+     221,   222,   224,   226,   227,   230,   231,   233,   234,   236,
+     237,   239,   240,   242,   243,   245,   246,   247,   248,   249,
+     250,   251,   252,   253,   254,   255,   256,   257,   258,   259,
+     260,   261,   262,   263,   264,   265,   267,   269,   270
 };
 #endif
 
@@ -1541,7 +1582,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1545 "src/y.tab.c"
+#line 1586 "src/y.tab.c"
 
       default: break;
     }
@@ -1773,7 +1814,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 231 "src/practica3.y"
+#line 272 "src/practica4.y"
 
 
 /** Aqui incluimos el fichero generado por el 'lex'
