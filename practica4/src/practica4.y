@@ -70,12 +70,25 @@ typedef struct {
 
 #define YYSTYPE atributos
 
-void pop() {
-  TOPE = Subprog;
+
+void TS_InsertaIDENT() {
+
 }
 
-void push(entradaTS nuevaEntrada) {
-  TS[TOPE] = nuevaEntrada;
+void TS_InsertaMARCA() {
+  TS[TOPE] = 
+}
+
+void TS_InsertaSUBPROG() {
+
+}
+
+void TS_InsertaPARAM() {
+
+}
+
+void TS_VaciarENTRADAS() {
+
 }
 
 %}
