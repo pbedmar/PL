@@ -71,24 +71,35 @@ typedef struct {
 #define YYSTYPE atributos
 
 
-void TS_InsertaIDENT() {
-
-}
-
 void TS_InsertaMARCA() {
-  TS[TOPE] = 
+  entradaTS aux = {tipoEntrada.marca, NULL, dtipo.desconocido, 0};
+  TS[TOPE] = aux
+  TOPE = TOPE + 1
 }
 
-void TS_InsertaSUBPROG() {
-
+void TS_InsertaPROCED(unsigned int num_parametros) {
+  entradaTS aux = {tipoEntrada.procedimiento, NULL, dtipo.desconocido, num_parametros};
+  TS[TOPE] = aux;
+  TOPE = TOPE + 1;
 }
 
-void TS_InsertaPARAM() {
+void TS_InsertaVAR(char* lexema, dtipo tipo) {
+  entradaTS aux = {tipoEntrada.variable, lexema, tipo, 0};
+  TS[TOPE] = aux;
+  TOPE = TOPE + 1;
+}
 
+void TS_InsertaPARAM(char* lexema, dtipo tipo) {
+  entradaTS aux = {tipoEntrada.parametro_formal, lexema, tipo, 0};
+  TS[TOPE] = aux;
+  TOPE = TOPE + 1;
 }
 
 void TS_VaciarENTRADAS() {
-
+  TOPE = TOPE - 1
+  while(TS[TOPE].entrada != tipoEntrada.marca) {
+    TOPE = TOPE - 1
+  }
 }
 
 %}
@@ -213,10 +224,10 @@ variables_locales   : variables_locales cuerpo_declar_variables
 cuerpo_declar_variables : tipos declar_variables PYC
                         | error ;
 
-declar_variables    : ID
-                    | ID IGUAL expresion
-                    | declar_variables COMA ID  
-                    | declar_variables COMA ID IGUAL expresion ;
+declar_variables    : ID { TS_InsertaVAR($1.lexema, $0.tipo) }
+                    | ID IGUAL expresion { TS_InsertaVAR($1.lexema, $0.tipo) }
+                    | declar_variables COMA ID { TS_InsertaVAR($3.lexema, $0.tipo) }
+                    | declar_variables COMA ID IGUAL expresion { TS_InsertaVAR($3.lexema, $0.tipo) } ;
 
 declar_procedimientos : declar_procedimientos declar_proced
                       | declar_proced ;
@@ -287,7 +298,7 @@ expresion   : PARIZQ expresion PARDER
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
-tipos   : TIPOS 
+tipos   : TIPOS { $$.tipo = $1.tipo}
         | LISTADE TIPOS ;
 
 %%
