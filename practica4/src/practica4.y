@@ -77,13 +77,13 @@ void TS_InsertaMARCA() {
   TOPE = TOPE + 1
 }
 
-void TS_InsertaPROCED(unsigned int num_parametros) {
-  entradaTS aux = {tipoEntrada.procedimiento, NULL, dtipo.desconocido, num_parametros};
+void TS_InsertaPROCED(char* lexema, unsigned int num_parametros) {
+  entradaTS aux = {tipoEntrada.procedimiento, lexema, dtipo.desconocido, num_parametros};
   TS[TOPE] = aux;
   TOPE = TOPE + 1;
 }
 
-void TS_InsertaVAR(char* lexema, dtipo tipo) {
+void TS_InsertaVAR(char* lexema, unsi tipo) {
   entradaTS aux = {tipoEntrada.variable, lexema, tipo, 0};
   TS[TOPE] = aux;
   TOPE = TOPE + 1;
@@ -224,10 +224,10 @@ variables_locales   : variables_locales cuerpo_declar_variables
 cuerpo_declar_variables : tipos declar_variables PYC
                         | error ;
 
-declar_variables    : ID { TS_InsertaVAR($1.lexema, $0.tipo) }
-                    | ID IGUAL expresion { TS_InsertaVAR($1.lexema, $0.tipo) }
-                    | declar_variables COMA ID { TS_InsertaVAR($3.lexema, $0.tipo) }
-                    | declar_variables COMA ID IGUAL expresion { TS_InsertaVAR($3.lexema, $0.tipo) } ;
+declar_variables    : ID { TS_InsertaVAR($1.lexema, $0.atrib) }
+                    | ID IGUAL expresion { TS_InsertaVAR($1.lexema, $0.atrib) }
+                    | declar_variables COMA ID { TS_InsertaVAR($3.lexema, $0.atrib) }
+                    | declar_variables COMA ID IGUAL expresion { TS_InsertaVAR($3.lexema, $0.atrib) } ;
 
 declar_procedimientos : declar_procedimientos declar_proced
                       | declar_proced ;
@@ -298,7 +298,7 @@ expresion   : PARIZQ expresion PARDER
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
-tipos   : TIPOS { $$.tipo = $1.tipo}
+tipos   : TIPOS { $$.atrib = $1.atrib} //DUDA: Hemos cambiado tipo a atrib pq estamos en los identificadores no en constantes
         | LISTADE TIPOS ;
 
 %%
