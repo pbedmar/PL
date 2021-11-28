@@ -918,289 +918,289 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 29 "src/practica4.l"
-{ return PRINCIPAL; }
+{ yylval.atrib = 0 ; return PRINCIPAL; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 30 "src/practica4.l"
-{ return LLAVEIZQ; }
+{ yylval.atrib = 0 ; return LLAVEIZQ; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 31 "src/practica4.l"
-{ return LLAVEDER; }
+{ yylval.atrib = 0 ; return LLAVEDER; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 32 "src/practica4.l"
-{ return COMA; }
+{ yylval.atrib = 0 ; return COMA; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 33 "src/practica4.l"
-{ return LISTADE; }
+{ yylval.atrib = 0 ; return LISTADE; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 34 "src/practica4.l"
-{ return PROCEDIMIENTO; }
+{ yylval.atrib = 0 ; return PROCEDIMIENTO; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 35 "src/practica4.l"
-{ return PARDER; }
+{ yylval.atrib = 0 ; return PARDER; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 36 "src/practica4.l"
-{ return PARIZQ; }
+{ yylval.atrib = 0 ; return PARIZQ; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 37 "src/practica4.l"
-{ return CORCHIZQ; }
+{ yylval.atrib = 0 ; return CORCHIZQ; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 38 "src/practica4.l"
-{ return CORCHDER; }
+{ yylval.atrib = 0 ; return CORCHDER; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 39 "src/practica4.l"
-{ return IGUAL; } 
+{ yylval.atrib = 0 ; return IGUAL; } 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 40 "src/practica4.l"
-{ return INICIOVAR; }
+{ yylval.atrib = 0 ; return INICIOVAR; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 41 "src/practica4.l"
-{ return FINVAR; }
+{ yylval.atrib = 0 ; return FINVAR; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 42 "src/practica4.l"
-{ return SI; }
+{ yylval.atrib = 0 ; return SI; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 43 "src/practica4.l"
-{ return MIENTRAS; }
+{ yylval.atrib = 0 ; return MIENTRAS; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 44 "src/practica4.l"
-{ return OTROCASO; }
+{ yylval.atrib = 0 ; return OTROCASO; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 45 "src/practica4.l"
-{ return PARA; }
+{ yylval.atrib = 0 ; return PARA; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 46 "src/practica4.l"
-{ return HASTA; }
+{ yylval.atrib = 0 ; return HASTA; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 47 "src/practica4.l"
-{ return ITERANDO; }
+{ yylval.atrib = 0 ; return ITERANDO; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 48 "src/practica4.l"
-{ return HACER; }
+{ yylval.atrib = 0 ; return HACER; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 49 "src/practica4.l"
-{ return LEER; }
+{ yylval.atrib = 0 ; return LEER; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 50 "src/practica4.l"
-{ return IMPRIMIR; }
+{ yylval.atrib = 0 ; return IMPRIMIR; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 51 "src/practica4.l"
-{ return MOV_LISTA; }
+{ yylval.atrib = 0 ; return MOV_LISTA; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 52 "src/practica4.l"
-{ return MOV_LISTA; }
+{ yylval.atrib = 1 ; return MOV_LISTA; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 53 "src/practica4.l"
-{ return DOLLAR; }
+{ yylval.atrib = 0 ; return DOLLAR; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 54 "src/practica4.l"
-{ return PYC; }
+{ yylval.atrib = 0 ; return PYC; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 55 "src/practica4.l"
-{ return INCRE_PRE; }
+{ yylval.atrib = 0 ; return INCRE_PRE; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 56 "src/practica4.l"
-{ return DECRE_PRE; }
+{ yylval.atrib = 0 ; return DECRE_PRE; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 57 "src/practica4.l"
-{ return NOT; }
+{ yylval.atrib = 0 ; return NOT; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 58 "src/practica4.l"
-{ return UNARIO_PRE_LISTA; }
+{ yylval.atrib = 0 ; return UNARIO_PRE_LISTA; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 59 "src/practica4.l"
-{ return UNARIO_PRE_LISTA; }
+{ yylval.atrib = 0 ; return UNARIO_PRE_LISTA; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 60 "src/practica4.l"
-{ return ADITIVOS; }
+{ yylval.atrib = 0 ; return ADITIVOS; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 61 "src/practica4.l"
-{ return ADITIVOS; }
+{ yylval.atrib = 1 ; return ADITIVOS; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 62 "src/practica4.l"
-{ return MULTIPLICATIVOS; }
+{ yylval.atrib = 0 ; return MULTIPLICATIVOS; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 63 "src/practica4.l"
-{ return MULTIPLICATIVOS; }
+{ yylval.atrib = 1 ; return MULTIPLICATIVOS; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 64 "src/practica4.l"
-{ return POTENCIAS; }
+{ yylval.atrib = 0 ; return POTENCIAS; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 65 "src/practica4.l"
-{ return MULTIPLICATIVOS; }
+{ yylval.atrib = 2 ; return MULTIPLICATIVOS; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 66 "src/practica4.l"
-{ return IGUALDAD; }
+{ yylval.atrib = 0 ; return IGUALDAD; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 67 "src/practica4.l"
-{ return IGUALDAD; }
+{ yylval.atrib = 1 ; return IGUALDAD; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 68 "src/practica4.l"
-{ return RELACION; }
+{ yylval.atrib = 0 ; return RELACION; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 69 "src/practica4.l"
-{ return RELACION; }
+{ yylval.atrib = 1 ; return RELACION; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 70 "src/practica4.l"
-{ return RELACION; }
+{ yylval.atrib = 2 ; return RELACION; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 71 "src/practica4.l"
-{ return RELACION; }
+{ yylval.atrib = 3 ; return RELACION; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 72 "src/practica4.l"
-{ return AND; }
+{ yylval.atrib = 0 ; return AND; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 73 "src/practica4.l"
-{ return OR; }
+{ yylval.atrib = 0 ; return OR; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
 #line 74 "src/practica4.l"
-{ return XOR; }
+{ yylval.atrib = 0 ; return XOR; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 75 "src/practica4.l"
-{ return ELEM_POSI; }
+{ yylval.atrib = 0 ; return ELEM_POSI; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 #line 76 "src/practica4.l"
-{ return TIPOS; }
+{ yylval.atrib = 0 ; return TIPOS; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 77 "src/practica4.l"
-{ return TIPOS; }
+{ yylval.atrib = 1 ; return TIPOS; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 78 "src/practica4.l"
-{ return TIPOS; }
+{ yylval.atrib = 2 ; return TIPOS; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 #line 79 "src/practica4.l"
-{ return TIPOS; }
+{ yylval.atrib = 3 ; return TIPOS; }
 	YY_BREAK
 case 52:
 /* rule 52 can match eol */
 YY_RULE_SETUP
 #line 80 "src/practica4.l"
-{ return CADENA; }
+{ yylval.atrib = 0 ; return CADENA; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
 #line 81 "src/practica4.l"
-{ return CONSTANTE; }
+{ yylval.atrib = 0 ; yylval.tipo = entero ; return CONSTANTE; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 82 "src/practica4.l"
-{ return CONSTANTE; }
+{ yylval.atrib = 1 ; yylval.tipo = real ; return CONSTANTE; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 #line 83 "src/practica4.l"
-{ return CONSTANTE; }
+{ yylval.atrib = 2 ; yylval.tipo = booleano ; return CONSTANTE; }
 	YY_BREAK
 case 56:
 /* rule 56 can match eol */
 YY_RULE_SETUP
 #line 84 "src/practica4.l"
-{ return CONSTANTE; }
+{ yylval.atrib = 3 ; yylval.tipo = caracter ; return CONSTANTE; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
 #line 85 "src/practica4.l"
-{ return ID; }
+{ yylval.lexema = strdup(yytext) ; return ID; }
 	YY_BREAK
 case 58:
 /* rule 58 can match eol */

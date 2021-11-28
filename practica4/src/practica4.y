@@ -42,23 +42,45 @@ typedef enum {
   real,
   caracter,
   booleano,
-  lista,
+  lista_entero,
+  lista_real,
+  lista_caracter,
+  lista_booleano,
   desconocido,
   no_asignado
 } dtipo ;
+
+dtipo obtenerTipoLista(dtipo tipo) {
+  switch(tipo) {
+    case entero:
+      return lista_entero;
+    break;
+    case real:
+      return lista_real;
+    break;
+    case caracter:
+      return lista_caracter;
+    break;
+    case booleano:
+      return lista_booleano;
+    break;
+  }
+}
 
 typedef struct {
   tipoEntrada   entrada ;
   char          *nombre ;
   dtipo         tipoDato ;
-  unsigned int  parametros ;
+  unsigned int  parametrosMin ;
+  unsigned int  parametrosMax ;
 } entradaTS ;
 
 
-#define MAX_TS 500
+#define MAX_TS 1000
 
 unsigned int TOPE=0 ;
 unsigned int Subprog ;
+dtipo tipoTmp ;
 
 entradaTS TS[MAX_TS] ;
 
@@ -71,34 +93,75 @@ typedef struct {
 #define YYSTYPE atributos
 
 
-void TS_InsertaMARCA() {
-  entradaTS aux = {tipoEntrada.marca, NULL, dtipo.desconocido, 0};
-  TS[TOPE] = aux
-  TOPE = TOPE + 1
+unsigned int procedMasProximo() {
+  unsigned int pos = TOPE - 1;
+
+  while(TS[pos].entrada != procedimiento) {
+    pos -= 1;
+  }
+
+  return pos;
 }
 
-void TS_InsertaPROCED(char* lexema, unsigned int num_parametros) {
-  entradaTS aux = {tipoEntrada.procedimiento, lexema, dtipo.desconocido, num_parametros};
+void TS_InsertaMARCA() {
+  entradaTS aux = {marca, NULL, desconocido, 0, 0};
+  unsigned int posProced;
+  int numParam;
+  
+  switch(Subprog) {
+    case 0:
+      TS[TOPE] = aux;
+      TOPE = TOPE + 1;
+    break;
+    case 1:
+      posProced = procedMasProximo();
+      numParam = TS[posProced].parametrosMax;
+      entradaTS tmp1 = TS[posProced+1];
+      TS[posProced+1] = aux;
+      for(int i = 0; i < numParam; ++i) {
+        entradaTS tmp2 = TS[posProced + i + 2];
+        TS[posProced + i + 2] = tmp1;
+        TS[posProced + i + 2].entrada = variable;
+        tmp1 = tmp2;
+      }
+      TOPE = posProced + numParam + 2;
+    break;
+  }
+}
+
+void TS_InsertaPROCED(char* lexema) {
+  entradaTS aux = {procedimiento, lexema, desconocido, 0, 0};
   TS[TOPE] = aux;
   TOPE = TOPE + 1;
 }
 
-void TS_InsertaVAR(char* lexema, unsi tipo) {
-  entradaTS aux = {tipoEntrada.variable, lexema, tipo, 0};
+void TS_InsertaVAR(char* lexema, dtipo tipo) {
+  entradaTS aux = {variable, lexema, tipo, 0, 0};
   TS[TOPE] = aux;
   TOPE = TOPE + 1;
 }
 
 void TS_InsertaPARAM(char* lexema, dtipo tipo) {
-  entradaTS aux = {tipoEntrada.parametro_formal, lexema, tipo, 0};
+  entradaTS aux = {parametro_formal, lexema, tipo, 0, 0};
   TS[TOPE] = aux;
   TOPE = TOPE + 1;
+  unsigned int pos = procedMasProximo();
+  TS[pos].parametrosMin += 1;
+  TS[pos].parametrosMax += 1;
+}
+
+void TS_InsertaPARAM_POR_DEF(char* lexema, dtipo tipo) {
+  entradaTS aux = {parametro_formal, lexema, tipo, 0, 0};
+  TS[TOPE] = aux;
+  TOPE = TOPE + 1;
+  unsigned int pos = procedMasProximo();
+  TS[pos].parametrosMax += 1;
 }
 
 void TS_VaciarENTRADAS() {
-  TOPE = TOPE - 1
-  while(TS[TOPE].entrada != tipoEntrada.marca) {
-    TOPE = TOPE - 1
+  TOPE = TOPE - 1;
+  while(TS[TOPE].entrada != marca) {
+    TOPE = TOPE - 1;
   }
 }
 
@@ -195,25 +258,27 @@ programa    : cabecera_programa bloque ;
 
 cabecera_programa   : PRINCIPAL PARIZQ PARDER ;
 
-bloque  : LLAVEIZQ 
+inicio_bloque : LLAVEIZQ { TS_InsertaMARCA(); } ;
+
+bloque  : inicio_bloque
           declar_de_variables_locales 
           declar_procedimientos 
           sentencias 
-          LLAVEDER 
-        | LLAVEIZQ 
+          LLAVEDER { TS_VaciarENTRADAS(); }
+        | inicio_bloque
           declar_de_variables_locales 
           sentencias 
-          LLAVEDER ;
+          LLAVEDER { TS_VaciarENTRADAS(); } ;
 
-lista_parametros    : lista_parametros COMA parametro
-                    | parametro ;
+lista_parametros    : lista_parametros COMA parametro { TS_InsertaPARAM($3.lexema, $3.tipo); }
+                    | parametro { TS_InsertaPARAM($1.lexema, $1.tipo); } ;
 
-lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE
-                        | parametro IGUAL CONSTANTE
-                        | lista_para_por_defecto COMA parametro IGUAL agregado_lista
-                        | parametro IGUAL agregado_lista ;
+lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE { TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); }
+                        | parametro IGUAL CONSTANTE { TS_InsertaPARAM_POR_DEF($1.lexema, $1.tipo); }
+                        | lista_para_por_defecto COMA parametro IGUAL agregado_lista { TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); }
+                        | parametro IGUAL agregado_lista { TS_InsertaPARAM_POR_DEF($1.lexema, $1.tipo); } ;
 
-parametro   : tipos ID ;
+parametro   : tipos ID { $$.tipo = $1.tipo; $$.lexema = $2.lexema; } ;
 
 declar_de_variables_locales : INICIOVAR variables_locales FINVAR
                             | ;
@@ -221,22 +286,24 @@ declar_de_variables_locales : INICIOVAR variables_locales FINVAR
 variables_locales   : variables_locales cuerpo_declar_variables
                     | cuerpo_declar_variables ;
 
-cuerpo_declar_variables : tipos declar_variables PYC
+cuerpo_declar_variables : tipos declar_variables PYC 
                         | error ;
 
-declar_variables    : ID { TS_InsertaVAR($1.lexema, $0.atrib) }
-                    | ID IGUAL expresion { TS_InsertaVAR($1.lexema, $0.atrib) }
-                    | declar_variables COMA ID { TS_InsertaVAR($3.lexema, $0.atrib) }
-                    | declar_variables COMA ID IGUAL expresion { TS_InsertaVAR($3.lexema, $0.atrib) } ;
+declar_variables    : ID { TS_InsertaVAR($1.lexema, tipoTmp); }
+                    | ID IGUAL expresion { TS_InsertaVAR($1.lexema, tipoTmp); }
+                    | declar_variables COMA ID { TS_InsertaVAR($3.lexema, tipoTmp); }
+                    | declar_variables COMA ID IGUAL expresion { TS_InsertaVAR($3.lexema, tipoTmp); } ;
 
 declar_procedimientos : declar_procedimientos declar_proced
                       | declar_proced ;
 
-declar_proced : cabecera_proced bloque ;
+declar_proced : cabecera_proced bloque { Subprog = 0; } ;
 
-cabecera_proced : PROCEDIMIENTO ID PARIZQ lista_parametros COMA lista_para_por_defecto PARDER
-                | PROCEDIMIENTO ID PARIZQ lista_parametros PARDER
-                | PROCEDIMIENTO ID PARIZQ PARDER 
+inicio_cabe_proced : PROCEDIMIENTO ID { TS_InsertaPROCED($2.lexema); } ;
+
+cabecera_proced : inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por_defecto PARDER { Subprog = 1; }
+                | inicio_cabe_proced PARIZQ lista_parametros PARDER { Subprog = 1; }
+                | inicio_cabe_proced PARIZQ PARDER { Subprog = 1; }
                 | error ;
 
 sentencias  : sentencias sentencia
@@ -298,8 +365,8 @@ expresion   : PARIZQ expresion PARDER
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
-tipos   : TIPOS { $$.atrib = $1.atrib} //DUDA: Hemos cambiado tipo a atrib pq estamos en los identificadores no en constantes
-        | LISTADE TIPOS ;
+tipos   : TIPOS { tipoTmp = $1.tipo; } //DUDA: Hemos cambiado tipo a atrib pq estamos en los identificadores no en constantes
+        | LISTADE TIPOS { tipoTmp = obtenerTipoLista($1.tipo); } ;
 
 %%
 
