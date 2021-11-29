@@ -5,7 +5,7 @@ int yylex();
 %{
 /****************************************************************
  **
- ** Fichero: PRACTICA3.Y
+ ** Fichero: PRACTICA4.Y
  ** Función: Pruebas de YACC para practicas de PL
  **
  ****************************************************************/
@@ -71,7 +71,9 @@ typedef struct {
   tipoEntrada   entrada ;
   char          *nombre ;
   dtipo         tipoDato ;
+  //numero de parámetros que hay que pasar al procedimiento
   unsigned int  parametrosMin ;
+  //número de parámetros obligatorios más por defecto
   unsigned int  parametrosMax ;
 } entradaTS ;
 
@@ -109,24 +111,24 @@ void TS_InsertaMARCA() {
   int numParam;
   
   switch(Subprog) {
-    case 0:
+    case 0:                                         // no estamos en un subprograma
       TS[TOPE] = aux;
-      TOPE = TOPE + 1;
     break;
-    case 1:
+    case 1:                                         // estamos en un subprograma
       posProced = procedMasProximo();
       numParam = TS[posProced].parametrosMax;
       entradaTS tmp1 = TS[posProced+1];
       TS[posProced+1] = aux;
-      for(int i = 0; i < numParam; ++i) {
-        entradaTS tmp2 = TS[posProced + i + 2];
-        TS[posProced + i + 2] = tmp1;
+      for(int i = 0; i < numParam; ++i) {           // arrastramos los parámetros una posición hacia delante en
+        entradaTS tmp2 = TS[posProced + i + 2];     // la pila, para dejar espacio para MARCA. En este proceso, 
+        TS[posProced + i + 2] = tmp1;               // convertimos parámetro en variable.
         TS[posProced + i + 2].entrada = variable;
         tmp1 = tmp2;
-      }
-      TOPE = posProced + numParam + 2;
+      }        
     break;
   }
+
+  TOPE = TOPE + 1;
 }
 
 void TS_InsertaPROCED(char* lexema) {
@@ -278,7 +280,7 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE 
                         | lista_para_por_defecto COMA parametro IGUAL agregado_lista { TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); }
                         | parametro IGUAL agregado_lista { TS_InsertaPARAM_POR_DEF($1.lexema, $1.tipo); } ;
 
-parametro   : tipos ID { $$.tipo = $1.tipo; $$.lexema = $2.lexema; } ;
+parametro   : tipos ID { $$.tipo = tipoTmp; $$.lexema = $2.lexema; } ;
 
 declar_de_variables_locales : INICIOVAR variables_locales FINVAR
                             | ;
@@ -335,11 +337,13 @@ mensajes    : mensajes COMA mensaje
 mensaje : expresion
         | CADENA ;
 
-llamada_proced  : ID PARIZQ lista_expresiones PARDER PYC
-                | ID PARIZQ PARDER PYC ;
+inicio_llamada : ID PARIZQ { $$.lexema = $1.lexema ; pos_param = 0; }
 
-lista_expresiones   : lista_expresiones COMA expresion
-                    | expresion ;
+llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if pos_param > obtenerMin($1.lexema)}  //  P  P1  P2   pos = maxparam + pos_param + pos_proced :)
+                | inicio_llamada PARDER PYC ;
+
+lista_expresiones   : lista_expresiones COMA expresion { pos_param -= 1; if (!comprobarParam($0.lexema, $3.tipo, pos_param)) error ; }
+                    | expresion { pos_param -= 1 };
 
 expresion   : PARIZQ expresion PARDER
             | DECRE_PRE expresion
@@ -347,7 +351,7 @@ expresion   : PARIZQ expresion PARDER
             | NOT expresion
             | UNARIO_PRE_LISTA expresion
             | ADITIVOS expresion %prec UNARIOS
-            | expresion ADITIVOS expresion
+            | expresion ADITIVOS expresion {}
             | expresion DECRE_PRE expresion
             | expresion ELEM_POSI expresion %prec ELEM_POSI_BINA
             | expresion MULTIPLICATIVOS expresion
@@ -356,11 +360,11 @@ expresion   : PARIZQ expresion PARDER
             | expresion RELACION expresion
             | expresion OR expresion
             | expresion AND expresion
-            | expresion XOR expresion
+            | expresion XOR expresion {if $1.tipo == $3.tipo ;$$.tipo = $1.tipo}
             | expresion INCRE_PRE expresion ELEM_POSI expresion
-            | ID
-            | agregado_lista
-            | CONSTANTE 
+            | ID {$$.tipo = $1.tipo ; if !buscar($1.lexema) error ;}
+            | agregado_lista { $$.tipo = $1.tipo; }
+            | CONSTANTE { $$.tipo = $1.tipo; }
             | error ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
