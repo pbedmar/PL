@@ -177,6 +177,8 @@ void mostrarErrorMaxParam(char* nomProced);
 
 void mostrarErrorProcedDesco(char* nomProced);
 
+void mostrarErrorTipoAsig(dtipo tipo);
+
 unsigned int procedMasProximo() {
   unsigned int pos = TOPE - 1;
 
@@ -244,7 +246,7 @@ void TS_VaciarENTRADAS() {
   }
 }
 
-int burcarProced(char* lexemaProced) {
+int buscarProced(char* lexemaProced) {
   int pos = TOPE-1;
   while(pos >= 0 && strcmp(TS[pos].nombre, lexemaProced) != 0) {
     pos -= 1;
@@ -276,8 +278,16 @@ int comprobarParam() {
   }
 }
 
+dtipo buscarTipoVariable(char* lexema){
+  int pos = TOPE-1;
+  while(pos >= 0 && strcmp(TS[pos].nombre, lexema) != 0) {
+    pos -= 1;
+  }
+  return TS[pos].tipoDato;
+}
 
-#line 281 "src/y.tab.c"
+
+#line 291 "src/y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -751,15 +761,15 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   300,   300,   302,   304,   306,   311,   316,   317,   319,
-     320,   321,   322,   324,   326,   327,   329,   330,   332,   333,
-     335,   336,   337,   338,   340,   341,   343,   345,   347,   348,
-     349,   350,   352,   353,   355,   356,   357,   358,   359,   360,
-     361,   362,   363,   364,   366,   368,   369,   372,   373,   375,
-     376,   378,   379,   381,   388,   396,   405,   414,   424,   425,
-     426,   427,   428,   429,   430,   431,   432,   433,   434,   435,
-     436,   437,   438,   439,   440,   441,   442,   443,   444,   446,
-     448,   449
+       0,   310,   310,   312,   314,   316,   321,   326,   327,   329,
+     330,   331,   332,   334,   336,   337,   339,   340,   342,   343,
+     345,   346,   347,   348,   350,   351,   353,   355,   357,   358,
+     359,   360,   362,   363,   365,   366,   367,   368,   369,   370,
+     371,   372,   373,   374,   376,   381,   382,   385,   386,   388,
+     389,   391,   392,   394,   401,   409,   418,   427,   437,   438,
+     439,   440,   441,   442,   443,   444,   445,   446,   447,   448,
+     449,   450,   451,   452,   453,   454,   455,   456,   457,   459,
+     461,   462
 };
 #endif
 
@@ -1724,132 +1734,141 @@ yyreduce:
   switch (yyn)
     {
   case 4:
-#line 304 "src/practica4.y"
+#line 314 "src/practica4.y"
                          { TS_InsertaMARCA(); }
-#line 1730 "src/y.tab.c"
+#line 1740 "src/y.tab.c"
     break;
 
   case 5:
-#line 310 "src/practica4.y"
+#line 320 "src/practica4.y"
                    { TS_VaciarENTRADAS(); }
-#line 1736 "src/y.tab.c"
+#line 1746 "src/y.tab.c"
     break;
 
   case 6:
-#line 314 "src/practica4.y"
+#line 324 "src/practica4.y"
                    { TS_VaciarENTRADAS(); }
-#line 1742 "src/y.tab.c"
+#line 1752 "src/y.tab.c"
     break;
 
   case 7:
-#line 316 "src/practica4.y"
+#line 326 "src/practica4.y"
                                                       { TS_InsertaPARAM(yyvsp[0].lexema, yyvsp[0].tipo); }
-#line 1748 "src/y.tab.c"
+#line 1758 "src/y.tab.c"
     break;
 
   case 8:
-#line 317 "src/practica4.y"
+#line 327 "src/practica4.y"
                                 { TS_InsertaPARAM(yyvsp[0].lexema, yyvsp[0].tipo); }
-#line 1754 "src/y.tab.c"
+#line 1764 "src/y.tab.c"
     break;
 
   case 9:
-#line 319 "src/practica4.y"
+#line 329 "src/practica4.y"
                                                                                 { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
-#line 1760 "src/y.tab.c"
+#line 1770 "src/y.tab.c"
     break;
 
   case 10:
-#line 320 "src/practica4.y"
+#line 330 "src/practica4.y"
                                                     { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
-#line 1766 "src/y.tab.c"
+#line 1776 "src/y.tab.c"
     break;
 
   case 11:
-#line 321 "src/practica4.y"
+#line 331 "src/practica4.y"
                                                                                      { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
-#line 1772 "src/y.tab.c"
+#line 1782 "src/y.tab.c"
     break;
 
   case 12:
-#line 322 "src/practica4.y"
+#line 332 "src/practica4.y"
                                                          { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
-#line 1778 "src/y.tab.c"
+#line 1788 "src/y.tab.c"
     break;
 
   case 13:
-#line 324 "src/practica4.y"
+#line 334 "src/practica4.y"
                        { yyval.tipo = tipoTmp; yyval.lexema = yyvsp[0].lexema; }
-#line 1784 "src/y.tab.c"
+#line 1794 "src/y.tab.c"
     break;
 
   case 20:
-#line 335 "src/practica4.y"
+#line 345 "src/practica4.y"
                          { TS_InsertaVAR(yyvsp[0].lexema, tipoTmp); }
-#line 1790 "src/y.tab.c"
+#line 1800 "src/y.tab.c"
     break;
 
   case 21:
-#line 336 "src/practica4.y"
+#line 346 "src/practica4.y"
                                          { TS_InsertaVAR(yyvsp[-2].lexema, tipoTmp); }
-#line 1796 "src/y.tab.c"
+#line 1806 "src/y.tab.c"
     break;
 
   case 22:
-#line 337 "src/practica4.y"
+#line 347 "src/practica4.y"
                                                { TS_InsertaVAR(yyvsp[0].lexema, tipoTmp); }
-#line 1802 "src/y.tab.c"
+#line 1812 "src/y.tab.c"
     break;
 
   case 23:
-#line 338 "src/practica4.y"
+#line 348 "src/practica4.y"
                                                                { TS_InsertaVAR(yyvsp[-2].lexema, tipoTmp); }
-#line 1808 "src/y.tab.c"
+#line 1818 "src/y.tab.c"
     break;
 
   case 26:
-#line 343 "src/practica4.y"
+#line 353 "src/practica4.y"
                                        { Subprog = 0; }
-#line 1814 "src/y.tab.c"
+#line 1824 "src/y.tab.c"
     break;
 
   case 27:
-#line 345 "src/practica4.y"
+#line 355 "src/practica4.y"
                                       { TS_InsertaPROCED(yyvsp[0].lexema); }
-#line 1820 "src/y.tab.c"
+#line 1830 "src/y.tab.c"
     break;
 
   case 28:
-#line 347 "src/practica4.y"
+#line 357 "src/practica4.y"
                                                                                                 { Subprog = 1; }
-#line 1826 "src/y.tab.c"
+#line 1836 "src/y.tab.c"
     break;
 
   case 29:
-#line 348 "src/practica4.y"
+#line 358 "src/practica4.y"
                                                                     { Subprog = 1; }
-#line 1832 "src/y.tab.c"
+#line 1842 "src/y.tab.c"
     break;
 
   case 30:
-#line 349 "src/practica4.y"
+#line 359 "src/practica4.y"
                                                    { Subprog = 1; }
-#line 1838 "src/y.tab.c"
+#line 1848 "src/y.tab.c"
+    break;
+
+  case 44:
+#line 376 "src/practica4.y"
+                                               {if (buscarTipoVariable(yyvsp[-3].lexema) != yyvsp[-1].tipo){
+                                                  mostrarErrorTipoAsig(yyvsp[-1].tipo);
+                                                }
+                                              }
+#line 1857 "src/y.tab.c"
     break;
 
   case 53:
-#line 381 "src/practica4.y"
+#line 394 "src/practica4.y"
                            { yyval.lexema = yyvsp[-1].lexema ;
-                             posProced = burcarProced(yyvsp[-1].lexema) ; 
+                             posProced = buscarProced(yyvsp[-1].lexema) ; 
                              if(posProced == -1){ 
                                mostrarErrorProcedDesco(yyvsp[-1].lexema); 
                              }
                              posParam = 0; }
-#line 1849 "src/y.tab.c"
+#line 1868 "src/y.tab.c"
     break;
 
   case 54:
-#line 388 "src/practica4.y"
+#line 401 "src/practica4.y"
                                                               { if(posProced != -1) {
                                                                   if(posParam < TS[posProced].parametrosMin) {
                                                                     mostrarErrorMinParam(yyvsp[-3].lexema);
@@ -1858,11 +1877,11 @@ yyreduce:
                                                                     comprobarParam();
                                                                   }
                                                                 } }
-#line 1862 "src/y.tab.c"
+#line 1881 "src/y.tab.c"
     break;
 
   case 55:
-#line 396 "src/practica4.y"
+#line 409 "src/practica4.y"
                                             { if(posProced != -1) {
                                                 if(posParam < TS[posProced].parametrosMin) {
                                                   mostrarErrorMinParam(yyvsp[-2].lexema);
@@ -1871,11 +1890,11 @@ yyreduce:
                                                   comprobarParam();
                                                 }
                                               } }
-#line 1875 "src/y.tab.c"
+#line 1894 "src/y.tab.c"
     break;
 
   case 56:
-#line 405 "src/practica4.y"
+#line 418 "src/practica4.y"
                                                        { if(posProced != -1) {
                                                            if(posParam >= TS[posProced].parametrosMax) {
                                                              mostrarErrorMaxParam(TS[posProced].nombre);
@@ -1885,11 +1904,11 @@ yyreduce:
                                                              posParam += 1;  
                                                            }
                                                          } }
-#line 1889 "src/y.tab.c"
+#line 1908 "src/y.tab.c"
     break;
 
   case 57:
-#line 414 "src/practica4.y"
+#line 427 "src/practica4.y"
                                 { if(posProced != -1) {
                                     if(posParam >= TS[posProced].parametrosMax) {
                                       mostrarErrorMaxParam(TS[posProced].nombre);
@@ -1899,41 +1918,41 @@ yyreduce:
                                       posParam += 1;  
                                     } 
                                   } }
-#line 1903 "src/y.tab.c"
+#line 1922 "src/y.tab.c"
     break;
 
   case 64:
-#line 430 "src/practica4.y"
+#line 443 "src/practica4.y"
                                            {}
-#line 1909 "src/y.tab.c"
+#line 1928 "src/y.tab.c"
     break;
 
   case 76:
-#line 442 "src/practica4.y"
+#line 455 "src/practica4.y"
                              { yyval.tipo = yyvsp[0].tipo; }
-#line 1915 "src/y.tab.c"
+#line 1934 "src/y.tab.c"
     break;
 
   case 77:
-#line 443 "src/practica4.y"
+#line 456 "src/practica4.y"
                         { yyval.tipo = yyvsp[0].tipo; }
-#line 1921 "src/y.tab.c"
+#line 1940 "src/y.tab.c"
     break;
 
   case 80:
-#line 448 "src/practica4.y"
+#line 461 "src/practica4.y"
                 { tipoTmp = yyvsp[0].tipo; }
-#line 1927 "src/y.tab.c"
+#line 1946 "src/y.tab.c"
     break;
 
   case 81:
-#line 449 "src/practica4.y"
+#line 462 "src/practica4.y"
                         { tipoTmp = obtenerTipoLista(yyvsp[-1].tipo); }
-#line 1933 "src/y.tab.c"
+#line 1952 "src/y.tab.c"
     break;
 
 
-#line 1937 "src/y.tab.c"
+#line 1956 "src/y.tab.c"
 
       default: break;
     }
@@ -2165,7 +2184,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 451 "src/practica4.y"
+#line 464 "src/practica4.y"
 
 
 /** Aqui incluimos el fichero generado por el 'lex'
@@ -2231,4 +2250,24 @@ void mostrarErrorMaxParam(char* nomProced)
 void mostrarErrorProcedDesco(char* nomProced)
 {
   printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El procedimiento %s no ha sido declarado\n", linea_actual, nomProced);
+}
+
+void mostrarErrorTipoAsig(dtipo tipo)
+{
+  char *stringTipo;
+  switch(tipo) {
+    case entero:
+      stringTipo = "entero";
+    break;
+    case real:
+      stringTipo = "real";
+    break;
+    case booleano:
+      stringTipo = "booleano";
+    break;
+    case caracter:
+      stringTipo = "caracter";
+    break;
+  }
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: La expresion en la asignacion debe ser de tipo %s\n", linea_actual, stringTipo);
 }

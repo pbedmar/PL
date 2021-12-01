@@ -109,6 +109,8 @@ void mostrarErrorMaxParam(char* nomProced);
 
 void mostrarErrorProcedDesco(char* nomProced);
 
+void mostrarErrorTipoAsig(dtipo tipo);
+
 unsigned int procedMasProximo() {
   unsigned int pos = TOPE - 1;
 
@@ -176,7 +178,7 @@ void TS_VaciarENTRADAS() {
   }
 }
 
-int burcarProced(char* lexemaProced) {
+int buscarProced(char* lexemaProced) {
   int pos = TOPE-1;
   while(pos >= 0 && strcmp(TS[pos].nombre, lexemaProced) != 0) {
     pos -= 1;
@@ -206,6 +208,14 @@ int comprobarParam() {
       i += 1;
     }
   }
+}
+
+dtipo buscarTipoVariable(char* lexema){
+  int pos = TOPE-1;
+  while(pos >= 0 && strcmp(TS[pos].nombre, lexema) != 0) {
+    pos -= 1;
+  }
+  return TS[pos].tipoDato;
 }
 
 %}
@@ -362,8 +372,11 @@ sentencia   : bloque
             | llamada_proced
             | expresion MOV_LISTA PYC
             | DOLLAR expresion PYC ;
-
-sentencia_asignacion  : ID IGUAL expresion PYC ;
+                                                                      
+sentencia_asignacion  : ID IGUAL expresion PYC {if (buscarTipoVariable($1.lexema) != $3.tipo){
+                                                  mostrarErrorTipoAsig($3.tipo);
+                                                }
+                                              } ;
 
 sentencia_if    : SI PARIZQ expresion PARDER sentencia
                 | SI PARIZQ expresion PARDER sentencia
@@ -379,11 +392,11 @@ mensaje : expresion
         | CADENA ;
 
 inicio_llamada : ID PARIZQ { $$.lexema = $1.lexema ;
-                             posProced = burcarProced($1.lexema) ; 
+                             posProced = buscarProced($1.lexema) ; 
                              if(posProced == -1){ 
                                mostrarErrorProcedDesco($1.lexema); 
                              }
-                             posParam = 0; }
+                             posParam = 0; };
 
 llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if(posProced != -1) {
                                                                   if(posParam < TS[posProced].parametrosMin) {
@@ -513,4 +526,24 @@ void mostrarErrorMaxParam(char* nomProced)
 void mostrarErrorProcedDesco(char* nomProced)
 {
   printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El procedimiento %s no ha sido declarado\n", linea_actual, nomProced);
+}
+
+void mostrarErrorTipoAsig(dtipo tipo)
+{
+  char *stringTipo;
+  switch(tipo) {
+    case entero:
+      stringTipo = "entero";
+    break;
+    case real:
+      stringTipo = "real";
+    break;
+    case booleano:
+      stringTipo = "booleano";
+    break;
+    case caracter:
+      stringTipo = "caracter";
+    break;
+  }
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: La expresion en la asignacion debe ser de tipo %s\n", linea_actual, stringTipo);
 }
