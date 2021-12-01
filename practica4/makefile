@@ -4,10 +4,10 @@ BIN = bin
 SRC = src
 VERSION = c99
 
-all: analizadorSintactico
+all: analizadorSemantico
 
-analizadorSintactico: $(OBJ)/main.o $(OBJ)/y.tab.o
-	gcc -std=$(VERSION) $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/analizadorSintactico
+analizadorSemantico: $(OBJ)/main.o $(OBJ)/y.tab.o
+	gcc -std=$(VERSION) $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/analizadorSemantico
 
 $(OBJ)/y.tab.o: $(SRC)/y.tab.c
 	gcc -std=$(VERSION) -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
