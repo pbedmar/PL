@@ -10,6 +10,8 @@ int yylex();
  **
  ****************************************************************/
 
+#define _POSIX_C_SOURCE 200809L
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -83,6 +85,9 @@ typedef struct {
 unsigned int TOPE=0 ;
 unsigned int Subprog ;
 dtipo tipoTmp ;
+int posParam;
+int posProced;
+dtipo listaParam[50];
 
 entradaTS TS[MAX_TS] ;
 
@@ -94,6 +99,15 @@ typedef struct {
 
 #define YYSTYPE atributos
 
+void mostrarErrorTipoInco(int pos, dtipo tipo);
+
+void mostrarErrorOrden();
+
+void mostrarErrorMinParam(char* nomProced);
+
+void mostrarErrorMaxParam(char* nomProced);
+
+void mostrarErrorProcedDesco(char* nomProced);
 
 unsigned int procedMasProximo() {
   unsigned int pos = TOPE - 1;
@@ -106,29 +120,24 @@ unsigned int procedMasProximo() {
 }
 
 void TS_InsertaMARCA() {
-  entradaTS aux = {marca, NULL, desconocido, 0, 0};
-  unsigned int posProced;
+  entradaTS aux = {marca, "", desconocido, 0, 0};
+  unsigned int posEntradaProced;
   int numParam;
-  
-  switch(Subprog) {
-    case 0:                                         // no estamos en un subprograma
-      TS[TOPE] = aux;
-    break;
-    case 1:                                         // estamos en un subprograma
-      posProced = procedMasProximo();
-      numParam = TS[posProced].parametrosMax;
-      entradaTS tmp1 = TS[posProced+1];
-      TS[posProced+1] = aux;
-      for(int i = 0; i < numParam; ++i) {           // arrastramos los parámetros una posición hacia delante en
-        entradaTS tmp2 = TS[posProced + i + 2];     // la pila, para dejar espacio para MARCA. En este proceso, 
-        TS[posProced + i + 2] = tmp1;               // convertimos parámetro en variable.
-        TS[posProced + i + 2].entrada = variable;
-        tmp1 = tmp2;
-      }        
-    break;
-  }
 
-  TOPE = TOPE + 1;
+  TS[TOPE] = aux;
+  TOPE += 1;
+
+  if(Subprog == 1) {
+    posEntradaProced = procedMasProximo();
+    numParam = TS[posEntradaProced].parametrosMax;
+    
+    for(int i = 0; i < numParam; ++i) { 
+      int pos = posEntradaProced + i + 1;    
+      TS[TOPE] = TS[pos];
+      TS[TOPE].entrada = variable;   
+      TOPE += 1;
+    } 
+  }
 }
 
 void TS_InsertaPROCED(char* lexema) {
@@ -164,6 +173,38 @@ void TS_VaciarENTRADAS() {
   TOPE = TOPE - 1;
   while(TS[TOPE].entrada != marca) {
     TOPE = TOPE - 1;
+  }
+}
+
+int burcarProced(char* lexemaProced) {
+  int pos = TOPE-1;
+  while(pos >= 0 && strcmp(TS[pos].nombre, lexemaProced) != 0) {
+    pos -= 1;
+  }
+  return pos;
+}
+
+int comprobarParam() {
+  int i = 0;
+  while(i < posParam) {
+    dtipo tipo = TS[posProced + i + 1].tipoDato;
+
+    if(tipo != listaParam[i]) {
+      if(i < TS[posProced].parametrosMin) {
+        mostrarErrorTipoInco(i, tipo);
+        i += 1;
+      }
+      else {
+        i += 1;
+        if(i == TS[posProced].parametrosMax) {
+          mostrarErrorOrden();
+          i = posParam;
+        }
+      }
+    }
+    else {
+      i += 1;
+    }
   }
 }
 
@@ -337,13 +378,48 @@ mensajes    : mensajes COMA mensaje
 mensaje : expresion
         | CADENA ;
 
-inicio_llamada : ID PARIZQ { $$.lexema = $1.lexema ; pos_param = 0; }
+inicio_llamada : ID PARIZQ { $$.lexema = $1.lexema ;
+                             posProced = burcarProced($1.lexema) ; 
+                             if(posProced == -1){ 
+                               mostrarErrorProcedDesco($1.lexema); 
+                             }
+                             posParam = 0; }
 
-llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if pos_param > obtenerMin($1.lexema)}  //  P  P1  P2   pos = maxparam + pos_param + pos_proced :)
-                | inicio_llamada PARDER PYC ;
+llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if(posProced != -1) {
+                                                                  if(posParam < TS[posProced].parametrosMin) {
+                                                                    mostrarErrorMinParam($1.lexema);
+                                                                  }
+                                                                  else {
+                                                                    comprobarParam();
+                                                                  }
+                                                                } } 
+                | inicio_llamada PARDER PYC { if(posProced != -1) {
+                                                if(posParam < TS[posProced].parametrosMin) {
+                                                  mostrarErrorMinParam($1.lexema);
+                                                }
+                                                else {
+                                                  comprobarParam();
+                                                }
+                                              } };
 
-lista_expresiones   : lista_expresiones COMA expresion { pos_param -= 1; if (!comprobarParam($0.lexema, $3.tipo, pos_param)) error ; }
-                    | expresion { pos_param -= 1 };
+lista_expresiones   : lista_expresiones COMA expresion { if(posProced != -1) {
+                                                           if(posParam >= TS[posProced].parametrosMax) {
+                                                             mostrarErrorMaxParam(TS[posProced].nombre);
+                                                           }
+                                                           else {
+                                                             listaParam[posParam] = $3.tipo;
+                                                             posParam += 1;  
+                                                           }
+                                                         } }
+                    | expresion { if(posProced != -1) {
+                                    if(posParam >= TS[posProced].parametrosMax) {
+                                      mostrarErrorMaxParam(TS[posProced].nombre);
+                                    }
+                                    else {
+                                      listaParam[posParam] = $1.tipo;
+                                      posParam += 1;  
+                                    } 
+                                  } };
 
 expresion   : PARIZQ expresion PARDER
             | DECRE_PRE expresion
@@ -360,16 +436,16 @@ expresion   : PARIZQ expresion PARDER
             | expresion RELACION expresion
             | expresion OR expresion
             | expresion AND expresion
-            | expresion XOR expresion {if $1.tipo == $3.tipo ;$$.tipo = $1.tipo}
+            | expresion XOR expresion
             | expresion INCRE_PRE expresion ELEM_POSI expresion
-            | ID {$$.tipo = $1.tipo ; if !buscar($1.lexema) error ;}
+            | ID
             | agregado_lista { $$.tipo = $1.tipo; }
             | CONSTANTE { $$.tipo = $1.tipo; }
             | error ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
-tipos   : TIPOS { tipoTmp = $1.tipo; } //DUDA: Hemos cambiado tipo a atrib pq estamos en los identificadores no en constantes
+tipos   : TIPOS { tipoTmp = $1.tipo; }
         | LISTADE TIPOS { tipoTmp = obtenerTipoLista($1.tipo); } ;
 
 %%
@@ -382,6 +458,7 @@ tipos   : TIPOS { tipoTmp = $1.tipo; } //DUDA: Hemos cambiado tipo a atrib pq es
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_BLACK   "\x1b[0m"
 
 /** Se debe implementar la funcion yyerror. En este caso
@@ -396,4 +473,44 @@ void lexerror(const char *msg)
 void yyerror(const char *msg)
 {
   printf(ANSI_COLOR_YELLOW "[Error sintactico]" ANSI_COLOR_BLACK "(Linea %d) Error: %s\n", linea_actual, msg);
+}
+
+void mostrarErrorTipoInco(int pos, dtipo tipo)
+{
+  char *stringTipo;
+  switch(tipo) {
+    case entero:
+      stringTipo = "entero";
+    break;
+    case real:
+      stringTipo = "real";
+    break;
+    case booleano:
+      stringTipo = "booleano";
+    break;
+    case caracter:
+      stringTipo = "caracter";
+    break;
+  }
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El parámetro de la posición %d debe ser de tipo %s\n", linea_actual, pos, stringTipo);
+}
+
+void mostrarErrorOrden()
+{
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El orden de los parámetros no es correcto\n", linea_actual);
+}
+
+void mostrarErrorMinParam(char* nomProced)
+{
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El número de parámetros es menor a los necesarios en el procedimiento %s\n", linea_actual, nomProced);
+}
+
+void mostrarErrorMaxParam(char* nomProced)
+{
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El número de parámetros es mayor a los disponibles en el procedimiento %s\n", linea_actual, nomProced);
+}
+
+void mostrarErrorProcedDesco(char* nomProced)
+{
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El procedimiento %s no ha sido declarado\n", linea_actual, nomProced);
 }

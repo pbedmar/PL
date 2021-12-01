@@ -21,7 +21,7 @@ principal ()
                 flotante xf, x2 ;
             fin_var
 
-            procedimiento procedmientoC (booleano c1, entero c2) {
+            procedimiento procedimientoC (booleano c1, entero c2) {
                 inicio_var
                     flotante x1 ;
                 fin_var
