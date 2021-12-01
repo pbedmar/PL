@@ -218,6 +218,39 @@ dtipo buscarTipoVariable(char* lexema){
   return TS[pos].tipoDato;
 }
 
+//comprueba si un lexama ha sido declarado
+int declarado(char *lexema){
+  int i = 0;
+  
+  while(i < TOPE){
+    if (strcmp(TS[i].nombre,lexema) == 0){
+      //printf("Se ha encontrado el lexema %s\n",lexema);
+      return 1;
+    }
+      
+    i+=1;
+  }
+  //printf("No se ha encontrado el lexema %s\n",lexema);
+  return 0;
+  
+}
+
+int enAmbito(char *lexema){
+  int i = TOPE -1;
+
+  while((strcmp(TS[i].nombre,"") != 0) && i > 0){
+    if((strcmp(TS[i].nombre,lexema) == 0))
+      return 1;
+    i -= 1;
+
+  }
+
+  
+  return 0;
+}
+
+
+
 %}
 
 /** Para uso de mensajes de error sintactivo con BISON.
@@ -342,10 +375,23 @@ variables_locales   : variables_locales cuerpo_declar_variables
 cuerpo_declar_variables : tipos declar_variables PYC 
                         | error ;
 
-declar_variables    : ID { TS_InsertaVAR($1.lexema, tipoTmp); }
-                    | ID IGUAL expresion { TS_InsertaVAR($1.lexema, tipoTmp); }
-                    | declar_variables COMA ID { TS_InsertaVAR($3.lexema, tipoTmp); }
-                    | declar_variables COMA ID IGUAL expresion { TS_InsertaVAR($3.lexema, tipoTmp); } ;
+declar_variables    : ID { 
+                          if(enAmbito($1.lexema) == 1)
+                            errorYaDeclarado($1.lexema);
+                          TS_InsertaVAR($1.lexema, tipoTmp); }
+                    | ID IGUAL expresion { 
+                      if(enAmbito($1.lexema) == 1)
+                            errorYaDeclarado($1.lexema);
+                      
+                      TS_InsertaVAR($1.lexema, tipoTmp); }
+                    | declar_variables COMA ID { 
+                      if(enAmbito($3.lexema) == 1)
+                            errorYaDeclarado($3.lexema);
+                      TS_InsertaVAR($3.lexema, tipoTmp); }
+                    | declar_variables COMA ID IGUAL expresion { 
+                      if(enAmbito($3.lexema) == 1)
+                            errorYaDeclarado($3.lexema);
+                      TS_InsertaVAR($3.lexema, tipoTmp); } ;
 
 declar_procedimientos : declar_procedimientos declar_proced
                       | declar_proced ;
@@ -376,6 +422,8 @@ sentencia   : bloque
 sentencia_asignacion  : ID IGUAL expresion PYC {if (buscarTipoVariable($1.lexema) != $3.tipo){
                                                   mostrarErrorTipoAsig($3.tipo);
                                                 }
+                                                if (declarado($1.lexema) == 0) 
+                                                  errorNoDeclarado($1.lexema);
                                               } ;
 
 sentencia_if    : SI PARIZQ expresion PARDER sentencia
@@ -451,7 +499,8 @@ expresion   : PARIZQ expresion PARDER
             | expresion AND expresion
             | expresion XOR expresion
             | expresion INCRE_PRE expresion ELEM_POSI expresion
-            | ID
+            | ID {if (declarado($1.lexema) == 0) 
+                        errorNoDeclarado($1.lexema);}
             | agregado_lista { $$.tipo = $1.tipo; }
             | CONSTANTE { $$.tipo = $1.tipo; }
             | error ;
@@ -546,4 +595,12 @@ void mostrarErrorTipoAsig(dtipo tipo)
     break;
   }
   printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: La expresion en la asignacion debe ser de tipo %s\n", linea_actual, stringTipo);
+}
+
+void errorNoDeclarado(char* lexema){
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: La variable %s no ha sido declarada\n", linea_actual, lexema);
+}
+
+void errorYaDeclarado(char* lexema){
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: La variable %s ya ha sido declarada\n", linea_actual, lexema);
 }
