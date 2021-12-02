@@ -15,6 +15,7 @@ int yylex();
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 /** La siguiente declaracion permite que 'yyerror' se puede invocar desde el
  ** fuente de lex (practica3.l)
@@ -110,6 +111,14 @@ void mostrarErrorMaxParam(char* nomProced);
 void mostrarErrorProcedDesco(char* nomProced);
 
 void mostrarErrorTipoAsig(dtipo tipo);
+
+void errorNoDeclarado(char* lexema);
+
+void errorYaDeclarado(char* lexema);
+
+void errorTipoOperador(char* lexema);
+
+void errorTipoOperador2(char* lexema, char* lexema2);
 
 unsigned int procedMasProximo() {
   unsigned int pos = TOPE - 1;
@@ -249,6 +258,29 @@ int enAmbito(char *lexema){
   return 0;
 }
 
+bool esListaNumerica(dtipo tipo){
+  return tipo == lista_entero || tipo == lista_real;
+}
+
+bool esLista(dtipo tipo){
+  return esListaNumerica(tipo) || tipo == lista_caracter || tipo == lista_booleano;
+}
+
+bool esNumerico(dtipo tipo){
+  return tipo == entero || tipo == real;
+}
+
+dtipo listaATipo(dtipo tipo) {
+  if (tipo == lista_entero) {
+    return entero;
+  } else if (tipo == lista_real) {
+    return real;
+  } else if (tipo == lista_booleano) {
+    return booleano;
+  } else if (tipo == lista_caracter) {
+    return caracter;
+  }
+}
 
 
 %}
@@ -416,8 +448,8 @@ sentencia   : bloque
             | LEER lista_identificadores PYC
             | IMPRIMIR mensajes PYC
             | llamada_proced
-            | expresion MOV_LISTA PYC
-            | DOLLAR expresion PYC ;
+            | expresion MOV_LISTA PYC {if (esLista($1.tipo)) { $$.tipo = $1.tipo; } else {errorTipoOperador($2.lexema); }}
+            | DOLLAR expresion PYC {if (esLista($2.tipo)) { $$.tipo = $2.tipo; } else {errorTipoOperador($1.lexema); }};
                                                                       
 sentencia_asignacion  : ID IGUAL expresion PYC {if (buscarTipoVariable($1.lexema) != $3.tipo){
                                                   mostrarErrorTipoAsig($3.tipo);
@@ -482,23 +514,165 @@ lista_expresiones   : lista_expresiones COMA expresion { if(posProced != -1) {
                                     } 
                                   } };
 
-expresion   : PARIZQ expresion PARDER
-            | DECRE_PRE expresion
-            | INCRE_PRE expresion
-            | NOT expresion
-            | UNARIO_PRE_LISTA expresion
-            | ADITIVOS expresion %prec UNARIOS
-            | expresion ADITIVOS expresion {}
-            | expresion DECRE_PRE expresion
-            | expresion ELEM_POSI expresion %prec ELEM_POSI_BINA
-            | expresion MULTIPLICATIVOS expresion
-            | expresion POTENCIAS expresion
-            | expresion IGUALDAD expresion
-            | expresion RELACION expresion
-            | expresion OR expresion
-            | expresion AND expresion
-            | expresion XOR expresion
-            | expresion INCRE_PRE expresion ELEM_POSI expresion
+expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo}
+            | DECRE_PRE expresion {
+              if (esNumerico($2.tipo)){
+                $$.tipo = $2.tipo;
+              } else {
+                errorTipoOperador($1.lexema);
+              }
+            }
+            | INCRE_PRE expresion {
+              if (esNumerico($2.tipo)){
+                $$.tipo = $2.tipo;
+              } else {
+                errorTipoOperador($1.lexema);
+              }
+            } 
+            | NOT expresion {
+              if ($2.tipo == booleano){
+                $$.tipo = $2.tipo; //TODO: Se debe contemplar la negación de una lista de booleanos?
+              } else {
+                errorTipoOperador($1.lexema);
+              } 
+            }
+            | UNARIO_PRE_LISTA expresion {
+              if (esLista($2.tipo)) {
+                if ($1.atrib == 0) {
+                  $$.tipo = entero;
+                } else if ($1.atrib == 1) {
+                  $$.tipo = listaATipo($2.tipo);
+                }
+              } else {
+                errorTipoOperador($1.lexema);
+              }
+            }
+            | ADITIVOS expresion %prec UNARIOS {
+              if (esNumerico($2.tipo)){
+                $$.tipo = $2.tipo;
+              } else {
+                errorTipoOperador($1.lexema);
+              }
+            }
+            | expresion ADITIVOS expresion {
+              if ($1.tipo == entero && $3.tipo == entero) {
+                $$.tipo = entero;
+              } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
+                $$.tipo = real;
+              } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
+                $$.tipo = real;
+              } else if ($1.tipo == lista_entero && $3.tipo == entero) {
+                $$.tipo = lista_entero;
+              } else if ($1.tipo == lista_real && $3.tipo == real) {
+                $$.tipo = lista_real;
+              } else if ($1.tipo == entero && $3.tipo == lista_entero && $2.atrib == 0) {
+                $$.tipo = lista_entero;
+              } else if ($1.tipo == real && $3.tipo == lista_real && $2.atrib == 0) {
+                $$.tipo = lista_real;
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion DECRE_PRE expresion {
+              if (esLista($1.tipo) && $3.tipo == entero) {
+                $$.tipo = $1.tipo;
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion ELEM_POSI expresion %prec ELEM_POSI_BINA {
+              if(esLista($1.tipo) && $3.tipo == entero) {
+                $$.tipo = $1.tipo;
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion MULTIPLICATIVOS expresion {
+              if ($1.tipo == entero && $3.tipo == entero) {
+                $$.tipo = entero;
+              } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
+                $$.tipo = real;
+              } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
+                $$.tipo = real;
+              } else if ($1.tipo == lista_entero && $3.tipo == entero) {
+                $$.tipo = lista_entero;
+              } else if ($1.tipo == lista_real && $3.tipo == real) {
+                $$.tipo = lista_real;
+              } else if ($1.tipo == entero && $3.tipo == lista_entero && $2.atrib == 0) {
+                $$.tipo = lista_entero;
+              } else if ($1.tipo == real && $3.tipo == lista_real && $2.atrib == 0) {
+                $$.tipo = lista_real;
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion POTENCIAS expresion {
+              if ($1.tipo == entero && $3.tipo == entero) {
+                $$.tipo = entero;
+              } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
+                $$.tipo = real;
+              } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
+                $$.tipo = real;
+              } else if (esLista($1.tipo) && esLista($3.tipo) && $1.tipo == $3.tipo) {
+                $$.tipo = $1.tipo;
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion IGUALDAD expresion {
+              if (!esLista($1.tipo) && !esLista($3.tipo)) {
+                if ($1.tipo == $3.tipo) {
+                  $$.tipo = booleano;
+                } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
+                  $$.tipo = booleano;
+                } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
+                  $$.tipo = booleano;
+                } else {
+                  errorTipoOperador($2.lexema);
+                }
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion RELACION expresion {
+              if ($1.tipo == entero && $3.tipo == entero) {
+                $$.tipo = booleano;
+              } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
+                $$.tipo = booleano;
+              } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
+                $$.tipo = booleano;
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion OR expresion {
+              if ($1.tipo == booleano && $3.tipo == booleano) {
+                $$.tipo = booleano;
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion AND expresion {
+              if ($1.tipo == booleano && $3.tipo == booleano) {
+                $$.tipo = booleano;
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion XOR expresion {
+              if ($1.tipo == booleano && $3.tipo == booleano) {
+                $$.tipo = booleano;
+              } else {
+                errorTipoOperador($2.lexema);
+              }
+            }
+            | expresion INCRE_PRE expresion ELEM_POSI expresion {
+              if (esLista($1.tipo) && $3.tipo == listaATipo($1.tipo) && $5.tipo == entero) {
+                $$.tipo = $1.tipo;
+              } else {
+                errorTipoOperador2($2.lexema, $4.lexema);
+              }
+            }
             | ID {if (declarado($1.lexema) == 0) 
                         errorNoDeclarado($1.lexema);}
             | agregado_lista { $$.tipo = $1.tipo; }
@@ -603,4 +777,12 @@ void errorNoDeclarado(char* lexema){
 
 void errorYaDeclarado(char* lexema){
   printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: La variable %s ya ha sido declarada\n", linea_actual, lexema);
+}
+
+void errorTipoOperador(char* lexema) {
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El operador %s no admite variables del tipo recibido\n", linea_actual, lexema);
+}
+
+void errorTipoOperador2(char* lexema, char* lexema2) {
+  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El operador %s %s no admite variables del tipo recibido\n", linea_actual, lexema, lexema2);
 }

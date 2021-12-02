@@ -49,31 +49,31 @@ constante_caracter '[^\"']'
 "hacer" { yylval.atrib = 0 ; return HACER; }
 "leer" { yylval.atrib = 0 ; return LEER; }
 "imprimir" { yylval.atrib = 0 ; return IMPRIMIR; }
-"<<" { yylval.atrib = 0 ; return MOV_LISTA; }
-">>" { yylval.atrib = 1 ; return MOV_LISTA; }
-"$" { yylval.atrib = 0 ; return DOLLAR; }
+"<<" { yylval.atrib = 0 ; yylval.lexema = "<<" ; return MOV_LISTA; }
+">>" { yylval.atrib = 1 ; yylval.lexema = ">>" ; return MOV_LISTA; }
+"$" { yylval.atrib = 0 ; yylval.lexema = "$" ; return DOLLAR; }
 ";" { yylval.atrib = 0 ; return PYC; }
-"++" { yylval.atrib = 0 ; return INCRE_PRE; }
-"--" { yylval.atrib = 0 ; return DECRE_PRE; }
-"no" { yylval.atrib = 0 ; return NOT; }
-"#" { yylval.atrib = 0 ; return UNARIO_PRE_LISTA; }
-"?" { yylval.atrib = 0 ; return UNARIO_PRE_LISTA; }
-"+" { yylval.atrib = 0 ; return ADITIVOS; }
-"-" { yylval.atrib = 1 ; return ADITIVOS; }
-"*" { yylval.atrib = 0 ; return MULTIPLICATIVOS; }
-"/" { yylval.atrib = 1 ; return MULTIPLICATIVOS; }
-"**" { yylval.atrib = 0 ; return POTENCIAS; }
-"%" { yylval.atrib = 2 ; return MULTIPLICATIVOS; }
-"==" { yylval.atrib = 0 ; return IGUALDAD; }
-"!=" { yylval.atrib = 1 ; return IGUALDAD; }
-"<" { yylval.atrib = 0 ; return RELACION; }
-"<=" { yylval.atrib = 1 ; return RELACION; }
-">" { yylval.atrib = 2 ; return RELACION; }
-">=" { yylval.atrib = 3 ; return RELACION; }
-"y" { yylval.atrib = 0 ; return AND; }
-"o" { yylval.atrib = 0 ; return OR; }
-"o_exclusiva" { yylval.atrib = 0 ; return XOR; }
-"@" { yylval.atrib = 0 ; return ELEM_POSI; }
+"++" { yylval.atrib = 0 ; yylval.lexema = "++" ; return INCRE_PRE; }
+"--" { yylval.atrib = 0 ; yylval.lexema = "--" ; return DECRE_PRE; }
+"no" { yylval.atrib = 0 ; yylval.lexema = "no" ; return NOT; }
+"#" { yylval.atrib = 0 ; yylval.lexema = "#" ; return UNARIO_PRE_LISTA; }
+"?" { yylval.atrib = 0 ; yylval.lexema = "?" ; return UNARIO_PRE_LISTA; }
+"+" { yylval.atrib = 0 ; yylval.lexema = "+" ; return ADITIVOS; }
+"-" { yylval.atrib = 1 ; yylval.lexema = "-" ; return ADITIVOS; }
+"*" { yylval.atrib = 0 ; yylval.lexema = "*" ; return MULTIPLICATIVOS; }
+"/" { yylval.atrib = 1 ; yylval.lexema = "/" ; return MULTIPLICATIVOS; }
+"**" { yylval.atrib = 0 ; yylval.lexema = "**" ; return POTENCIAS; }
+"%" { yylval.atrib = 2 ; yylval.lexema = "%" ; return MULTIPLICATIVOS; }
+"==" { yylval.atrib = 0 ; yylval.lexema = "==" ; return IGUALDAD; }
+"!=" { yylval.atrib = 1 ; yylval.lexema = "!=" ; return IGUALDAD; }
+"<" { yylval.atrib = 0 ; yylval.lexema = "<" ; return RELACION; }
+"<=" { yylval.atrib = 1 ; yylval.lexema = "<=" ; return RELACION; }
+">" { yylval.atrib = 2 ; yylval.lexema = ">" ; return RELACION; }
+">=" { yylval.atrib = 3 ; yylval.lexema = ">=" ; return RELACION; }
+"y" { yylval.atrib = 0 ; yylval.lexema = "y" ; return AND; }
+"o" { yylval.atrib = 0 ; yylval.lexema = "o" ; return OR; }
+"o_exclusiva" { yylval.atrib = 0 ; yylval.lexema = "o_exclusiva" ; return XOR; }
+"@" { yylval.atrib = 0 ; yylval.lexema = "@" ; return ELEM_POSI; }
 "entero"    { yylval.atrib = 0 ; yylval.tipo = entero ; return TIPOS; }
 "flotante"  { yylval.atrib = 1 ; yylval.tipo = real ; return TIPOS; }
 "booleano"  { yylval.atrib = 2 ; yylval.tipo = booleano ; return TIPOS; }
