@@ -80,7 +80,7 @@ principal ()
     pc = pc++('#')@(#pe) ;
 
     si ((pe++(20)@(#pe))@(#pe-1) == 20) {
-        ve = pe--(#p-1) ;
+        ve = pe--(#pe-1) ;
     }
     en otro caso {
         pe = pe * pe2 ;

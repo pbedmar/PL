@@ -195,7 +195,7 @@ int buscarProced(char* lexemaProced) {
   return pos;
 }
 
-int comprobarParam() {
+void comprobarParam() {
   int i = 0;
   while(i < posParam) {
     dtipo tipo = TS[posProced + i + 1].tipoDato;
@@ -221,7 +221,7 @@ int comprobarParam() {
 
 dtipo buscarTipoVariable(char* lexema){
   int pos = TOPE-1;
-  while(pos >= 0 && strcmp(TS[pos].nombre, lexema) != 0) {
+  while(pos > 0 && strcmp(TS[pos].nombre, lexema) != 0) {
     pos -= 1;
   }
   return TS[pos].tipoDato;
@@ -410,20 +410,23 @@ cuerpo_declar_variables : tipos declar_variables PYC
 declar_variables    : ID { 
                           if(enAmbito($1.lexema) == 1)
                             errorYaDeclarado($1.lexema);
-                          TS_InsertaVAR($1.lexema, tipoTmp); }
+                          else
+                            TS_InsertaVAR($1.lexema, tipoTmp); }
                     | ID IGUAL expresion { 
                       if(enAmbito($1.lexema) == 1)
                             errorYaDeclarado($1.lexema);
-                      
-                      TS_InsertaVAR($1.lexema, tipoTmp); }
+                      else
+                        TS_InsertaVAR($1.lexema, tipoTmp); }
                     | declar_variables COMA ID { 
                       if(enAmbito($3.lexema) == 1)
                             errorYaDeclarado($3.lexema);
-                      TS_InsertaVAR($3.lexema, tipoTmp); }
+                      else
+                        TS_InsertaVAR($3.lexema, tipoTmp); }
                     | declar_variables COMA ID IGUAL expresion { 
                       if(enAmbito($3.lexema) == 1)
                             errorYaDeclarado($3.lexema);
-                      TS_InsertaVAR($3.lexema, tipoTmp); } ;
+                      else
+                        TS_InsertaVAR($3.lexema, tipoTmp); } ;
 
 declar_procedimientos : declar_procedimientos declar_proced
                       | declar_proced ;
@@ -523,7 +526,7 @@ lista_expresiones   : lista_expresiones COMA expresion { if(posProced != -1) {
                                       posParam += 1;  
                                     } 
                                   } };
-
+// TODO:
 expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | DECRE_PRE expresion {
               if (esNumerico($2.tipo)){
