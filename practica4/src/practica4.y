@@ -224,6 +224,7 @@ dtipo buscarTipoVariable(char* lexema){
   while(pos > 0 && strcmp(TS[pos].nombre, lexema) != 0) {
     pos -= 1;
   }
+
   return TS[pos].tipoDato;
 }
 
@@ -526,7 +527,7 @@ lista_expresiones   : lista_expresiones COMA expresion { if(posProced != -1) {
                                       posParam += 1;  
                                     } 
                                   } };
-// TODO:
+
 expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | DECRE_PRE expresion {
               if (esNumerico($2.tipo)){
@@ -783,6 +784,24 @@ void mostrarErrorTipoAsig(dtipo tipo)
     break;
     case caracter:
       stringTipo = "caracter";
+    break;
+    case lista_entero:
+      stringTipo = "lista_entero";
+    break;
+    case lista_real:
+      stringTipo = "lista_real";
+    break;
+    case lista_caracter:
+      stringTipo = "lista_caracter";
+    break;
+    case lista_booleano:
+      stringTipo = "lista_booleano";
+    break;
+    case desconocido:
+      stringTipo = "desconocido";
+    break;
+    case no_asignado:
+      stringTipo = "listno_asignadoa_booleano";
     break;
   }
   printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: La expresion en la asignacion debe ser de tipo %s\n", linea_actual, stringTipo);
