@@ -739,6 +739,24 @@ void mostrarErrorTipoInco(int pos, dtipo tipo)
     case caracter:
       stringTipo = "caracter";
     break;
+    case lista_entero:
+      stringTipo = "lista_entero";
+    break;
+    case lista_real:
+      stringTipo = "lista_real";
+    break;
+    case lista_caracter:
+      stringTipo = "lista_caracter";
+    break;
+    case lista_booleano:
+      stringTipo = "lista_booleano";
+    break;
+    case desconocido:
+      stringTipo = "desconocido";
+    break;
+    case no_asignado:
+      stringTipo = "no_asignado";
+    break;
   }
   printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El parámetro de la posición %d debe ser de tipo %s\n", linea_actual, pos, stringTipo);
 }
@@ -795,7 +813,7 @@ void mostrarErrorTipoAsig(dtipo tipo)
       stringTipo = "desconocido";
     break;
     case no_asignado:
-      stringTipo = "listno_asignadoa_booleano";
+      stringTipo = "no_asignado";
     break;
   }
   printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: La expresion en la asignacion debe ser de tipo %s\n", linea_actual, stringTipo);
