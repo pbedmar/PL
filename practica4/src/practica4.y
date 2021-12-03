@@ -283,6 +283,25 @@ dtipo listaATipo(dtipo tipo) {
   }
 }
 
+int tipoANumero(dtipo tipo) {
+  switch (tipo) {
+    case entero:
+      return 0;
+    break;
+    case real:
+      return 1;
+    break;
+    case lista_entero:
+      return 2;
+    break;
+    case lista_real:
+      return 3;
+    break;
+    default:
+      return 99;
+  }
+}
+
 
 %}
 
@@ -563,22 +582,30 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               }
             }
             | expresion ADITIVOS expresion {
-              if ($1.tipo == entero && $3.tipo == entero) {
-                $$.tipo = entero;
-              } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
-                $$.tipo = real;
-              } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
-                $$.tipo = real;
-              } else if ($1.tipo == lista_entero && $3.tipo == entero) {
-                $$.tipo = lista_entero;
-              } else if ($1.tipo == lista_real && $3.tipo == real) {
-                $$.tipo = lista_real;
-              } else if ($1.tipo == entero && $3.tipo == lista_entero && $2.atrib == 0) {
-                $$.tipo = lista_entero;
-              } else if ($1.tipo == real && $3.tipo == lista_real && $2.atrib == 0) {
-                $$.tipo = lista_real;
-              } else {
+              int tipo1 = tipoANumero($1.tipo);
+              int tipo2 = tipoANumero($3.tipo);
+              int sumaTipos = tipo1 + tipo2;
+
+              if (tipo1 == 99 || tipo2 == 99) {
                 errorTipoOperador($2.lexema);
+              } else if (sumaTipos <= 8 && sumaTipos >= 6) {
+                errorTipoOperador($2.lexema);
+              } else {
+                if (sumaTipos == 0) {
+                  $$.tipo = entero;
+                } else if (sumaTipos==1 || sumaTipos==2) {
+                  $$.tipo = real;
+                } else {
+                  if (tipo1 >= 3 && tipo2 <=1) {
+                    if (sumaTipos==3) {
+                      $$.tipo = lista_entero;
+                    } else {
+                      $$.tipo = lista_real;
+                    }
+                  } else {
+                    errorTipoOperador($2.lexema);
+                  }
+                }
               }
             }
             | expresion DECRE_PRE expresion {
@@ -590,28 +617,43 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             }
             | expresion ELEM_POSI expresion %prec ELEM_POSI_BINA {
               if(esLista($1.tipo) && $3.tipo == entero) {
-                $$.tipo = $1.tipo;
+                $$.tipo = listaATipo($1.tipo);
               } else {
                 errorTipoOperador($2.lexema);
+                printf("kk: %i %i",$1.tipo,$3.tipo);
               }
             }
             | expresion MULTIPLICATIVOS expresion {
-              if ($1.tipo == entero && $3.tipo == entero) {
-                $$.tipo = entero;
-              } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
-                $$.tipo = real;
-              } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
-                $$.tipo = real;
-              } else if ($1.tipo == lista_entero && $3.tipo == entero) {
-                $$.tipo = lista_entero;
-              } else if ($1.tipo == lista_real && $3.tipo == real) {
-                $$.tipo = lista_real;
-              } else if ($1.tipo == entero && $3.tipo == lista_entero && $2.atrib == 0) {
-                $$.tipo = lista_entero;
-              } else if ($1.tipo == real && $3.tipo == lista_real && $2.atrib == 0) {
-                $$.tipo = lista_real;
-              } else {
+              int tipo1 = tipoANumero($1.tipo);
+              int tipo2 = tipoANumero($3.tipo);
+              int sumaTipos = tipo1 + tipo2;
+
+              if (tipo1 == 99 || tipo2 == 99) {
                 errorTipoOperador($2.lexema);
+              } else if (sumaTipos <= 8 && sumaTipos >= 6) {
+                errorTipoOperador($2.lexema);
+              } else {
+                if ($2.atrib == 1) {
+                  if (sumaTipos <=2) {
+                    $$.tipo = real;
+                  } else {
+                    if (tipo1 >= 3 && tipo2 <=1){
+                      $$.tipo = lista_real;
+                    } else {
+                      errorTipoOperador($2.lexema);
+                    }
+                  }
+                } else {
+                  if (sumaTipos == 0) {
+                    $$.tipo = entero;
+                  } else if (sumaTipos==1 || sumaTipos==2) {
+                    $$.tipo = real;
+                  } else if (sumaTipos==3) {
+                    $$.tipo = lista_entero;
+                  } else {
+                    $$.tipo = lista_real;
+                  }
+                }
               }
             }
             | expresion POTENCIAS expresion {
