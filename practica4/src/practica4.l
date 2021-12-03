@@ -57,7 +57,7 @@ constante_caracter '[^\"']'
 "--" { yylval.atrib = 0 ; yylval.lexema = "--" ; return DECRE_PRE; }
 "no" { yylval.atrib = 0 ; yylval.lexema = "no" ; return NOT; }
 "#" { yylval.atrib = 0 ; yylval.lexema = "#" ; return UNARIO_PRE_LISTA; }
-"?" { yylval.atrib = 0 ; yylval.lexema = "?" ; return UNARIO_PRE_LISTA; }
+"?" { yylval.atrib = 1 ; yylval.lexema = "?" ; return UNARIO_PRE_LISTA; }
 "+" { yylval.atrib = 0 ; yylval.lexema = "+" ; return ADITIVOS; }
 "-" { yylval.atrib = 1 ; yylval.lexema = "-" ; return ADITIVOS; }
 "*" { yylval.atrib = 0 ; yylval.lexema = "*" ; return MULTIPLICATIVOS; }
