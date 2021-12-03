@@ -464,12 +464,6 @@ sentencia_asignacion  : ID IGUAL expresion PYC {
                                                     mostrarErrorTipoAsig($3.tipo);
                                                   }
                                                 }
-  
-                                                if (buscarTipoVariable($1.lexema) != $3.tipo){
-                                                    mostrarErrorTipoAsig($3.tipo);
-                                                  }
-                                                  if (declarado($1.lexema) == 0) 
-                                                    errorNoDeclarado($1.lexema);
                                                 } ;
 
 sentencia_if    : SI PARIZQ expresion PARDER sentencia
