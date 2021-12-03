@@ -451,12 +451,22 @@ sentencia   : bloque
             | expresion MOV_LISTA PYC {if (esLista($1.tipo)) { $$.tipo = $1.tipo; } else {errorTipoOperador($2.lexema); }}
             | DOLLAR expresion PYC {if (esLista($2.tipo)) { $$.tipo = $2.tipo; } else {errorTipoOperador($1.lexema); }};
                                                                       
-sentencia_asignacion  : ID IGUAL expresion PYC {if (buscarTipoVariable($1.lexema) != $3.tipo){
-                                                  mostrarErrorTipoAsig($3.tipo);
-                                                }
-                                                if (declarado($1.lexema) == 0) 
+sentencia_asignacion  : ID IGUAL expresion PYC {
+                                                if (declarado($1.lexema) == 0) {
                                                   errorNoDeclarado($1.lexema);
-                                              } ;
+                                                }
+                                                else {
+                                                  if (buscarTipoVariable($1.lexema) != $3.tipo){
+                                                    mostrarErrorTipoAsig($3.tipo);
+                                                  }
+                                                }
+  
+                                                if (buscarTipoVariable($1.lexema) != $3.tipo){
+                                                    mostrarErrorTipoAsig($3.tipo);
+                                                  }
+                                                  if (declarado($1.lexema) == 0) 
+                                                    errorNoDeclarado($1.lexema);
+                                                } ;
 
 sentencia_if    : SI PARIZQ expresion PARDER sentencia
                 | SI PARIZQ expresion PARDER sentencia
@@ -531,7 +541,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo}
             } 
             | NOT expresion {
               if ($2.tipo == booleano){
-                $$.tipo = $2.tipo; //TODO: Se debe contemplar la negación de una lista de booleanos?
+                $$.tipo = $2.tipo;
               } else {
                 errorTipoOperador($1.lexema);
               } 
@@ -673,8 +683,12 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo}
                 errorTipoOperador2($2.lexema, $4.lexema);
               }
             }
-            | ID {if (declarado($1.lexema) == 0) 
-                        errorNoDeclarado($1.lexema);}
+            | ID {if (declarado($1.lexema) == 0) {
+                    errorNoDeclarado($1.lexema);
+                  }
+                  else {
+                    $$.tipo = buscarTipoVariable($1.lexema);
+                  }}
             | agregado_lista { $$.tipo = $1.tipo; }
             | CONSTANTE { $$.tipo = $1.tipo; }
             | error ;
@@ -682,7 +696,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo}
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
 
 tipos   : TIPOS { tipoTmp = $1.tipo; }
-        | LISTADE TIPOS { tipoTmp = obtenerTipoLista($1.tipo); } ;
+        | LISTADE TIPOS { tipoTmp = obtenerTipoLista($2.tipo); } ;
 
 %%
 
