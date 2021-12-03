@@ -14,7 +14,7 @@
   #include <string.h>
   #include <stdio.h>
 %}
-<
+
 letra [a-z]|[A-Z]
 digitoSC [1-9]
 digitoCC [0-9]
