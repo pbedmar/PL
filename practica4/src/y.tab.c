@@ -2081,7 +2081,7 @@ yyreduce:
 
   case 58:
 #line 527 "src/practica4.y"
-    {(yyval).tipo = (yyvsp[(2) - (3)]).tipo;}
+    {(yyval).tipo = (yyvsp[(2) - (3)]).tipo;;}
     break;
 
   case 59:
@@ -2649,9 +2649,9 @@ void errorYaDeclarado(char* lexema){
 }
 
 void errorTipoOperador(char* lexema) {
-  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El operador %s no admite variables del tipo recibido\n", linea_actual, lexema);
+  //printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El operador %s no admite variables del tipo recibido\n", linea_actual, lexema);
 }
 
 void errorTipoOperador2(char* lexema, char* lexema2) {
-  printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El operador %s %s no admite variables del tipo recibido\n", linea_actual, lexema, lexema2);
+  //printf(ANSI_COLOR_MAGENTA "[Error semantico]" ANSI_COLOR_BLACK "(Linea %d) Error: El operador %s %s no admite variables del tipo recibido\n", linea_actual, lexema, lexema2);
 }
