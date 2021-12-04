@@ -522,7 +522,10 @@ llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if(posProced != 
                                                 }
                                               } };
 
-lista_expresiones   : lista_expresiones COMA expresion { if(posProced != -1) {
+lista_expresiones   : lista_expresiones COMA expresion { if($$.tipo != $3.tipo) {
+                                                           $$.tipo = desconocido;
+                                                         }
+                                                         if(posProced != -1) {
                                                            if(posParam >= TS[posProced].parametrosMax) {
                                                              mostrarErrorMaxParam(TS[posProced].nombre);
                                                            }
@@ -531,7 +534,8 @@ lista_expresiones   : lista_expresiones COMA expresion { if(posProced != -1) {
                                                              posParam += 1;  
                                                            }
                                                          } }
-                    | expresion { if(posProced != -1) {
+                    | expresion { $$.tipo = $1.tipo;
+                                  if(posProced != -1) {
                                     if(posParam >= TS[posProced].parametrosMax) {
                                       mostrarErrorMaxParam(TS[posProced].nombre);
                                     }
@@ -733,7 +737,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | CONSTANTE { $$.tipo = $1.tipo; }
             | error ;
 
-agregado_lista  : CORCHIZQ lista_expresiones CORCHDER ;
+agregado_lista  : CORCHIZQ lista_expresiones CORCHDER { $$.tipo = $2.tipo; };
 
 tipos   : TIPOS { tipoTmp = $1.tipo; }
         | LISTADE TIPOS { tipoTmp = obtenerTipoLista($2.tipo); } ;
