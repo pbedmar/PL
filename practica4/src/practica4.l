@@ -27,32 +27,32 @@ constante_booleano "verdadero"|"falso"
 constante_caracter '[^\"']'
 %%
 
-"principal" { yylval.atrib = 0 ; return PRINCIPAL; }
-"{"  { yylval.atrib = 0 ; return LLAVEIZQ; }
-"}"  { yylval.atrib = 0 ; return LLAVEDER; }
-","  { yylval.atrib = 0 ; return COMA; }
-"lista de" { yylval.atrib = 0 ; return LISTADE; }
-"procedimiento"  { yylval.atrib = 0 ; return PROCEDIMIENTO; }
-")"  { yylval.atrib = 0 ; return PARDER; }
-"("  { yylval.atrib = 0 ; return PARIZQ; }
-"["  { yylval.atrib = 0 ; return CORCHIZQ; }
-"]"  { yylval.atrib = 0 ; return CORCHDER; }
-"="  { yylval.atrib = 0 ; return IGUAL; } 
-"inicio_var" { yylval.atrib = 0 ; return INICIOVAR; }
-"fin_var" { yylval.atrib = 0 ; return FINVAR; }
-"si" { yylval.atrib = 0 ; return SI; }
-"mientras" { yylval.atrib = 0 ; return MIENTRAS; }
-"en otro caso" { yylval.atrib = 0 ; return OTROCASO; }
-"para" { yylval.atrib = 0 ; return PARA; }
-"hasta" { yylval.atrib = 0 ; return HASTA; }
-"iterando" { yylval.atrib = 0 ; return ITERANDO; }
-"hacer" { yylval.atrib = 0 ; return HACER; }
-"leer" { yylval.atrib = 0 ; return LEER; }
-"imprimir" { yylval.atrib = 0 ; return IMPRIMIR; }
+"principal" { return PRINCIPAL; }
+"{"  { return LLAVEIZQ; }
+"}"  { return LLAVEDER; }
+","  { return COMA; }
+"lista de" { return LISTADE; }
+"procedimiento"  { return PROCEDIMIENTO; }
+")"  { return PARDER; }
+"("  { return PARIZQ; }
+"["  { return CORCHIZQ; }
+"]"  { return CORCHDER; }
+"="  { return IGUAL; } 
+"inicio_var" { return INICIOVAR; }
+"fin_var" { return FINVAR; }
+"si" { return SI; }
+"mientras" { return MIENTRAS; }
+"en otro caso" { return OTROCASO; }
+"para" { return PARA; }
+"hasta" { return HASTA; }
+"iterando" { return ITERANDO; }
+"hacer" { return HACER; }
+"leer" { return LEER; }
+"imprimir" { return IMPRIMIR; }
 "<<" { yylval.atrib = 0 ; yylval.lexema = "<<" ; return MOV_LISTA; }
 ">>" { yylval.atrib = 1 ; yylval.lexema = ">>" ; return MOV_LISTA; }
 "$" { yylval.atrib = 0 ; yylval.lexema = "$" ; return DOLLAR; }
-";" { yylval.atrib = 0 ; return PYC; }
+";" { return PYC; }
 "++" { yylval.atrib = 0 ; yylval.lexema = "++" ; return INCRE_PRE; }
 "--" { yylval.atrib = 0 ; yylval.lexema = "--" ; return DECRE_PRE; }
 "no" { yylval.atrib = 0 ; yylval.lexema = "no" ; return NOT; }

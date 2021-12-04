@@ -23,4 +23,4 @@ $(SRC)/lex.yy.c: $(SRC)/practica4.l
 	mv lex.yy.c $(SRC)
 
 clean:
-	rm $(SRC)/lex.yy.c $(SRC)/y.tab.c $(SRC)/y.output $(OBJ)/*.o $(BIN)/*
+	rm $(SRC)/lex.yy.c $(SRC)/y.tab.h $(SRC)/y.tab.c $(SRC)/y.output $(OBJ)/*.o $(BIN)/*
