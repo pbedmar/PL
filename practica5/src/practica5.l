@@ -3,7 +3,7 @@
 %{
 /**********************************************************
  **
- ** Fichero: PRACTICA4.L
+ ** Fichero: PRACTICA5.L
  ** Función: Pruebas de FLEX para prácticas de PL
  **
  **********************************************************/

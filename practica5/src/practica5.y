@@ -5,7 +5,7 @@ int yylex();
 %{
 /****************************************************************
  **
- ** Fichero: PRACTICA4.Y
+ ** Fichero: PRACTICA5.Y
  ** Función: Pruebas de YACC para practicas de PL
  **
  ****************************************************************/
