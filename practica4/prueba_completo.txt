@@ -45,7 +45,6 @@ principal ()
             inicio_var
                 caracter dato ;
                 entero valor ;
-                flotante pedro;
             fin_var
 
             procedimiento procedimientoE (caracter e1, caracter e2) {
@@ -70,8 +69,6 @@ principal ()
                 valor = valor*100;
                 d1 = d1 / 1000.0 ;
             }
-
-            pedro = 20 ;
         }
         
         x1 = 1;
@@ -87,7 +84,7 @@ principal ()
         pe = pe--(#pe-1);
     }
     en otro caso {
-        pe = pe * 5.0 ;
-        pe = pe * (20/2000) ;
+        pe = pe * pe2 ;
+        pe = pe2 - pe * (20/2000) ;
     }       
 }

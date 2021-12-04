@@ -479,7 +479,11 @@ sentencia_asignacion  : ID IGUAL expresion PYC {
                                                   errorNoDeclarado($1.lexema);
                                                 }
                                                 else {
-                                                  if (buscarTipoVariable($1.lexema) != $3.tipo){
+                                                  if ($1.tipo == entero && $3.tipo == real) {
+
+                                                  } else if ($1.tipo == real && $3.tipo == entero) {
+
+                                                  } else if (buscarTipoVariable($1.lexema) != $3.tipo){
                                                     mostrarErrorTipoAsig($3.tipo);
                                                   }
                                                 }
