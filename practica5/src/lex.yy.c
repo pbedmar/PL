@@ -628,7 +628,7 @@ char *yytext;
 #line 4 "src/practica5.l"
 /**********************************************************
  **
- ** Fichero: PRACTICA4.L
+ ** Fichero: PRACTICA5.L
  ** Función: Pruebas de FLEX para prácticas de PL
  **
  **********************************************************/
