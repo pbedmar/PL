@@ -7,10 +7,10 @@ VERSION = c99
 all: generadorCodInter
 
 generadorCodInter: $(OBJ)/main.o $(OBJ)/y.tab.o
-	gcc -std=$(VERSION) $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
+	gcc -std=$(VERSION) -pthread -g $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
 
 $(OBJ)/y.tab.o: $(SRC)/y.tab.c
-	gcc -std=$(VERSION) -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
+	gcc -std=$(VERSION) -pthread -g -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
 
 $(OBJ)/main.o: $(SRC)/main.c
 	gcc -std=$(VERSION) -c $(SRC)/main.c -o $(OBJ)/main.o

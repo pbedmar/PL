@@ -37,7 +37,8 @@ typedef enum {
   marca,
   procedimiento,
   variable,
-  parametro_formal
+  parametro_formal,
+  descripInstrControl
 } tipoEntrada ;
 
 typedef enum {
@@ -71,6 +72,13 @@ dtipo obtenerTipoLista(dtipo tipo) {
 }
 
 typedef struct {
+  char *etiquetaEntrada;
+  char *etiquetaSalida;
+  char *etiquetaElse;
+  char *nombreVarControl;
+} descriptorDeInstrControl;
+
+typedef struct {
   tipoEntrada   entrada ;
   char          *nombre ;
   dtipo         tipoDato ;
@@ -78,6 +86,7 @@ typedef struct {
   unsigned int  parametrosMin ;
   //número de parámetros obligatorios más por defecto
   unsigned int  parametrosMax ;
+  descriptorDeInstrControl descripControl ;
 } entradaTS ;
 
 
@@ -95,6 +104,8 @@ entradaTS TS[MAX_TS] ;
 typedef struct {
   int   atrib ;
   char  *lexema ;
+  char  *nombre ;
+  char  *codigo ;
   dtipo tipo ;
 } atributos ;
 
@@ -303,6 +314,28 @@ int tipoANumero(dtipo tipo) {
 }
 
 
+char *numero;
+char *nombre;
+
+int N_temp = 0;
+char* temporal() {
+  sprintf(numero, "%d", N_temp);
+  N_temp += 1;
+  nombre = "temp";
+  strcat(nombre, numero);
+  return nombre;
+}
+
+int N_eti = 0;
+char* etiqueta() {
+  sprintf(numero, "%d", N_eti);
+  N_eti += 1;
+  nombre = "etiqueta";
+  strcat(nombre, numero);
+  return nombre;
+}
+
+
 %}
 
 /** Para uso de mensajes de error sintactivo con BISON.
@@ -392,11 +425,12 @@ int tipoANumero(dtipo tipo) {
 
 /** Seccion de producciones que definen la gramatica. **/
 
-programa    : cabecera_programa bloque ;
+programa    : cabecera_programa bloque {  };
 
-cabecera_programa   : PRINCIPAL PARIZQ PARDER ;
+cabecera_programa   : PRINCIPAL PARIZQ PARDER {  };
 
-inicio_bloque : LLAVEIZQ { TS_InsertaMARCA(); } ;
+inicio_bloque : LLAVEIZQ { TS_InsertaMARCA();
+                            } ;
 
 bloque  : inicio_bloque
           declar_de_variables_locales 
@@ -406,7 +440,8 @@ bloque  : inicio_bloque
         | inicio_bloque
           declar_de_variables_locales 
           sentencias 
-          LLAVEDER { TS_VaciarENTRADAS(); } ;
+          LLAVEDER { TS_VaciarENTRADAS();
+                      } ;
 
 lista_parametros    : lista_parametros COMA parametro { TS_InsertaPARAM($3.lexema, $3.tipo); }
                     | parametro { TS_InsertaPARAM($1.lexema, $1.tipo); } ;
@@ -418,35 +453,43 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE 
 
 parametro   : tipos ID { $$.tipo = tipoTmp; $$.lexema = $2.lexema; } ;
 
-declar_de_variables_locales : INICIOVAR variables_locales FINVAR
-                            | ;
+declar_de_variables_locales : INICIOVAR variables_locales FINVAR {  }
+                            | {  };
 
-variables_locales   : variables_locales cuerpo_declar_variables
-                    | cuerpo_declar_variables ;
+variables_locales   : variables_locales cuerpo_declar_variables {  }
+                    | cuerpo_declar_variables {  } ;
 
-cuerpo_declar_variables : tipos declar_variables PYC 
+cuerpo_declar_variables : tipos declar_variables PYC {  }
                         | error ;
 
 declar_variables    : ID { 
                           if(enAmbito($1.lexema) == 1)
                             errorYaDeclarado($1.lexema);
                           else
-                            TS_InsertaVAR($1.lexema, tipoTmp); }
+                            TS_InsertaVAR($1.lexema, tipoTmp);
+                            
+                           }
                     | ID IGUAL expresion { 
                       if(enAmbito($1.lexema) == 1)
                             errorYaDeclarado($1.lexema);
                       else
-                        TS_InsertaVAR($1.lexema, tipoTmp); }
+                        TS_InsertaVAR($1.lexema, tipoTmp);
+                        
+                       }
                     | declar_variables COMA ID { 
                       if(enAmbito($3.lexema) == 1)
                             errorYaDeclarado($3.lexema);
                       else
-                        TS_InsertaVAR($3.lexema, tipoTmp); }
+                        TS_InsertaVAR($3.lexema, tipoTmp);
+                        
+                       }
                     | declar_variables COMA ID IGUAL expresion { 
                       if(enAmbito($3.lexema) == 1)
                             errorYaDeclarado($3.lexema);
                       else
-                        TS_InsertaVAR($3.lexema, tipoTmp); } ;
+                        TS_InsertaVAR($3.lexema, tipoTmp);
+                        
+                       } ;
 
 declar_procedimientos : declar_procedimientos declar_proced
                       | declar_proced ;
@@ -460,11 +503,11 @@ cabecera_proced : inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por
                 | inicio_cabe_proced PARIZQ PARDER { Subprog = 1; }
                 | error ;
 
-sentencias  : sentencias sentencia
-            | sentencia ;
+sentencias  : sentencias sentencia {  }
+            | sentencia {  } ;
 
 sentencia   : bloque
-            | sentencia_asignacion
+            | sentencia_asignacion {  }
             | sentencia_if
             | MIENTRAS PARIZQ expresion PARDER sentencia
             | PARA sentencia_asignacion HASTA expresion ITERANDO expresion HACER sentencia
@@ -487,6 +530,8 @@ sentencia_asignacion  : ID IGUAL expresion PYC {
                                                     mostrarErrorTipoAsig($3.tipo);
                                                   }
                                                 }
+
+                                                
                                                 } ;
 
 sentencia_if    : SI PARIZQ expresion PARDER sentencia
@@ -628,7 +673,6 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                 $$.tipo = listaATipo($1.tipo);
               } else {
                 errorTipoOperador($2.lexema);
-                printf("kk: %i %i",$1.tipo,$3.tipo);
               }
             }
             | expresion MULTIPLICATIVOS expresion {
@@ -738,12 +782,25 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                     $$.tipo = buscarTipoVariable($1.lexema);
                   }}
             | agregado_lista { $$.tipo = $1.tipo; }
-            | CONSTANTE { $$.tipo = $1.tipo; }
+            | CONSTANTE { $$.tipo = $1.tipo;
+                           }
             | error ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER { $$.tipo = $2.tipo; };
 
-tipos   : TIPOS { tipoTmp = $1.tipo; }
+tipos   : TIPOS { tipoTmp = $1.tipo;
+                  if($$.atrib == 0) {
+                    $$.codigo = strdup("int");
+                  }
+                  else if($$.atrib == 1) {
+                    $$.codigo = strdup("float");
+                  }
+                  else if($$.atrib == 2) {
+                    $$.codigo = strdup("bool");
+                  }
+                  else if($$.atrib == 3) {
+                    $$.codigo = strdup("char");
+                  } }
         | LISTADE TIPOS { tipoTmp = obtenerTipoLista($2.tipo); } ;
 
 %%

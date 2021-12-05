@@ -1,0 +1,10 @@
+principal ()
+{
+    inicio_var
+        entero   ve ;
+        flotante vf ;
+        caracter vc ;
+    fin_var 
+
+    ve = 1;
+}

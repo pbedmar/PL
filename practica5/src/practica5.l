@@ -79,10 +79,10 @@ constante_caracter '[^\"']'
 "booleano"  { yylval.atrib = 2 ; yylval.tipo = booleano ; return TIPOS; }
 "caracter"  { yylval.atrib = 3 ; yylval.tipo = caracter ; return TIPOS; }
 {cadena} { yylval.atrib = 0 ; return CADENA; }
-{constante_entero}    { yylval.atrib = 0 ; yylval.tipo = entero ; return CONSTANTE; }
-{constante_real}      { yylval.atrib = 1 ; yylval.tipo = real ; return CONSTANTE; }
-{constante_booleano}  { yylval.atrib = 2 ; yylval.tipo = booleano ; return CONSTANTE; }
-{constante_caracter}  { yylval.atrib = 3 ; yylval.tipo = caracter ; return CONSTANTE; }
+{constante_entero}    { yylval.lexema = strdup(yytext) ; yylval.atrib = 0 ; yylval.tipo = entero ; return CONSTANTE; }
+{constante_real}      { yylval.lexema = strdup(yytext) ; yylval.atrib = 1 ; yylval.tipo = real ; return CONSTANTE; }
+{constante_booleano}  { yylval.lexema = strdup(yytext) ; yylval.atrib = 2 ; yylval.tipo = booleano ; return CONSTANTE; }
+{constante_caracter}  { yylval.lexema = strdup(yytext) ; yylval.atrib = 3 ; yylval.tipo = caracter ; return CONSTANTE; }
 {id} { yylval.lexema = strdup(yytext) ; return ID; }
 \n  {linea_actual++; }
 [ \t]+  ;

@@ -1180,23 +1180,23 @@ YY_RULE_SETUP
 case 53:
 YY_RULE_SETUP
 #line 82 "src/practica5.l"
-{ yylval.atrib = 0 ; yylval.tipo = entero ; return CONSTANTE; }
+{ yylval.lexema = strdup(yytext) ; yylval.atrib = 0 ; yylval.tipo = entero ; return CONSTANTE; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 83 "src/practica5.l"
-{ yylval.atrib = 1 ; yylval.tipo = real ; return CONSTANTE; }
+{ yylval.lexema = strdup(yytext) ; yylval.atrib = 1 ; yylval.tipo = real ; return CONSTANTE; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 #line 84 "src/practica5.l"
-{ yylval.atrib = 2 ; yylval.tipo = booleano ; return CONSTANTE; }
+{ yylval.lexema = strdup(yytext) ; yylval.atrib = 2 ; yylval.tipo = booleano ; return CONSTANTE; }
 	YY_BREAK
 case 56:
 /* rule 56 can match eol */
 YY_RULE_SETUP
 #line 85 "src/practica5.l"
-{ yylval.atrib = 3 ; yylval.tipo = caracter ; return CONSTANTE; }
+{ yylval.lexema = strdup(yytext) ; yylval.atrib = 3 ; yylval.tipo = caracter ; return CONSTANTE; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
