@@ -176,6 +176,13 @@ void TS_InsertaVAR(char* lexema, dtipo tipo) {
   TOPE = TOPE + 1;
 }
 
+void TS_InsertaDescripControl(char* nombreVarControl, char* etiqEntrada, char* etiqSalida, char* etiqElse) {
+  descriptorDeInstrControl descrip = {etiqEntrada,etiqSalida,etiqElse,nombreVarControl};
+  entradaTS aux = {descripInstrControl, "", desconocido, 0, 0, descrip};
+  TS[TOPE] = aux;
+  TOPE = TOPE + 1;
+}
+
 void TS_InsertaPARAM(char* lexema, dtipo tipo) {
   entradaTS aux = {parametro_formal, lexema, tipo, 0, 0};
   TS[TOPE] = aux;
@@ -198,6 +205,29 @@ void TS_VaciarENTRADAS() {
   while(TS[TOPE].entrada != marca) {
     TOPE = TOPE - 1;
   }
+}
+
+char* obtenerTipo(dtipo tipo) {
+  if(tipo == entero) {
+    return "int";
+  }
+  else if(tipo == real) {
+    return "float";
+  }
+  else if(tipo == booleano) {
+    return "bool";
+  }
+  else if(tipo == caracter) {
+    return "char";
+  }
+}
+
+descriptorDeInstrControl buscarDescrip() {
+  int pos = TOPE - 1;
+  while(TS[pos].entrada != descripInstrControl) {
+    pos = pos - 1;
+  }
+  return TS[pos].descripControl;
 }
 
 int buscarProced(char* lexemaProced) {
@@ -316,7 +346,7 @@ int tipoANumero(dtipo tipo) {
 }
 
 
-char *numero;
+char numero[10];
 char *nombre;
 
 int N_temp = 0;
@@ -324,17 +354,24 @@ char* temporal() {
   sprintf(numero, "%d", N_temp);
   N_temp += 1;
   nombre = "temp";
-  strcat(nombre, numero);
-  return nombre;
+  char* salida = (char*)malloc(strlen(numero) + strlen(nombre) + 1);
+  strcpy(salida,nombre);
+  strcat(salida, numero);
+  return salida;
 }
 
 int N_eti = 0;
 char* etiqueta() {
   sprintf(numero, "%d", N_eti);
+  
   N_eti += 1;
   nombre = "etiqueta";
-  strcat(nombre, numero);
-  return nombre;
+  char* salida = (char*)malloc(strlen(numero) + strlen(nombre) + 1);
+  
+  strcpy(salida,nombre);
+  strcat(salida, numero);
+  
+  return salida;
 }
 
 
@@ -440,7 +477,8 @@ programa    : cabecera_programa bloque { $$.codigo = (char*)malloc(strlen($1.cod
                                           };
 
 cabecera_programa   : PRINCIPAL PARIZQ PARDER { $$.codigo = (char*)malloc(strlen("int main()\n") + 1);
-                                                strcpy($$.codigo,"int main()\n"); };
+                                                strcpy($$.codigo,"int main()\n");
+                                                 };
 
 inicio_bloque : LLAVEIZQ { TS_InsertaMARCA();
                            $$.codigo = (char*)malloc(strlen("\t")*profun + strlen("{\n") + 1);
@@ -451,7 +489,8 @@ inicio_bloque : LLAVEIZQ { TS_InsertaMARCA();
                              }
                            }
                            strcat($$.codigo,"{\n");
-                           profun += 1; } ;
+                           profun += 1;
+                            } ;
 
 bloque  : inicio_bloque
           declar_de_variables_locales 
@@ -575,7 +614,9 @@ cabecera_proced : inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por
                 | inicio_cabe_proced PARIZQ PARDER { Subprog = 1; }
                 | error ;
 
-sentencias  : sentencias sentencia {  }
+sentencias  : sentencias sentencia { $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + 1);
+                                     strcpy($$.codigo,$1.codigo);
+                                     strcat($$.codigo,$2.codigo); }
             | sentencia { $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                           strcpy($$.codigo,$1.codigo); } ;
 
@@ -588,7 +629,8 @@ sentencia   : bloque
                                        }
                                      }
                                      strcat($$.codigo,$1.codigo); }
-            | sentencia_if
+            | sentencia_if { $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
+                             strcpy($$.codigo,$1.codigo); }
             | MIENTRAS PARIZQ expresion PARDER sentencia
             | PARA sentencia_asignacion HASTA expresion ITERANDO expresion HACER sentencia
             | LEER lista_identificadores PYC
@@ -618,8 +660,44 @@ sentencia_asignacion  : ID IGUAL expresion PYC {
                                                 strcat($$.codigo,";\n");
                                                 } ;
 
-sentencia_if    : SI PARIZQ expresion PARDER sentencia
-                | SI PARIZQ expresion PARDER sentencia
+cabecera_if : SI PARIZQ expresion PARDER { char *etiqSalida = etiqueta();
+                                           
+                                           char *etiqElse = etiqueta();
+                                           
+                                           TS_InsertaDescripControl(NULL, NULL, etiqSalida, etiqElse);
+                                           
+                                           
+                                           
+                                           char *varTmp = temporal();
+                                           char *tipoVar = obtenerTipo($3.tipo);
+
+                                           
+
+                                           $$.codigo = (char*)malloc(strlen(tipoVar) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen($3.nombre) + strlen(";\n") + strlen("if (!") + strlen(varTmp) + strlen(") goto ") + strlen(etiqElse) + strlen("\n") + 1);
+                                           
+                                           strcpy($$.codigo,tipoVar);
+                                           strcat($$.codigo," ");
+                                           strcat($$.codigo,varTmp);
+                                           strcat($$.codigo," = ");
+                                           strcat($$.codigo,$3.nombre);
+                                           strcat($$.codigo,";\n");
+                                           strcat($$.codigo,"if (!");
+                                           strcat($$.codigo,varTmp);
+                                           strcat($$.codigo,") goto ");
+                                           strcat($$.codigo,etiqElse);
+                                           strcat($$.codigo,";\n");
+                                            } ;
+
+sentencia_if    : cabecera_if sentencia { descriptorDeInstrControl descrip = buscarDescrip();
+                                          $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen(descrip.etiquetaElse) + strlen(":\n") + 1);
+                                          strcpy($$.codigo,$1.codigo);
+                                          printf("%s",$2.codigo);
+                                          strcat($$.codigo,$2.codigo);
+                                          
+                                          strcat($$.codigo,descrip.etiquetaElse);
+                                          strcat($$.codigo,":\n"); 
+                                          }
+                | cabecera_if sentencia
                   OTROCASO sentencia ;
 
 lista_identificadores   : lista_identificadores COMA ID
@@ -867,6 +945,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                   }}
             | agregado_lista { $$.tipo = $1.tipo; }
             | CONSTANTE { $$.tipo = $1.tipo;
+                          $$.nombre = strdup($1.lexema);
                           $$.codigo = (char*)malloc(strlen($1.lexema) + 1);
                           strcpy($$.codigo,$1.lexema); }
             | error ;
