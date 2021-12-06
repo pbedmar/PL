@@ -4,6 +4,8 @@ principal ()
         entero   ve ;
     fin_var 
 
+    ve = 2;
+
     si(5)
         ve = 3;
 }

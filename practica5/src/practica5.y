@@ -222,6 +222,20 @@ char* obtenerTipo(dtipo tipo) {
   }
 }
 
+char* generarTab() {
+  char* salida = "";
+  
+  if(profun > 0){
+    salida = (char*)malloc(strlen("\t")*profun + 1);
+    strcpy(salida,"\t");
+    for(int i = 1; i < profun; ++i) {
+      strcat(salida, "\t");
+    }
+  }
+
+  return salida;
+}
+
 descriptorDeInstrControl buscarDescrip() {
   int pos = TOPE - 1;
   while(TS[pos].entrada != descripInstrControl) {
@@ -621,14 +635,13 @@ sentencias  : sentencias sentencia { $$.codigo = (char*)malloc(strlen($1.codigo)
                           strcpy($$.codigo,$1.codigo); } ;
 
 sentencia   : bloque
-            | sentencia_asignacion { $$.codigo = (char*)malloc(strlen("\t")*profun + strlen($1.codigo) + 1);
-                                     if(profun > 0) {
-                                       strcpy($$.codigo,"\t");
-                                       for(int i = 1; i < profun; ++i) {
-                                         strcat($$.codigo, "\t");
-                                       }
-                                     }
-                                     strcat($$.codigo,$1.codigo); }
+            | sentencia_asignacion { char *tab = generarTab();
+                                     $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($1.codigo) + strlen(tab) + strlen("}\n") + 1);
+                                     strcpy($$.codigo,tab);
+                                     strcat($$.codigo,"{\n");
+                                     strcat($$.codigo,$1.codigo);
+                                     strcat($$.codigo,tab);
+                                     strcat($$.codigo,"}\n"); }
             | sentencia_if { $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                              strcpy($$.codigo,$1.codigo); }
             | MIENTRAS PARIZQ expresion PARDER sentencia
@@ -653,10 +666,13 @@ sentencia_asignacion  : ID IGUAL expresion PYC {
                                                   }
                                                 }
 
-                                                $$.codigo = (char*)malloc(strlen($1.lexema) + strlen(" = ") + strlen($3.codigo) + strlen(";\n") + 1);
-                                                strcpy($$.codigo,$1.lexema);
+                                                char *tab = generarTab();
+                                                $$.codigo = (char*)malloc(strlen($3.codigo) + strlen(tab) + strlen($1.lexema) + strlen(" = ") + strlen($3.nombre) + strlen(";\n") + 1);
+                                                strcpy($$.codigo,$3.codigo);
+                                                strcat($$.codigo,tab);
+                                                strcat($$.codigo,$1.lexema);
                                                 strcat($$.codigo," = ");
-                                                strcat($$.codigo,$3.codigo);
+                                                strcat($$.codigo,$3.nombre);
                                                 strcat($$.codigo,";\n");
                                                 } ;
 
@@ -666,23 +682,16 @@ cabecera_if : SI PARIZQ expresion PARDER { char *etiqSalida = etiqueta();
                                            
                                            TS_InsertaDescripControl(NULL, NULL, etiqSalida, etiqElse);
                                            
-                                           
-                                           
-                                           char *varTmp = temporal();
-                                           char *tipoVar = obtenerTipo($3.tipo);
+                                           char *tab = generarTab();
 
                                            
 
-                                           $$.codigo = (char*)malloc(strlen(tipoVar) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen($3.nombre) + strlen(";\n") + strlen("if (!") + strlen(varTmp) + strlen(") goto ") + strlen(etiqElse) + strlen("\n") + 1);
+                                           $$.codigo = (char*)malloc(strlen($3.codigo) + strlen(tab) + strlen("if (!") + strlen($3.nombre) + strlen(") goto ") + strlen(etiqElse) + strlen(";\n") + 1);
                                            
-                                           strcpy($$.codigo,tipoVar);
-                                           strcat($$.codigo," ");
-                                           strcat($$.codigo,varTmp);
-                                           strcat($$.codigo," = ");
-                                           strcat($$.codigo,$3.nombre);
-                                           strcat($$.codigo,";\n");
+                                           strcpy($$.codigo,$3.codigo);
+                                           strcat($$.codigo,tab);
                                            strcat($$.codigo,"if (!");
-                                           strcat($$.codigo,varTmp);
+                                           strcat($$.codigo,$3.nombre);
                                            strcat($$.codigo,") goto ");
                                            strcat($$.codigo,etiqElse);
                                            strcat($$.codigo,";\n");
@@ -691,7 +700,6 @@ cabecera_if : SI PARIZQ expresion PARDER { char *etiqSalida = etiqueta();
 sentencia_if    : cabecera_if sentencia { descriptorDeInstrControl descrip = buscarDescrip();
                                           $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen(descrip.etiquetaElse) + strlen(":\n") + 1);
                                           strcpy($$.codigo,$1.codigo);
-                                          printf("%s",$2.codigo);
                                           strcat($$.codigo,$2.codigo);
                                           
                                           strcat($$.codigo,descrip.etiquetaElse);
@@ -945,9 +953,19 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                   }}
             | agregado_lista { $$.tipo = $1.tipo; }
             | CONSTANTE { $$.tipo = $1.tipo;
-                          $$.nombre = strdup($1.lexema);
-                          $$.codigo = (char*)malloc(strlen($1.lexema) + 1);
-                          strcpy($$.codigo,$1.lexema); }
+                          char *varTmp = temporal();
+                          char *tipoTmp = obtenerTipo($1.tipo);
+                          char *tab = generarTab();
+                          $$.codigo = (char*)malloc(strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen($1.lexema) + strlen(";\n") + 1);
+                          strcpy($$.codigo,tab);
+                          strcat($$.codigo,tipoTmp);
+                          strcat($$.codigo," ");
+                          strcat($$.codigo,varTmp);
+                          strcat($$.codigo," = ");
+                          strcat($$.codigo,$1.lexema);
+                          strcat($$.codigo,";\n");
+
+                          $$.nombre = strdup(varTmp); }
             | error ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER { $$.tipo = $2.tipo; };
