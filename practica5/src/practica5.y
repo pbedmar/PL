@@ -440,9 +440,15 @@ cabecera_programa   : PRINCIPAL PARIZQ PARDER { $$.codigo = (char*)malloc(strlen
                                                 strcpy($$.codigo,"int main()\n"); };
 
 inicio_bloque : LLAVEIZQ { TS_InsertaMARCA();
-                           profun += 1;
-                           $$.codigo = (char*)malloc(strlen("{\n") + 1);
-                           strcpy($$.codigo,"{\n"); } ;
+                           $$.codigo = (char*)malloc(strlen("\t")*profun + strlen("{\n") + 1);
+                           if(profun > 0) {
+                             strcpy($$.codigo,"\t");
+                             for(int i = 1; i < profun; ++i) {
+                               strcat($$.codigo, "\t");
+                             }
+                           }
+                           strcat($$.codigo,"{\n");
+                           profun += 1; } ;
 
 bloque  : inicio_bloque
           declar_de_variables_locales 
@@ -454,10 +460,16 @@ bloque  : inicio_bloque
           sentencias 
           LLAVEDER { TS_VaciarENTRADAS();
                      profun -= 1;
-                     $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen($3.codigo) + strlen("}\n") + 1);
+                     $$.codigo = (char*)malloc(strlen("\t")*profun + strlen($1.codigo) + strlen($2.codigo) + strlen($3.codigo) + strlen("}\n") + 1);
                      strcpy($$.codigo,$1.codigo);
                      strcat($$.codigo,$2.codigo);
                      strcat($$.codigo,$3.codigo);
+                     if(profun > 0) {
+                       strcpy($$.codigo,"\t");
+                       for(int i = 1; i < profun; ++i) {
+                         strcat($$.codigo, "\t");
+                       }
+                     }
                      strcat($$.codigo,"}\n"); } ;
 
 lista_parametros    : lista_parametros COMA parametro { TS_InsertaPARAM($3.lexema, $3.tipo); }
