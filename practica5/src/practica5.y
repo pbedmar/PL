@@ -107,6 +107,7 @@ typedef struct {
   char  *lexema ;
   char  *nombre ;
   char  *codigo ;
+  char  *codigoGlobal;
   dtipo tipo ;
 } atributos ;
 
@@ -426,8 +427,10 @@ char* etiqueta() {
 
 /** Seccion de producciones que definen la gramatica. **/
 
-programa    : cabecera_programa bloque { $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + 1);
-                                         strcpy($$.codigo,$1.codigo);
+programa    : cabecera_programa bloque { $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigoGlobal) + strlen("\n") + strlen($2.codigo) + 1);
+                                         strcpy($$.codigo,$2.codigoGlobal);
+                                         strcat($$.codigo,"\n");
+                                         strcat($$.codigo,$1.codigo);
                                          strcat($$.codigo,$2.codigo);
                                          
                                          FILE *fichero;
@@ -461,6 +464,9 @@ bloque  : inicio_bloque
           LLAVEDER { TS_VaciarENTRADAS();
                      profun -= 1;
                      $$.codigo = (char*)malloc(strlen("\t")*profun + strlen($1.codigo) + strlen($2.codigo) + strlen($3.codigo) + strlen("}\n") + 1);
+                     $$.codigoGlobal = (char*)malloc(strlen($2.codigoGlobal) + 1);
+                     strcpy($$.codigoGlobal,$2.codigoGlobal);
+
                      strcpy($$.codigo,$1.codigo);
                      strcat($$.codigo,$2.codigo);
                      strcat($$.codigo,$3.codigo);
@@ -483,27 +489,47 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE 
 parametro   : tipos ID { $$.tipo = tipoTmp; $$.lexema = $2.lexema; } ;
 
 declar_de_variables_locales : INICIOVAR variables_locales FINVAR { $$.codigo = (char*)malloc(strlen($2.codigo) + 1);
+                                                                   $$.codigoGlobal = (char*)malloc(strlen($2.codigoGlobal) + 1);
+                                                                   strcpy($$.codigoGlobal,$2.codigoGlobal);
                                                                    strcpy($$.codigo,$2.codigo); }
                             | { $$.codigo = (char*)malloc(strlen("") + 1);
+                                $$.codigoGlobal = (char*)malloc(strlen("") + 1);
+                                strcpy($$.codigoGlobal,"");
                                 strcpy($$.codigo,""); };
 
 variables_locales   : variables_locales cuerpo_declar_variables { $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + 1);
+                                                                  $$.codigoGlobal = (char*)malloc(strlen($1.codigoGlobal) + strlen($2.codigoGlobal) + 1);
+                                                                  strcpy($$.codigoGlobal,$1.codigoGlobal);
+                                                                  strcat($$.codigoGlobal,$2.codigoGlobal);
                                                                   strcpy($$.codigo,$1.codigo);
                                                                   strcat($$.codigo,$2.codigo); }
                     | cuerpo_declar_variables { $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
+                                                $$.codigoGlobal = (char*)malloc(strlen($1.codigoGlobal) + 1);
+                                                strcpy($$.codigoGlobal,$1.codigoGlobal);
                                                 strcpy($$.codigo,$1.codigo); } ;
 
-cuerpo_declar_variables : tipos declar_variables PYC { $$.codigo = (char*)malloc(strlen("\t")*profun + strlen($1.codigo) + strlen(" ") + strlen($2.codigo) + strlen(";\n") + 1);
-                                                       if(profun > 0) {
+cuerpo_declar_variables : tipos declar_variables PYC { if(profun > 1) {
+                                                         $$.codigo = (char*)malloc(strlen("\t")*profun + strlen($1.codigo) + strlen(" ") + strlen($2.codigo) + strlen(";\n") + 1);
+                                                         $$.codigoGlobal = (char*)malloc(strlen("") + 1);
+                                                         strcpy($$.codigoGlobal,"");
                                                          strcpy($$.codigo,"\t");
                                                          for(int i = 1; i < profun; ++i) {
                                                            strcat($$.codigo, "\t");
                                                          }
+                                                         strcat($$.codigo,$1.codigo);
+                                                         strcat($$.codigo, " ");
+                                                         strcat($$.codigo, $2.codigo);
+                                                         strcat($$.codigo, ";\n");
                                                        }
-                                                       strcat($$.codigo,$1.codigo);
-                                                       strcat($$.codigo, " ");
-                                                       strcat($$.codigo, $2.codigo);
-                                                       strcat($$.codigo, ";\n"); }
+                                                       else {
+                                                         $$.codigoGlobal = (char*)malloc(strlen($1.codigo) + strlen(" ") + strlen($2.codigo) + strlen(";\n") + 1);
+                                                         $$.codigo = (char*)malloc(strlen("") + 1);
+                                                         strcpy($$.codigo,"");
+                                                         strcpy($$.codigoGlobal,$1.codigo);
+                                                         strcat($$.codigoGlobal, " ");
+                                                         strcat($$.codigoGlobal, $2.codigo);
+                                                         strcat($$.codigoGlobal, ";\n");
+                                                       } }
                         | error ;
 
 declar_variables    : ID { 

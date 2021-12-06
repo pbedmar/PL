@@ -175,6 +175,7 @@ typedef struct {
   char  *lexema ;
   char  *nombre ;
   char  *codigo ;
+  char  *codigoGlobal;
   dtipo tipo ;
 } atributos ;
 
@@ -406,7 +407,7 @@ char* etiqueta() {
 
 
 
-#line 410 "src/y.tab.c"
+#line 411 "src/y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -880,15 +881,15 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   429,   429,   439,   442,   453,   458,   475,   476,   478,
-     479,   480,   481,   483,   485,   487,   490,   493,   496,   507,
-     509,   518,   525,   532,   540,   541,   543,   545,   547,   548,
-     549,   550,   552,   553,   556,   557,   565,   566,   567,   568,
-     569,   570,   571,   572,   574,   595,   596,   599,   600,   602,
-     603,   605,   606,   608,   615,   623,   632,   644,   655,   656,
-     663,   670,   677,   688,   695,   722,   729,   736,   769,   782,
-     797,   808,   815,   822,   829,   836,   842,   843,   846,   848,
-     850,   867
+       0,   430,   430,   442,   445,   456,   461,   481,   482,   484,
+     485,   486,   487,   489,   491,   495,   500,   506,   511,   533,
+     535,   544,   551,   558,   566,   567,   569,   571,   573,   574,
+     575,   576,   578,   579,   582,   583,   591,   592,   593,   594,
+     595,   596,   597,   598,   600,   621,   622,   625,   626,   628,
+     629,   631,   632,   634,   641,   649,   658,   670,   681,   682,
+     689,   696,   703,   714,   721,   748,   755,   762,   795,   808,
+     823,   834,   841,   848,   855,   862,   868,   869,   872,   874,
+     876,   893
 };
 #endif
 
@@ -1853,9 +1854,11 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 429 "src/practica5.y"
-                                       { yyval.codigo = (char*)malloc(strlen(yyvsp[-1].codigo) + strlen(yyvsp[0].codigo) + 1);
-                                         strcpy(yyval.codigo,yyvsp[-1].codigo);
+#line 430 "src/practica5.y"
+                                       { yyval.codigo = (char*)malloc(strlen(yyvsp[-1].codigo) + strlen(yyvsp[0].codigoGlobal) + strlen("\n") + strlen(yyvsp[0].codigo) + 1);
+                                         strcpy(yyval.codigo,yyvsp[0].codigoGlobal);
+                                         strcat(yyval.codigo,"\n");
+                                         strcat(yyval.codigo,yyvsp[-1].codigo);
                                          strcat(yyval.codigo,yyvsp[0].codigo);
                                          
                                          FILE *fichero;
@@ -1863,18 +1866,18 @@ yyreduce:
                                          fputs(yyval.codigo,fichero);
                                          fclose(fichero);
                                           }
-#line 1867 "src/y.tab.c"
+#line 1870 "src/y.tab.c"
     break;
 
   case 3:
-#line 439 "src/practica5.y"
+#line 442 "src/practica5.y"
                                               { yyval.codigo = (char*)malloc(strlen("int main()\n") + 1);
                                                 strcpy(yyval.codigo,"int main()\n"); }
-#line 1874 "src/y.tab.c"
+#line 1877 "src/y.tab.c"
     break;
 
   case 4:
-#line 442 "src/practica5.y"
+#line 445 "src/practica5.y"
                          { TS_InsertaMARCA();
                            yyval.codigo = (char*)malloc(strlen("\t")*profun + strlen("{\n") + 1);
                            if(profun > 0) {
@@ -1885,20 +1888,23 @@ yyreduce:
                            }
                            strcat(yyval.codigo,"{\n");
                            profun += 1; }
-#line 1889 "src/y.tab.c"
+#line 1892 "src/y.tab.c"
     break;
 
   case 5:
-#line 457 "src/practica5.y"
+#line 460 "src/practica5.y"
                    { TS_VaciarENTRADAS(); }
-#line 1895 "src/y.tab.c"
+#line 1898 "src/y.tab.c"
     break;
 
   case 6:
-#line 461 "src/practica5.y"
+#line 464 "src/practica5.y"
                    { TS_VaciarENTRADAS();
                      profun -= 1;
                      yyval.codigo = (char*)malloc(strlen("\t")*profun + strlen(yyvsp[-3].codigo) + strlen(yyvsp[-2].codigo) + strlen(yyvsp[-1].codigo) + strlen("}\n") + 1);
+                     yyval.codigoGlobal = (char*)malloc(strlen(yyvsp[-2].codigoGlobal) + 1);
+                     strcpy(yyval.codigoGlobal,yyvsp[-2].codigoGlobal);
+
                      strcpy(yyval.codigo,yyvsp[-3].codigo);
                      strcat(yyval.codigo,yyvsp[-2].codigo);
                      strcat(yyval.codigo,yyvsp[-1].codigo);
@@ -1909,98 +1915,118 @@ yyreduce:
                        }
                      }
                      strcat(yyval.codigo,"}\n"); }
-#line 1913 "src/y.tab.c"
-    break;
-
-  case 7:
-#line 475 "src/practica5.y"
-                                                      { TS_InsertaPARAM(yyvsp[0].lexema, yyvsp[0].tipo); }
 #line 1919 "src/y.tab.c"
     break;
 
-  case 8:
-#line 476 "src/practica5.y"
-                                { TS_InsertaPARAM(yyvsp[0].lexema, yyvsp[0].tipo); }
+  case 7:
+#line 481 "src/practica5.y"
+                                                      { TS_InsertaPARAM(yyvsp[0].lexema, yyvsp[0].tipo); }
 #line 1925 "src/y.tab.c"
     break;
 
-  case 9:
-#line 478 "src/practica5.y"
-                                                                                { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
+  case 8:
+#line 482 "src/practica5.y"
+                                { TS_InsertaPARAM(yyvsp[0].lexema, yyvsp[0].tipo); }
 #line 1931 "src/y.tab.c"
     break;
 
-  case 10:
-#line 479 "src/practica5.y"
-                                                    { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
+  case 9:
+#line 484 "src/practica5.y"
+                                                                                { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
 #line 1937 "src/y.tab.c"
     break;
 
-  case 11:
-#line 480 "src/practica5.y"
-                                                                                     { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
+  case 10:
+#line 485 "src/practica5.y"
+                                                    { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
 #line 1943 "src/y.tab.c"
     break;
 
-  case 12:
-#line 481 "src/practica5.y"
-                                                         { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
+  case 11:
+#line 486 "src/practica5.y"
+                                                                                     { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
 #line 1949 "src/y.tab.c"
     break;
 
-  case 13:
-#line 483 "src/practica5.y"
-                       { yyval.tipo = tipoTmp; yyval.lexema = yyvsp[0].lexema; }
+  case 12:
+#line 487 "src/practica5.y"
+                                                         { TS_InsertaPARAM_POR_DEF(yyvsp[-2].lexema, yyvsp[-2].tipo); }
 #line 1955 "src/y.tab.c"
     break;
 
+  case 13:
+#line 489 "src/practica5.y"
+                       { yyval.tipo = tipoTmp; yyval.lexema = yyvsp[0].lexema; }
+#line 1961 "src/y.tab.c"
+    break;
+
   case 14:
-#line 485 "src/practica5.y"
+#line 491 "src/practica5.y"
                                                                  { yyval.codigo = (char*)malloc(strlen(yyvsp[-1].codigo) + 1);
+                                                                   yyval.codigoGlobal = (char*)malloc(strlen(yyvsp[-1].codigoGlobal) + 1);
+                                                                   strcpy(yyval.codigoGlobal,yyvsp[-1].codigoGlobal);
                                                                    strcpy(yyval.codigo,yyvsp[-1].codigo); }
-#line 1962 "src/y.tab.c"
+#line 1970 "src/y.tab.c"
     break;
 
   case 15:
-#line 487 "src/practica5.y"
+#line 495 "src/practica5.y"
                               { yyval.codigo = (char*)malloc(strlen("") + 1);
+                                yyval.codigoGlobal = (char*)malloc(strlen("") + 1);
+                                strcpy(yyval.codigoGlobal,"");
                                 strcpy(yyval.codigo,""); }
-#line 1969 "src/y.tab.c"
+#line 1979 "src/y.tab.c"
     break;
 
   case 16:
-#line 490 "src/practica5.y"
+#line 500 "src/practica5.y"
                                                                 { yyval.codigo = (char*)malloc(strlen(yyvsp[-1].codigo) + strlen(yyvsp[0].codigo) + 1);
+                                                                  yyval.codigoGlobal = (char*)malloc(strlen(yyvsp[-1].codigoGlobal) + strlen(yyvsp[0].codigoGlobal) + 1);
+                                                                  strcpy(yyval.codigoGlobal,yyvsp[-1].codigoGlobal);
+                                                                  strcat(yyval.codigoGlobal,yyvsp[0].codigoGlobal);
                                                                   strcpy(yyval.codigo,yyvsp[-1].codigo);
                                                                   strcat(yyval.codigo,yyvsp[0].codigo); }
-#line 1977 "src/y.tab.c"
+#line 1990 "src/y.tab.c"
     break;
 
   case 17:
-#line 493 "src/practica5.y"
+#line 506 "src/practica5.y"
                                               { yyval.codigo = (char*)malloc(strlen(yyvsp[0].codigo) + 1);
+                                                yyval.codigoGlobal = (char*)malloc(strlen(yyvsp[0].codigoGlobal) + 1);
+                                                strcpy(yyval.codigoGlobal,yyvsp[0].codigoGlobal);
                                                 strcpy(yyval.codigo,yyvsp[0].codigo); }
-#line 1984 "src/y.tab.c"
+#line 1999 "src/y.tab.c"
     break;
 
   case 18:
-#line 496 "src/practica5.y"
-                                                     { yyval.codigo = (char*)malloc(strlen("\t")*profun + strlen(yyvsp[-2].codigo) + strlen(" ") + strlen(yyvsp[-1].codigo) + strlen(";\n") + 1);
-                                                       if(profun > 0) {
+#line 511 "src/practica5.y"
+                                                     { if(profun > 1) {
+                                                         yyval.codigo = (char*)malloc(strlen("\t")*profun + strlen(yyvsp[-2].codigo) + strlen(" ") + strlen(yyvsp[-1].codigo) + strlen(";\n") + 1);
+                                                         yyval.codigoGlobal = (char*)malloc(strlen("") + 1);
+                                                         strcpy(yyval.codigoGlobal,"");
                                                          strcpy(yyval.codigo,"\t");
                                                          for(int i = 1; i < profun; ++i) {
                                                            strcat(yyval.codigo, "\t");
                                                          }
+                                                         strcat(yyval.codigo,yyvsp[-2].codigo);
+                                                         strcat(yyval.codigo, " ");
+                                                         strcat(yyval.codigo, yyvsp[-1].codigo);
+                                                         strcat(yyval.codigo, ";\n");
                                                        }
-                                                       strcat(yyval.codigo,yyvsp[-2].codigo);
-                                                       strcat(yyval.codigo, " ");
-                                                       strcat(yyval.codigo, yyvsp[-1].codigo);
-                                                       strcat(yyval.codigo, ";\n"); }
-#line 2000 "src/y.tab.c"
+                                                       else {
+                                                         yyval.codigoGlobal = (char*)malloc(strlen(yyvsp[-2].codigo) + strlen(" ") + strlen(yyvsp[-1].codigo) + strlen(";\n") + 1);
+                                                         yyval.codigo = (char*)malloc(strlen("") + 1);
+                                                         strcpy(yyval.codigo,"");
+                                                         strcpy(yyval.codigoGlobal,yyvsp[-2].codigo);
+                                                         strcat(yyval.codigoGlobal, " ");
+                                                         strcat(yyval.codigoGlobal, yyvsp[-1].codigo);
+                                                         strcat(yyval.codigoGlobal, ";\n");
+                                                       } }
+#line 2026 "src/y.tab.c"
     break;
 
   case 20:
-#line 509 "src/practica5.y"
+#line 535 "src/practica5.y"
                          { 
                           if(enAmbito(yyvsp[0].lexema) == 1)
                             errorYaDeclarado(yyvsp[0].lexema);
@@ -2010,11 +2036,11 @@ yyreduce:
                           yyval.codigo = (char*)malloc(strlen(yyvsp[0].lexema) + 1);
                           strcpy(yyval.codigo,yyvsp[0].lexema);
                            }
-#line 2014 "src/y.tab.c"
+#line 2040 "src/y.tab.c"
     break;
 
   case 21:
-#line 518 "src/practica5.y"
+#line 544 "src/practica5.y"
                                          { 
                       if(enAmbito(yyvsp[-2].lexema) == 1)
                             errorYaDeclarado(yyvsp[-2].lexema);
@@ -2022,11 +2048,11 @@ yyreduce:
                         TS_InsertaVAR(yyvsp[-2].lexema, tipoTmp);
                         
                        }
-#line 2026 "src/y.tab.c"
+#line 2052 "src/y.tab.c"
     break;
 
   case 22:
-#line 525 "src/practica5.y"
+#line 551 "src/practica5.y"
                                                { 
                       if(enAmbito(yyvsp[0].lexema) == 1)
                             errorYaDeclarado(yyvsp[0].lexema);
@@ -2034,11 +2060,11 @@ yyreduce:
                         TS_InsertaVAR(yyvsp[0].lexema, tipoTmp);
                         
                        }
-#line 2038 "src/y.tab.c"
+#line 2064 "src/y.tab.c"
     break;
 
   case 23:
-#line 532 "src/practica5.y"
+#line 558 "src/practica5.y"
                                                                { 
                       if(enAmbito(yyvsp[-2].lexema) == 1)
                             errorYaDeclarado(yyvsp[-2].lexema);
@@ -2046,54 +2072,54 @@ yyreduce:
                         TS_InsertaVAR(yyvsp[-2].lexema, tipoTmp);
                         
                        }
-#line 2050 "src/y.tab.c"
+#line 2076 "src/y.tab.c"
     break;
 
   case 26:
-#line 543 "src/practica5.y"
+#line 569 "src/practica5.y"
                                        { Subprog = 0; }
-#line 2056 "src/y.tab.c"
+#line 2082 "src/y.tab.c"
     break;
 
   case 27:
-#line 545 "src/practica5.y"
+#line 571 "src/practica5.y"
                                       { TS_InsertaPROCED(yyvsp[0].lexema); }
-#line 2062 "src/y.tab.c"
+#line 2088 "src/y.tab.c"
     break;
 
   case 28:
-#line 547 "src/practica5.y"
+#line 573 "src/practica5.y"
                                                                                                 { Subprog = 1; }
-#line 2068 "src/y.tab.c"
+#line 2094 "src/y.tab.c"
     break;
 
   case 29:
-#line 548 "src/practica5.y"
+#line 574 "src/practica5.y"
                                                                     { Subprog = 1; }
-#line 2074 "src/y.tab.c"
+#line 2100 "src/y.tab.c"
     break;
 
   case 30:
-#line 549 "src/practica5.y"
+#line 575 "src/practica5.y"
                                                    { Subprog = 1; }
-#line 2080 "src/y.tab.c"
+#line 2106 "src/y.tab.c"
     break;
 
   case 32:
-#line 552 "src/practica5.y"
+#line 578 "src/practica5.y"
                                    {  }
-#line 2086 "src/y.tab.c"
+#line 2112 "src/y.tab.c"
     break;
 
   case 33:
-#line 553 "src/practica5.y"
+#line 579 "src/practica5.y"
                         { yyval.codigo = (char*)malloc(strlen(yyvsp[0].codigo) + 1);
                           strcpy(yyval.codigo,yyvsp[0].codigo); }
-#line 2093 "src/y.tab.c"
+#line 2119 "src/y.tab.c"
     break;
 
   case 35:
-#line 557 "src/practica5.y"
+#line 583 "src/practica5.y"
                                    { yyval.codigo = (char*)malloc(strlen("\t")*profun + strlen(yyvsp[0].codigo) + 1);
                                      if(profun > 0) {
                                        strcpy(yyval.codigo,"\t");
@@ -2102,23 +2128,23 @@ yyreduce:
                                        }
                                      }
                                      strcat(yyval.codigo,yyvsp[0].codigo); }
-#line 2106 "src/y.tab.c"
+#line 2132 "src/y.tab.c"
     break;
 
   case 42:
-#line 571 "src/practica5.y"
+#line 597 "src/practica5.y"
                                       {if (esLista(yyvsp[-2].tipo)) { yyval.tipo = yyvsp[-2].tipo; } else {errorTipoOperador(yyvsp[-1].lexema); }}
-#line 2112 "src/y.tab.c"
+#line 2138 "src/y.tab.c"
     break;
 
   case 43:
-#line 572 "src/practica5.y"
+#line 598 "src/practica5.y"
                                    {if (esLista(yyvsp[-1].tipo)) { yyval.tipo = yyvsp[-1].tipo; } else {errorTipoOperador(yyvsp[-2].lexema); }}
-#line 2118 "src/y.tab.c"
+#line 2144 "src/y.tab.c"
     break;
 
   case 44:
-#line 574 "src/practica5.y"
+#line 600 "src/practica5.y"
                                                {
                                                 if (declarado(yyvsp[-3].lexema) == 0) {
                                                   errorNoDeclarado(yyvsp[-3].lexema);
@@ -2139,22 +2165,22 @@ yyreduce:
                                                 strcat(yyval.codigo,yyvsp[-1].codigo);
                                                 strcat(yyval.codigo,";\n");
                                                 }
-#line 2143 "src/y.tab.c"
+#line 2169 "src/y.tab.c"
     break;
 
   case 53:
-#line 608 "src/practica5.y"
+#line 634 "src/practica5.y"
                            { yyval.lexema = yyvsp[-1].lexema ;
                              posProced = buscarProced(yyvsp[-1].lexema) ; 
                              if(posProced == -1){ 
                                mostrarErrorProcedDesco(yyvsp[-1].lexema); 
                              }
                              posParam = 0; }
-#line 2154 "src/y.tab.c"
+#line 2180 "src/y.tab.c"
     break;
 
   case 54:
-#line 615 "src/practica5.y"
+#line 641 "src/practica5.y"
                                                               { if(posProced != -1) {
                                                                   if(posParam < TS[posProced].parametrosMin) {
                                                                     mostrarErrorMinParam(yyvsp[-3].lexema);
@@ -2163,11 +2189,11 @@ yyreduce:
                                                                     comprobarParam();
                                                                   }
                                                                 } }
-#line 2167 "src/y.tab.c"
+#line 2193 "src/y.tab.c"
     break;
 
   case 55:
-#line 623 "src/practica5.y"
+#line 649 "src/practica5.y"
                                             { if(posProced != -1) {
                                                 if(posParam < TS[posProced].parametrosMin) {
                                                   mostrarErrorMinParam(yyvsp[-2].lexema);
@@ -2176,11 +2202,11 @@ yyreduce:
                                                   comprobarParam();
                                                 }
                                               } }
-#line 2180 "src/y.tab.c"
+#line 2206 "src/y.tab.c"
     break;
 
   case 56:
-#line 632 "src/practica5.y"
+#line 658 "src/practica5.y"
                                                        { if(yyval.tipo != yyvsp[0].tipo) {
                                                            yyval.tipo = desconocido;
                                                          }
@@ -2193,11 +2219,11 @@ yyreduce:
                                                              posParam += 1;  
                                                            }
                                                          } }
-#line 2197 "src/y.tab.c"
+#line 2223 "src/y.tab.c"
     break;
 
   case 57:
-#line 644 "src/practica5.y"
+#line 670 "src/practica5.y"
                                 { yyval.tipo = yyvsp[0].tipo;
                                   if(posProced != -1) {
                                     if(posParam >= TS[posProced].parametrosMax) {
@@ -2208,17 +2234,17 @@ yyreduce:
                                       posParam += 1;  
                                     } 
                                   } }
-#line 2212 "src/y.tab.c"
+#line 2238 "src/y.tab.c"
     break;
 
   case 58:
-#line 655 "src/practica5.y"
+#line 681 "src/practica5.y"
                                       {yyval.tipo = yyvsp[-1].tipo;}
-#line 2218 "src/y.tab.c"
+#line 2244 "src/y.tab.c"
     break;
 
   case 59:
-#line 656 "src/practica5.y"
+#line 682 "src/practica5.y"
                                   {
               if (esNumerico(yyvsp[0].tipo)){
                 yyval.tipo = yyvsp[0].tipo;
@@ -2226,11 +2252,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2230 "src/y.tab.c"
+#line 2256 "src/y.tab.c"
     break;
 
   case 60:
-#line 663 "src/practica5.y"
+#line 689 "src/practica5.y"
                                   {
               if (esNumerico(yyvsp[0].tipo)){
                 yyval.tipo = yyvsp[0].tipo;
@@ -2238,11 +2264,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2242 "src/y.tab.c"
+#line 2268 "src/y.tab.c"
     break;
 
   case 61:
-#line 670 "src/practica5.y"
+#line 696 "src/practica5.y"
                             {
               if (yyvsp[0].tipo == booleano){
                 yyval.tipo = yyvsp[0].tipo;
@@ -2250,11 +2276,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               } 
             }
-#line 2254 "src/y.tab.c"
+#line 2280 "src/y.tab.c"
     break;
 
   case 62:
-#line 677 "src/practica5.y"
+#line 703 "src/practica5.y"
                                          {
               if (esLista(yyvsp[0].tipo)) {
                 if (yyvsp[-1].atrib == 0) {
@@ -2266,11 +2292,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2270 "src/y.tab.c"
+#line 2296 "src/y.tab.c"
     break;
 
   case 63:
-#line 688 "src/practica5.y"
+#line 714 "src/practica5.y"
                                                {
               if (esNumerico(yyvsp[0].tipo)){
                 yyval.tipo = yyvsp[0].tipo;
@@ -2278,11 +2304,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2282 "src/y.tab.c"
+#line 2308 "src/y.tab.c"
     break;
 
   case 64:
-#line 695 "src/practica5.y"
+#line 721 "src/practica5.y"
                                            {
               int tipo1 = tipoANumero(yyvsp[-2].tipo);
               int tipo2 = tipoANumero(yyvsp[0].tipo);
@@ -2310,11 +2336,11 @@ yyreduce:
                 }
               }
             }
-#line 2314 "src/y.tab.c"
+#line 2340 "src/y.tab.c"
     break;
 
   case 65:
-#line 722 "src/practica5.y"
+#line 748 "src/practica5.y"
                                             {
               if (esLista(yyvsp[-2].tipo) && yyvsp[0].tipo == entero) {
                 yyval.tipo = yyvsp[-2].tipo;
@@ -2322,11 +2348,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2326 "src/y.tab.c"
+#line 2352 "src/y.tab.c"
     break;
 
   case 66:
-#line 729 "src/practica5.y"
+#line 755 "src/practica5.y"
                                                                  {
               if(esLista(yyvsp[-2].tipo) && yyvsp[0].tipo == entero) {
                 yyval.tipo = listaATipo(yyvsp[-2].tipo);
@@ -2334,11 +2360,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2338 "src/y.tab.c"
+#line 2364 "src/y.tab.c"
     break;
 
   case 67:
-#line 736 "src/practica5.y"
+#line 762 "src/practica5.y"
                                                   {
               int tipo1 = tipoANumero(yyvsp[-2].tipo);
               int tipo2 = tipoANumero(yyvsp[0].tipo);
@@ -2372,11 +2398,11 @@ yyreduce:
                 }
               }
             }
-#line 2376 "src/y.tab.c"
+#line 2402 "src/y.tab.c"
     break;
 
   case 68:
-#line 769 "src/practica5.y"
+#line 795 "src/practica5.y"
                                             {
               if (yyvsp[-2].tipo == entero && yyvsp[0].tipo == entero) {
                 yyval.tipo = entero;
@@ -2390,11 +2416,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2394 "src/y.tab.c"
+#line 2420 "src/y.tab.c"
     break;
 
   case 69:
-#line 782 "src/practica5.y"
+#line 808 "src/practica5.y"
                                            {
               if (!esLista(yyvsp[-2].tipo) && !esLista(yyvsp[0].tipo)) {
                 if (yyvsp[-2].tipo == yyvsp[0].tipo) {
@@ -2410,11 +2436,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2414 "src/y.tab.c"
+#line 2440 "src/y.tab.c"
     break;
 
   case 70:
-#line 797 "src/practica5.y"
+#line 823 "src/practica5.y"
                                            {
               if (yyvsp[-2].tipo == entero && yyvsp[0].tipo == entero) {
                 yyval.tipo = booleano;
@@ -2426,11 +2452,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2430 "src/y.tab.c"
+#line 2456 "src/y.tab.c"
     break;
 
   case 71:
-#line 808 "src/practica5.y"
+#line 834 "src/practica5.y"
                                      {
               if (yyvsp[-2].tipo == booleano && yyvsp[0].tipo == booleano) {
                 yyval.tipo = booleano;
@@ -2438,11 +2464,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2442 "src/y.tab.c"
+#line 2468 "src/y.tab.c"
     break;
 
   case 72:
-#line 815 "src/practica5.y"
+#line 841 "src/practica5.y"
                                       {
               if (yyvsp[-2].tipo == booleano && yyvsp[0].tipo == booleano) {
                 yyval.tipo = booleano;
@@ -2450,11 +2476,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2454 "src/y.tab.c"
+#line 2480 "src/y.tab.c"
     break;
 
   case 73:
-#line 822 "src/practica5.y"
+#line 848 "src/practica5.y"
                                       {
               if (yyvsp[-2].tipo == booleano && yyvsp[0].tipo == booleano) {
                 yyval.tipo = booleano;
@@ -2462,11 +2488,11 @@ yyreduce:
                 errorTipoOperador(yyvsp[-1].lexema);
               }
             }
-#line 2466 "src/y.tab.c"
+#line 2492 "src/y.tab.c"
     break;
 
   case 74:
-#line 829 "src/practica5.y"
+#line 855 "src/practica5.y"
                                                                 {
               if (esLista(yyvsp[-4].tipo) && yyvsp[-2].tipo == listaATipo(yyvsp[-4].tipo) && yyvsp[0].tipo == entero) {
                 yyval.tipo = yyvsp[-4].tipo;
@@ -2474,42 +2500,42 @@ yyreduce:
                 errorTipoOperador2(yyvsp[-3].lexema, yyvsp[-1].lexema);
               }
             }
-#line 2478 "src/y.tab.c"
+#line 2504 "src/y.tab.c"
     break;
 
   case 75:
-#line 836 "src/practica5.y"
+#line 862 "src/practica5.y"
                  {if (declarado(yyvsp[0].lexema) == 0) {
                     errorNoDeclarado(yyvsp[0].lexema);
                   }
                   else {
                     yyval.tipo = buscarTipoVariable(yyvsp[0].lexema);
                   }}
-#line 2489 "src/y.tab.c"
+#line 2515 "src/y.tab.c"
     break;
 
   case 76:
-#line 842 "src/practica5.y"
+#line 868 "src/practica5.y"
                              { yyval.tipo = yyvsp[0].tipo; }
-#line 2495 "src/y.tab.c"
+#line 2521 "src/y.tab.c"
     break;
 
   case 77:
-#line 843 "src/practica5.y"
+#line 869 "src/practica5.y"
                         { yyval.tipo = yyvsp[0].tipo;
                           yyval.codigo = (char*)malloc(strlen(yyvsp[0].lexema) + 1);
                           strcpy(yyval.codigo,yyvsp[0].lexema); }
-#line 2503 "src/y.tab.c"
+#line 2529 "src/y.tab.c"
     break;
 
   case 79:
-#line 848 "src/practica5.y"
+#line 874 "src/practica5.y"
                                                       { yyval.tipo = yyvsp[-1].tipo; }
-#line 2509 "src/y.tab.c"
+#line 2535 "src/y.tab.c"
     break;
 
   case 80:
-#line 850 "src/practica5.y"
+#line 876 "src/practica5.y"
                 { tipoTmp = yyvsp[0].tipo;
                   if(yyval.atrib == 0) {
                     yyval.codigo = (char*)malloc(strlen("int") + 1);
@@ -2527,17 +2553,17 @@ yyreduce:
                     yyval.codigo = (char*)malloc(strlen("char") + 1);
                     strcpy(yyval.codigo,"char");
                   } }
-#line 2531 "src/y.tab.c"
+#line 2557 "src/y.tab.c"
     break;
 
   case 81:
-#line 867 "src/practica5.y"
+#line 893 "src/practica5.y"
                         { tipoTmp = obtenerTipoLista(yyvsp[0].tipo); }
-#line 2537 "src/y.tab.c"
+#line 2563 "src/y.tab.c"
     break;
 
 
-#line 2541 "src/y.tab.c"
+#line 2567 "src/y.tab.c"
 
       default: break;
     }
@@ -2769,7 +2795,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 869 "src/practica5.y"
+#line 895 "src/practica5.y"
 
 
 /** Aqui incluimos el fichero generado por el 'lex'
