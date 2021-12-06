@@ -2,8 +2,12 @@ principal ()
 {
     inicio_var
         entero   ve ;
-        flotante vf ;
-        caracter vc ;
+        entero   ve2 ;
+        entero   ve3 ;
+        entero   ve7 ;
+        entero   ve4 ;
+        entero   ve5 ;
+        entero   ve6 ;
     fin_var 
 
     ve = 1;

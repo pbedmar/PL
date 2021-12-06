@@ -98,6 +98,7 @@ dtipo tipoTmp ;
 int posParam;
 int posProced;
 dtipo listaParam[50];
+int profun = 0;
 
 entradaTS TS[MAX_TS] ;
 
@@ -425,12 +426,23 @@ char* etiqueta() {
 
 /** Seccion de producciones que definen la gramatica. **/
 
-programa    : cabecera_programa bloque {  };
+programa    : cabecera_programa bloque { $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + 1);
+                                         strcpy($$.codigo,$1.codigo);
+                                         strcat($$.codigo,$2.codigo);
+                                         
+                                         FILE *fichero;
+                                         fichero = fopen("src/codInter.c", "w");
+                                         fputs($$.codigo,fichero);
+                                         fclose(fichero);
+                                          };
 
-cabecera_programa   : PRINCIPAL PARIZQ PARDER {  };
+cabecera_programa   : PRINCIPAL PARIZQ PARDER { $$.codigo = (char*)malloc(strlen("int main()\n") + 1);
+                                                strcpy($$.codigo,"int main()\n"); };
 
 inicio_bloque : LLAVEIZQ { TS_InsertaMARCA();
-                            } ;
+                           profun += 1;
+                           $$.codigo = (char*)malloc(strlen("{\n") + 1);
+                           strcpy($$.codigo,"{\n"); } ;
 
 bloque  : inicio_bloque
           declar_de_variables_locales 
@@ -441,7 +453,12 @@ bloque  : inicio_bloque
           declar_de_variables_locales 
           sentencias 
           LLAVEDER { TS_VaciarENTRADAS();
-                      } ;
+                     profun -= 1;
+                     $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen($3.codigo) + strlen("}\n") + 1);
+                     strcpy($$.codigo,$1.codigo);
+                     strcat($$.codigo,$2.codigo);
+                     strcat($$.codigo,$3.codigo);
+                     strcat($$.codigo,"}\n"); } ;
 
 lista_parametros    : lista_parametros COMA parametro { TS_InsertaPARAM($3.lexema, $3.tipo); }
                     | parametro { TS_InsertaPARAM($1.lexema, $1.tipo); } ;
@@ -453,13 +470,28 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE 
 
 parametro   : tipos ID { $$.tipo = tipoTmp; $$.lexema = $2.lexema; } ;
 
-declar_de_variables_locales : INICIOVAR variables_locales FINVAR {  }
-                            | {  };
+declar_de_variables_locales : INICIOVAR variables_locales FINVAR { $$.codigo = (char*)malloc(strlen($2.codigo) + 1);
+                                                                   strcpy($$.codigo,$2.codigo); }
+                            | { $$.codigo = (char*)malloc(strlen("") + 1);
+                                strcpy($$.codigo,""); };
 
-variables_locales   : variables_locales cuerpo_declar_variables {  }
-                    | cuerpo_declar_variables {  } ;
+variables_locales   : variables_locales cuerpo_declar_variables { $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + 1);
+                                                                  strcpy($$.codigo,$1.codigo);
+                                                                  strcat($$.codigo,$2.codigo); }
+                    | cuerpo_declar_variables { $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
+                                                strcpy($$.codigo,$1.codigo); } ;
 
-cuerpo_declar_variables : tipos declar_variables PYC {  }
+cuerpo_declar_variables : tipos declar_variables PYC { $$.codigo = (char*)malloc(strlen("\t")*profun + strlen($1.codigo) + strlen(" ") + strlen($2.codigo) + strlen(";\n") + 1);
+                                                       if(profun > 0) {
+                                                         strcpy($$.codigo,"\t");
+                                                         for(int i = 1; i < profun; ++i) {
+                                                           strcat($$.codigo, "\t");
+                                                         }
+                                                       }
+                                                       strcat($$.codigo,$1.codigo);
+                                                       strcat($$.codigo, " ");
+                                                       strcat($$.codigo, $2.codigo);
+                                                       strcat($$.codigo, ";\n"); }
                         | error ;
 
 declar_variables    : ID { 
@@ -468,6 +500,8 @@ declar_variables    : ID {
                           else
                             TS_InsertaVAR($1.lexema, tipoTmp);
                             
+                          $$.codigo = (char*)malloc(strlen($1.lexema) + 1);
+                          strcpy($$.codigo,$1.lexema);
                            }
                     | ID IGUAL expresion { 
                       if(enAmbito($1.lexema) == 1)
@@ -504,10 +538,18 @@ cabecera_proced : inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por
                 | error ;
 
 sentencias  : sentencias sentencia {  }
-            | sentencia {  } ;
+            | sentencia { $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
+                          strcpy($$.codigo,$1.codigo); } ;
 
 sentencia   : bloque
-            | sentencia_asignacion {  }
+            | sentencia_asignacion { $$.codigo = (char*)malloc(strlen("\t")*profun + strlen($1.codigo) + 1);
+                                     if(profun > 0) {
+                                       strcpy($$.codigo,"\t");
+                                       for(int i = 1; i < profun; ++i) {
+                                         strcat($$.codigo, "\t");
+                                       }
+                                     }
+                                     strcat($$.codigo,$1.codigo); }
             | sentencia_if
             | MIENTRAS PARIZQ expresion PARDER sentencia
             | PARA sentencia_asignacion HASTA expresion ITERANDO expresion HACER sentencia
@@ -531,7 +573,11 @@ sentencia_asignacion  : ID IGUAL expresion PYC {
                                                   }
                                                 }
 
-                                                
+                                                $$.codigo = (char*)malloc(strlen($1.lexema) + strlen(" = ") + strlen($3.codigo) + strlen(";\n") + 1);
+                                                strcpy($$.codigo,$1.lexema);
+                                                strcat($$.codigo," = ");
+                                                strcat($$.codigo,$3.codigo);
+                                                strcat($$.codigo,";\n");
                                                 } ;
 
 sentencia_if    : SI PARIZQ expresion PARDER sentencia
@@ -783,23 +829,28 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                   }}
             | agregado_lista { $$.tipo = $1.tipo; }
             | CONSTANTE { $$.tipo = $1.tipo;
-                           }
+                          $$.codigo = (char*)malloc(strlen($1.lexema) + 1);
+                          strcpy($$.codigo,$1.lexema); }
             | error ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER { $$.tipo = $2.tipo; };
 
 tipos   : TIPOS { tipoTmp = $1.tipo;
                   if($$.atrib == 0) {
-                    $$.codigo = strdup("int");
+                    $$.codigo = (char*)malloc(strlen("int") + 1);
+                    strcpy($$.codigo,"int");
                   }
                   else if($$.atrib == 1) {
-                    $$.codigo = strdup("float");
+                    $$.codigo = (char*)malloc(strlen("float") + 1);
+                    strcpy($$.codigo,"float");
                   }
                   else if($$.atrib == 2) {
-                    $$.codigo = strdup("bool");
+                    $$.codigo = (char*)malloc(strlen("bool") + 1);
+                    strcpy($$.codigo,"bool");
                   }
                   else if($$.atrib == 3) {
-                    $$.codigo = strdup("char");
+                    $$.codigo = (char*)malloc(strlen("char") + 1);
+                    strcpy($$.codigo,"char");
                   } }
         | LISTADE TIPOS { tipoTmp = obtenerTipoLista($2.tipo); } ;
 
