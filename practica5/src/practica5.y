@@ -697,6 +697,8 @@ sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                                     strcat($$.codigo,"}\n");
                                     strcat($$.codigo,descrip.etiquetaSalida);
                                     strcat($$.codigo,":\n\n");
+
+                                    TOPE -= 1;
                                   }
             | LEER lista_identificadores PYC
             | IMPRIMIR mensajes PYC
@@ -755,7 +757,9 @@ sentencia_if    : cabecera_if sentencia { descriptorDeInstrControl descrip = bus
                                           strcpy($$.codigo,$1.codigo);
                                           strcat($$.codigo,$2.codigo);
                                           strcat($$.codigo,descrip.etiquetaElse);
-                                          strcat($$.codigo,":\n"); 
+                                          strcat($$.codigo,":\n");
+
+                                          TOPE -= 1; 
                                         }
                 | cabecera_if sentencia
                   OTROCASO sentencia {  descriptorDeInstrControl descrip = buscarDescrip();
@@ -774,6 +778,8 @@ sentencia_if    : cabecera_if sentencia { descriptorDeInstrControl descrip = bus
                                         strcat($$.codigo,$4.codigo);
                                         strcat($$.codigo,descrip.etiquetaSalida);
                                         strcat($$.codigo,":\n");
+
+                                        TOPE -= 1;
                                      };
 
 lista_identificadores   : lista_identificadores COMA ID
