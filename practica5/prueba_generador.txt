@@ -6,6 +6,7 @@ principal ()
         entero   ve3, ve4;
         entero   ve5 = 2, ve6 = 5;
         entero   ve7, ve8 = 2, ve9;
+        booleano b1 = verdadero, b2 = falso, b4,b5;
     fin_var 
 
     ve = 2;
@@ -23,8 +24,14 @@ principal ()
         vr = 4;
     }
 
-    para ve = 0; hasta ve < 10 iterando 1 hacer{
+    para ve = 0; hasta ve <= 10 iterando 1 hacer{
         ve2 = 3;
     }
+
+    b4 = b1 o b2;
+    b5 = b1 y b4;
+    b5 = b1 o_exclusiva b2;
+    b5 = b1 != b2;
+    b5 = b1 == b2;
     
 }
