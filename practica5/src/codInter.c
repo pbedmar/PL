@@ -1,5 +1,7 @@
 #include <stdbool.h>
 
+#include <math.h>
+
 int ve;
 int ve2 = 2;
 int ve3, ve4;
@@ -142,6 +144,13 @@ etiqueta2: ;
 	int temp49 = ve2;
 	int temp50 = -temp49;
 	ve = temp50;
+	}
+
+	{
+	int temp51 = 2;
+	int temp52 = 5;
+	int temp53 = pow(temp51, temp52);
+	ve = temp53;
 	}
 
 }

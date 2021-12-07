@@ -41,5 +41,6 @@ principal ()
     ve = ++ve2;
     b5 = no b1;
     ve = -ve2;
+    ve = 2**5;
     
 }

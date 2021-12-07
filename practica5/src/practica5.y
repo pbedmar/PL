@@ -441,6 +441,31 @@ void generarCodExpresionUnario(atributos *a, atributos *a1, atributos *a2, char*
   printf("codigo generado: \n%s\n",a->codigo);
 }
 
+void potencia(atributos *a, atributos *a1, atributos *a2, atributos *a3){
+  //generacion de codigo
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a3->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = pow(") + strlen(a1->nombre) 
+              + strlen(", ") + strlen(a3->nombre) + strlen(");\n") + 1);
+
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a3->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = pow(");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,", ");  
+  strcat(a->codigo,a3->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
 
 %}
 
@@ -531,8 +556,9 @@ void generarCodExpresionUnario(atributos *a, atributos *a1, atributos *a2, char*
 
 /** Seccion de producciones que definen la gramatica. **/
 
-programa    : cabecera_programa bloque {  $$.codigo = (char*)malloc(strlen("#include <stdbool.h>\n\n") + strlen($2.codigoGlobal) + strlen("\n") + strlen($1.codigo) + strlen($2.codigo) + 1);
+programa    : cabecera_programa bloque {  $$.codigo = (char*)malloc(strlen("#include <stdbool.h>\n\n") + strlen("#include <math.h>\n\n") +strlen($2.codigoGlobal) + strlen("\n") + strlen($1.codigo) + strlen($2.codigo) + 1);
                                           strcpy($$.codigo,"#include <stdbool.h>\n\n");
+                                          strcat($$.codigo,"#include <math.h>\n\n");
                                           strcat($$.codigo,$2.codigoGlobal);
                                           strcat($$.codigo,"\n");
                                           strcat($$.codigo,$1.codigo);
@@ -1020,12 +1046,16 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               if ($1.tipo == entero && $3.tipo == entero) {
                 $$.tipo = entero;
                 //crear expresion para potencia
+                potencia(&$$,&$1,&$2,&$3);
               } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
                 $$.tipo = real;
+                potencia(&$$,&$1,&$2,&$3);
               } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
                 $$.tipo = real;
+                potencia(&$$,&$1,&$2,&$3);
               } else if (esLista($1.tipo) && esLista($3.tipo) && $1.tipo == $3.tipo) {
                 $$.tipo = $1.tipo;
+                potencia(&$$,&$1,&$2,&$3);
               } else {
                 errorTipoOperador($2.lexema);
               }
