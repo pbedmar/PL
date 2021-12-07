@@ -2,6 +2,10 @@ principal ()
 {
     inicio_var
         entero   ve ;
+        entero   ve2 = 2;
+        entero   ve3, ve4;
+        entero   ve5 = 2, ve6 = 5;
+        entero   ve7, ve8 = 2, ve9;
     fin_var 
 
     ve = 2;

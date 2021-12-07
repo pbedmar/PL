@@ -562,13 +562,11 @@ variables_locales   : variables_locales cuerpo_declar_variables { $$.codigo = (c
                                                 strcpy($$.codigo,$1.codigo); } ;
 
 cuerpo_declar_variables : tipos declar_variables PYC { if(profun > 1) {
-                                                         $$.codigo = (char*)malloc(strlen("\t")*profun + strlen($1.codigo) + strlen(" ") + strlen($2.codigo) + strlen(";\n") + 1);
+                                                         char *tab = generarTab();
+                                                         $$.codigo = (char*)malloc(strlen(tab) + strlen($1.codigo) + strlen(" ") + strlen($2.codigo) + strlen(";\n") + 1);
                                                          $$.codigoGlobal = (char*)malloc(strlen("") + 1);
                                                          strcpy($$.codigoGlobal,"");
-                                                         strcpy($$.codigo,"\t");
-                                                         for(int i = 1; i < profun; ++i) {
-                                                           strcat($$.codigo, "\t");
-                                                         }
+                                                         strcpy($$.codigo,tab);
                                                          strcat($$.codigo,$1.codigo);
                                                          strcat($$.codigo, " ");
                                                          strcat($$.codigo, $2.codigo);
@@ -585,36 +583,46 @@ cuerpo_declar_variables : tipos declar_variables PYC { if(profun > 1) {
                                                        } }
                         | error ;
 
-declar_variables    : ID { 
-                          if(enAmbito($1.lexema) == 1)
-                            errorYaDeclarado($1.lexema);
-                          else
-                            TS_InsertaVAR($1.lexema, tipoTmp);
+declar_variables    : ID {  if(enAmbito($1.lexema) == 1)
+                              errorYaDeclarado($1.lexema);
+                            else
+                              TS_InsertaVAR($1.lexema, tipoTmp);
                             
-                          $$.codigo = (char*)malloc(strlen($1.lexema) + 1);
-                          strcpy($$.codigo,$1.lexema);
-                           }
-                    | ID IGUAL expresion { 
-                      if(enAmbito($1.lexema) == 1)
-                            errorYaDeclarado($1.lexema);
-                      else
-                        TS_InsertaVAR($1.lexema, tipoTmp);
-                        
-                       }
-                    | declar_variables COMA ID { 
-                      if(enAmbito($3.lexema) == 1)
-                            errorYaDeclarado($3.lexema);
-                      else
-                        TS_InsertaVAR($3.lexema, tipoTmp);
-                        
-                       }
-                    | declar_variables COMA ID IGUAL expresion { 
-                      if(enAmbito($3.lexema) == 1)
-                            errorYaDeclarado($3.lexema);
-                      else
-                        TS_InsertaVAR($3.lexema, tipoTmp);
-                        
-                       } ;
+                            $$.codigo = (char*)malloc(strlen($1.lexema) + 1);
+                            strcpy($$.codigo,$1.lexema);
+                          }
+                    | ID IGUAL expresion {  if(enAmbito($1.lexema) == 1)
+                                              errorYaDeclarado($1.lexema);
+                                            else
+                                              TS_InsertaVAR($1.lexema, tipoTmp);
+                                            
+                                            $$.codigo = (char*)malloc(strlen($1.lexema) + strlen(" = ") + strlen($3.lexema) + 1);
+                                            strcpy($$.codigo,$1.lexema);
+                                            strcat($$.codigo," = ");
+                                            strcat($$.codigo,$3.lexema);
+                                         }
+                    | declar_variables COMA ID {  if(enAmbito($3.lexema) == 1)
+                                                    errorYaDeclarado($3.lexema);
+                                                  else
+                                                    TS_InsertaVAR($3.lexema, tipoTmp);
+                                                  
+                                                  $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(", ") + strlen($3.lexema) + 1);
+                                                  strcpy($$.codigo,$1.codigo);
+                                                  strcat($$.codigo,", ");
+                                                  strcat($$.codigo,$3.lexema);
+                                                }
+                    | declar_variables COMA ID IGUAL expresion {  if(enAmbito($3.lexema) == 1)
+                                                                    errorYaDeclarado($3.lexema);
+                                                                  else
+                                                                    TS_InsertaVAR($3.lexema, tipoTmp);
+                                                                    
+                                                                  $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(", ") + strlen($3.lexema) + strlen(" = ") + strlen($5.lexema) + 1);
+                                                                  strcpy($$.codigo,$1.codigo);
+                                                                  strcat($$.codigo,", ");
+                                                                  strcat($$.codigo,$3.lexema);
+                                                                  strcat($$.codigo," = ");
+                                                                  strcat($$.codigo,$5.lexema);
+                                                                  } ;
 
 declar_procedimientos : declar_procedimientos declar_proced
                       | declar_proced ;
@@ -951,8 +959,10 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                   else {
                     $$.tipo = buscarTipoVariable($1.lexema);
                   }}
-            | agregado_lista { $$.tipo = $1.tipo; }
+            | agregado_lista { $$.tipo = $1.tipo;
+                               $$.lexema = $1.lexema; }
             | CONSTANTE { $$.tipo = $1.tipo;
+                          $$.lexema = $1.lexema;
                           char *varTmp = temporal();
                           char *tipoTmp = obtenerTipo($1.tipo);
                           char *tab = generarTab();
