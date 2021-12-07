@@ -708,7 +708,23 @@ sentencia_if    : cabecera_if sentencia { descriptorDeInstrControl descrip = bus
                                           strcat($$.codigo,":\n"); 
                                         }
                 | cabecera_if sentencia
-                  OTROCASO sentencia ;
+                  OTROCASO sentencia {  descriptorDeInstrControl descrip = buscarDescrip();
+                                        char *tab = generarTab();
+                                        $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen(tab) + strlen("goto ") + strlen(descrip.etiquetaSalida)
+                                                     + strlen(";\n") + strlen(descrip.etiquetaElse) + strlen(":\n") + strlen($4.codigo) + strlen(descrip.etiquetaSalida)
+                                                     + strlen(":\n") + 1);
+                                        strcpy($$.codigo,$1.codigo);
+                                        strcat($$.codigo,$2.codigo);
+                                        strcat($$.codigo,tab);
+                                        strcat($$.codigo,"goto ");
+                                        strcat($$.codigo,descrip.etiquetaSalida);
+                                        strcat($$.codigo,";\n");
+                                        strcat($$.codigo,descrip.etiquetaElse);
+                                        strcat($$.codigo,":\n");
+                                        strcat($$.codigo,$4.codigo);
+                                        strcat($$.codigo,descrip.etiquetaSalida);
+                                        strcat($$.codigo,":\n");
+                                     };
 
 lista_identificadores   : lista_identificadores COMA ID
                         | ID ;

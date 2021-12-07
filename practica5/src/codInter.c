@@ -19,5 +19,14 @@ int main()
 		ve = temp6;
 		}
 	}
+	goto etiqueta0;
 etiqueta1:
+	{
+		int vr;
+		{
+		int temp7 = 4;
+		vr = temp7;
+		}
+	}
+etiqueta0:
 }

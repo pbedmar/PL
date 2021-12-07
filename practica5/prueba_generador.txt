@@ -16,5 +16,11 @@ principal ()
         fin_var
         ve = 3;
     }
+    en otro caso{
+        inicio_var
+            entero vr;
+        fin_var
+        vr = 4;
+    }
     
 }
