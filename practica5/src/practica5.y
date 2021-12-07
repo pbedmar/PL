@@ -417,6 +417,30 @@ void generarCodExpresion(atributos *a, atributos *a1, atributos *a2, atributos *
   printf("codigo generado: \n%s\n",a->codigo);
 }
 
+void generarCodExpresionUnario(atributos *a, atributos *a1, atributos *a2, char* op){
+  //generacion de codigo
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") 
+                    + strlen(op) + strlen(a2->nombre) + strlen(";\n") + 1);
+
+  
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,op);;
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,";\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador %s\n",op);
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
 
 %}
 
@@ -871,6 +895,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | DECRE_PRE expresion {
               if (esNumerico($2.tipo)){
                 $$.tipo = $2.tipo;
+                generarCodExpresionUnario(&$$,&$1,&$2,$1.lexema);
               } else {
                 errorTipoOperador($1.lexema);
               }
@@ -878,6 +903,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | INCRE_PRE expresion {
               if (esNumerico($2.tipo)){
                 $$.tipo = $2.tipo;
+                generarCodExpresionUnario(&$$,&$1,&$2,$1.lexema);
               } else {
                 errorTipoOperador($1.lexema);
               }
@@ -885,6 +911,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | NOT expresion {
               if ($2.tipo == booleano){
                 $$.tipo = $2.tipo;
+                generarCodExpresionUnario(&$$,&$1,&$2,"!");
               } else {
                 errorTipoOperador($1.lexema);
               } 
@@ -903,6 +930,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | ADITIVOS expresion %prec UNARIOS {
               if (esNumerico($2.tipo)){
                 $$.tipo = $2.tipo;
+                generarCodExpresionUnario(&$$,&$1,&$2,$1.lexema);
               } else {
                 errorTipoOperador($1.lexema);
               }
@@ -919,8 +947,10 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               } else {
                 if (sumaTipos == 0) {
                   $$.tipo = entero;
+                  generarCodExpresion(&$$,&$1,&$2,&$3,$2.lexema);
                 } else if (sumaTipos==1 || sumaTipos==2) {
                   $$.tipo = real;
+                  generarCodExpresion(&$$,&$1,&$2,&$3,$2.lexema);
                 } else {
                   if (tipo1 >= 3 && tipo2 <=1) {
                     if (sumaTipos==3) {

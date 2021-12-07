@@ -33,5 +33,13 @@ principal ()
     b5 = b1 o_exclusiva b2;
     b5 = b1 != b2;
     b5 = b1 == b2;
+    ve = ve2 / ve5; 
+    ve = ve2 * ve5; 
+    ve = ve2 + ve5; 
+    ve = ve2 - ve5; 
+    ve = --ve2;
+    ve = ++ve2;
+    b5 = no b1;
+    ve = -ve2;
     
 }

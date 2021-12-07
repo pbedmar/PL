@@ -106,4 +106,42 @@ etiqueta2: ;
 	ve = temp36;
 	}
 
+	{
+	int temp37 = ve2;
+	int temp38 = ve5;
+	int temp39 = temp37 + temp38;
+	ve = temp39;
+	}
+
+	{
+	int temp40 = ve2;
+	int temp41 = ve5;
+	int temp42 = temp40 - temp41;
+	ve = temp42;
+	}
+
+	{
+	int temp43 = ve2;
+	int temp44 = --temp43;
+	ve = temp44;
+	}
+
+	{
+	int temp45 = ve2;
+	int temp46 = ++temp45;
+	ve = temp46;
+	}
+
+	{
+	bool temp47 = b1;
+	bool temp48 = !temp47;
+	b5 = temp48;
+	}
+
+	{
+	int temp49 = ve2;
+	int temp50 = -temp49;
+	ve = temp50;
+	}
+
 }
