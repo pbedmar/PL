@@ -1,5 +1,5 @@
 #include <stdbool.h>
-
+#include <stdio.h>
 #include <math.h>
 
 int ve;
@@ -153,4 +153,26 @@ etiqueta2: ;
 	ve = temp53;
 	}
 
+	{
+	int temp54 = 100;
+	ve = temp54;
+	}
+
+etiqueta5: ;
+	int temp55 = ve;
+	int temp56 = 5;
+	int temp57 = -temp56;
+	bool temp58 = temp55 > temp57;
+	if (!temp58) goto etiqueta4;
+	{
+		{
+		int temp59 = ve;
+		int temp60 = --temp59;
+		ve = temp60;
+		printf("Valor de ve = %d\n",ve);
+		}
+
+	}
+	goto etiqueta5;
+etiqueta4: ;
 }

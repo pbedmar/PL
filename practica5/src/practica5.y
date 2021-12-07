@@ -466,6 +466,36 @@ void potencia(atributos *a, atributos *a1, atributos *a2, atributos *a3){
   printf("codigo generado: \n%s\n",a->codigo);
 }
 
+void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atributos *a4, atributos *a5){
+  char *etiqSalida = etiqueta();
+  char *etiqEntrada = etiqueta();
+  //TS_InsertaDescripControl($2.nombre, etiqEntrada, etiqSalida, NULL);
+  char *tab = generarTab();
+
+  a->codigo = (char*)malloc(strlen(etiqEntrada) + strlen(": ;\n") + strlen(a3->codigo) + strlen(tab) + strlen("if (!") + strlen(a3->nombre) 
+              + strlen(") goto ") + strlen(etiqSalida) + strlen(";\n") + strlen(a5->codigo) +strlen(tab)+strlen("goto ") + strlen(etiqEntrada) + strlen(";\n") + strlen(etiqSalida) + strlen(": ;\n")+ 1);
+
+  
+  strcat(a->codigo,etiqEntrada);
+  strcat(a->codigo,": ;\n");
+  strcat(a->codigo,a3->codigo);
+
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"if (!");
+  strcat(a->codigo,a3->nombre);
+  strcat(a->codigo,") goto ");
+  strcat(a->codigo,etiqSalida);
+  strcat(a->codigo,";\n");
+  strcat(a->codigo,a5->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"goto ");
+  strcat(a->codigo,etiqEntrada);
+  strcat(a->codigo,";\n");
+  strcat(a->codigo,etiqSalida);
+  strcat(a->codigo,": ;\n");
+
+}
+
 
 %}
 
@@ -556,8 +586,8 @@ void potencia(atributos *a, atributos *a1, atributos *a2, atributos *a3){
 
 /** Seccion de producciones que definen la gramatica. **/
 
-programa    : cabecera_programa bloque {  $$.codigo = (char*)malloc(strlen("#include <stdbool.h>\n\n") + strlen("#include <math.h>\n\n") +strlen($2.codigoGlobal) + strlen("\n") + strlen($1.codigo) + strlen($2.codigo) + 1);
-                                          strcpy($$.codigo,"#include <stdbool.h>\n\n");
+programa    : cabecera_programa bloque {  $$.codigo = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") +strlen($2.codigoGlobal) + strlen("\n") + strlen($1.codigo) + strlen($2.codigo) + 1);
+                                          strcpy($$.codigo,"#include <stdbool.h>\n#include <stdio.h>\n");
                                           strcat($$.codigo,"#include <math.h>\n\n");
                                           strcat($$.codigo,$2.codigoGlobal);
                                           strcat($$.codigo,"\n");
@@ -752,6 +782,9 @@ sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                               strcat($$.codigo,"\n");
                            }
             | MIENTRAS PARIZQ expresion PARDER sentencia
+            {
+              bucleWhile(&$$,&$1,&$2,&$3,&$4,&$5);
+            }
             | cabecera_for ITERANDO expresion HACER sentencia  
                                   { char *tab = generarTab();
                                     descriptorDeInstrControl descrip = buscarDescrip();
