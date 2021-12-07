@@ -22,5 +22,9 @@ principal ()
         fin_var
         vr = 4;
     }
+
+    para ve = 0; hasta ve < 10 iterando 1 hacer{
+        ve2 = 3;
+    }
     
 }
