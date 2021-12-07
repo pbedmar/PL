@@ -10,6 +10,11 @@ principal ()
 
     ve = 2;
 
-    si(5)
+    si(5){
+        inicio_var
+            entero vt;
+        fin_var
         ve = 3;
+    }
+    
 }

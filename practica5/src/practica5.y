@@ -495,13 +495,9 @@ cabecera_programa   : PRINCIPAL PARIZQ PARDER { $$.codigo = (char*)malloc(strlen
                                                  };
 
 inicio_bloque : LLAVEIZQ { TS_InsertaMARCA();
-                           $$.codigo = (char*)malloc(strlen("\t")*profun + strlen("{\n") + 1);
-                           if(profun > 0) {
-                             strcpy($$.codigo,"\t");
-                             for(int i = 1; i < profun; ++i) {
-                               strcat($$.codigo, "\t");
-                             }
-                           }
+                           char *tab = generarTab();
+                           $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + 1);
+                           strcpy($$.codigo,tab);
                            strcat($$.codigo,"{\n");
                            profun += 1;
                             } ;
@@ -516,20 +512,17 @@ bloque  : inicio_bloque
           sentencias 
           LLAVEDER { TS_VaciarENTRADAS();
                      profun -= 1;
-                     $$.codigo = (char*)malloc(strlen("\t")*profun + strlen($1.codigo) + strlen($2.codigo) + strlen($3.codigo) + strlen("}\n") + 1);
+                     char *tab = generarTab();
+                     $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen($3.codigo) + strlen(tab) + strlen("}\n") + 1);
                      $$.codigoGlobal = (char*)malloc(strlen($2.codigoGlobal) + 1);
                      strcpy($$.codigoGlobal,$2.codigoGlobal);
 
                      strcpy($$.codigo,$1.codigo);
                      strcat($$.codigo,$2.codigo);
                      strcat($$.codigo,$3.codigo);
-                     if(profun > 0) {
-                       strcpy($$.codigo,"\t");
-                       for(int i = 1; i < profun; ++i) {
-                         strcat($$.codigo, "\t");
-                       }
-                     }
-                     strcat($$.codigo,"}\n"); } ;
+                     strcat($$.codigo,tab);
+                     strcat($$.codigo,"}\n"); 
+                   } ;
 
 lista_parametros    : lista_parametros COMA parametro { TS_InsertaPARAM($3.lexema, $3.tipo); }
                     | parametro { TS_InsertaPARAM($1.lexema, $1.tipo); } ;
@@ -642,7 +635,9 @@ sentencias  : sentencias sentencia { $$.codigo = (char*)malloc(strlen($1.codigo)
             | sentencia { $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                           strcpy($$.codigo,$1.codigo); } ;
 
-sentencia   : bloque
+sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
+                        strcpy($$.codigo,$1.codigo);
+                     }
             | sentencia_asignacion { char *tab = generarTab();
                                      $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($1.codigo) + strlen(tab) + strlen("}\n") + 1);
                                      strcpy($$.codigo,tab);
@@ -703,16 +698,15 @@ cabecera_if : SI PARIZQ expresion PARDER { char *etiqSalida = etiqueta();
                                            strcat($$.codigo,") goto ");
                                            strcat($$.codigo,etiqElse);
                                            strcat($$.codigo,";\n");
-                                            } ;
+                                         } ;
 
 sentencia_if    : cabecera_if sentencia { descriptorDeInstrControl descrip = buscarDescrip();
                                           $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen(descrip.etiquetaElse) + strlen(":\n") + 1);
                                           strcpy($$.codigo,$1.codigo);
                                           strcat($$.codigo,$2.codigo);
-                                          
                                           strcat($$.codigo,descrip.etiquetaElse);
                                           strcat($$.codigo,":\n"); 
-                                          }
+                                        }
                 | cabecera_if sentencia
                   OTROCASO sentencia ;
 

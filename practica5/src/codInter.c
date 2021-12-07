@@ -13,8 +13,11 @@ int main()
 	int temp5 = 5;
 	if (!temp5) goto etiqueta1;
 	{
-	int temp6 = 3;
-	ve = temp6;
+		int vt;
+		{
+		int temp6 = 3;
+		ve = temp6;
+		}
 	}
 etiqueta1:
 }
