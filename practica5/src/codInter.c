@@ -8,6 +8,7 @@ int ve3, ve4;
 int ve5 = 2, ve6 = 5;
 int ve7, ve8 = 2, ve9;
 bool b1 = true, b2 = false, b4, b5;
+char c1;
 
 int main()
 {
@@ -154,25 +155,37 @@ etiqueta2: ;
 	}
 
 	{
-	int temp54 = 100;
+	int temp54 = 0;
 	ve = temp54;
 	}
 
 etiqueta5: ;
 	int temp55 = ve;
 	int temp56 = 5;
-	int temp57 = -temp56;
-	bool temp58 = temp55 > temp57;
-	if (!temp58) goto etiqueta4;
+	bool temp57 = temp55 < temp56;
+	if (!temp57) goto etiqueta4;
 	{
 		{
-		int temp59 = ve;
-		int temp60 = --temp59;
+		int temp58 = ve;
+		int temp59 = 1;
+		int temp60 = temp58 + temp59;
 		ve = temp60;
-		printf("Valor de ve = %d\n",ve);
 		}
 
 	}
 	goto etiqueta5;
 etiqueta4: ;
+	printf("%s", "Inserta un caracter: ");
+
+	scanf("%c", &c1);
+
+	printf("%s", "Hola\n");
+
+	printf("%i", ve);
+	printf("%s", " ");
+	printf("%c", c1);
+	printf("%s", " ");
+	printf("%i", b1);
+	printf("%s", "\n");
+
 }

@@ -78,7 +78,7 @@ constante_caracter '[^\"']'
 "flotante"  { yylval.atrib = 1 ; yylval.tipo = real ; return TIPOS; }
 "booleano"  { yylval.atrib = 2 ; yylval.tipo = booleano ; return TIPOS; }
 "caracter"  { yylval.atrib = 3 ; yylval.tipo = caracter ; return TIPOS; }
-{cadena} { yylval.atrib = 0 ; return CADENA; }
+{cadena} { yylval.atrib = 0, yylval.lexema = strdup(yytext) ; return CADENA; }
 {constante_entero}    { yylval.lexema = strdup(yytext) ; yylval.atrib = 0 ; yylval.tipo = entero ; return CONSTANTE; }
 {constante_real}      { yylval.lexema = strdup(yytext) ; yylval.atrib = 1 ; yylval.tipo = real ; return CONSTANTE; }
 {constante_booleano}  { yylval.lexema = strdup(yytext) ; yylval.atrib = 2 ; yylval.tipo = booleano ; return CONSTANTE; }

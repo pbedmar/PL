@@ -7,6 +7,7 @@ principal ()
         entero   ve5 = 2, ve6 = 5;
         entero   ve7, ve8 = 2, ve9;
         booleano b1 = verdadero, b2 = falso, b4,b5;
+        caracter c1;
     fin_var 
 
     ve = 2;
@@ -42,5 +43,15 @@ principal ()
     b5 = no b1;
     ve = -ve2;
     ve = 2**5;
-    
+
+    ve = 0;
+    mientras (ve < 5) {
+        ve = ve + 1;
+    }
+
+    imprimir "Inserta un caracter: ";
+    leer c1;
+
+    imprimir "Hola\n";
+    imprimir ve, " ", c1, " ", b1, "\n";
 }

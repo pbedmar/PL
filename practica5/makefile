@@ -9,6 +9,9 @@ all: generadorCodInter
 generadorCodInter: $(OBJ)/main.o $(OBJ)/y.tab.o
 	gcc -std=$(VERSION) -pthread -g $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
 
+ejecutablePrueba: $(SRC)/codInter.c
+	gcc $(SRC)/codInter.c -o $(BIN)/ejecutablePrueba
+
 $(OBJ)/y.tab.o: $(SRC)/y.tab.c
 	gcc -std=$(VERSION) -pthread -g -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
 

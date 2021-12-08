@@ -396,7 +396,7 @@ void generarCodExpresion(atributos *a, atributos *a1, atributos *a2, atributos *
   a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a3->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) 
               + strlen(" ") + strlen(op) + strlen(" ") + strlen(a3->nombre) + strlen(";\n") + 1);
 
-  
+
   strcpy(a->codigo,a1->codigo);
   strcat(a->codigo,a3->codigo);
   strcat(a->codigo,tab);
@@ -414,6 +414,7 @@ void generarCodExpresion(atributos *a, atributos *a1, atributos *a2, atributos *
 
   a->nombre = strdup(varTmp);
   printf("operador %s\n",op);
+  printf("nombre: %s\n",a2->nombre);
   printf("codigo generado: \n%s\n",a->codigo);
 }
 
@@ -494,6 +495,24 @@ void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atrib
   strcat(a->codigo,etiqSalida);
   strcat(a->codigo,": ;\n");
 
+}
+
+char* etiquetaPrinf(dtipo tipo) {
+   //TODO: Deberíamos de contemplar el tipo lista?
+  switch(tipo) {
+    case entero:
+      return "%i";
+    break;
+    case real:
+      return "%f";
+    break;
+    case booleano:
+      return "%i";
+    break;
+    case caracter:
+      return "%c";
+    break;
+  }
 }
 
 
@@ -610,7 +629,7 @@ inicio_bloque : LLAVEIZQ { TS_InsertaMARCA();
                            strcpy($$.codigo,tab);
                            strcat($$.codigo,"{\n");
                            profun += 1;
-                            } ;
+                          } ;
 
 bloque  : inicio_bloque
           declar_de_variables_locales 
@@ -812,8 +831,17 @@ sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
 
                                     TOPE -= 1;
                                   }
-            | LEER lista_identificadores PYC
-            | IMPRIMIR mensajes PYC
+            | LEER lista_identificadores PYC  {
+                                                $$.codigo = (char*)malloc(strlen($2.codigo) + strlen("\n") + 1);
+                                                strcpy($$.codigo,$2.codigo);
+                                                strcat($$.codigo,"\n");
+                                              }
+
+            | IMPRIMIR mensajes PYC {
+                                      $$.codigo = (char*)malloc(strlen($2.codigo) + strlen("\n") + 1);
+                                      strcpy($$.codigo,$2.codigo);
+                                      strcat($$.codigo,"\n");
+                                    } 
             | llamada_proced
             | expresion MOV_LISTA PYC {if (esLista($1.tipo)) { $$.tipo = $1.tipo; } else {errorTipoOperador($2.lexema); }}
             | DOLLAR expresion PYC {if (esLista($2.tipo)) { $$.tipo = $2.tipo; } else {errorTipoOperador($1.lexema); }};
@@ -894,14 +922,60 @@ sentencia_if    : cabecera_if sentencia { descriptorDeInstrControl descrip = bus
                                         TOPE -= 1;
                                      };
 
-lista_identificadores   : lista_identificadores COMA ID
-                        | ID ;
+lista_identificadores   : lista_identificadores COMA ID {
+                                                          $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($3.codigo) + 1);
+                                                          strcpy($$.codigo, $1.codigo);
+                                                          strcat($$.codigo, $3.codigo);
+                                                        }
+                        | ID {  
+                                if (declarado($1.lexema) == 0) { //TODO: Es correcto hacer este if else aqui?
+                                  errorNoDeclarado($1.lexema);
+                                }
+                                else {
+                                  dtipo tipo = buscarTipoVariable($1.lexema);
+                                  char *tab = generarTab();
+                                  
+                                  char *etiqPrintf = etiquetaPrinf(tipo);
+                                  
+                                  $$.codigo = (char*)malloc(strlen(tab) + strlen("scanf(\"") + strlen(etiqPrintf) + strlen("\", &") + strlen($1.lexema) + strlen(");\n") + 1);
+                                  strcpy($$.codigo, tab);
+                                  strcat($$.codigo, "scanf(\"");
+                                  strcat($$.codigo, etiqPrintf);
+                                  strcat($$.codigo, "\", &");
+                                  strcat($$.codigo, $1.lexema);
+                                  strcat($$.codigo, ");\n");
+                                }
+                              };
 
-mensajes    : mensajes COMA mensaje
-            | mensaje ;
+mensajes    : mensajes COMA mensaje {
+                                      $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($3.codigo) + 1);
+                                      strcpy($$.codigo,$1.codigo);
+                                      strcat($$.codigo,$3.codigo);
+                                    }
+            | mensaje {
+                        $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
+                        strcpy($$.codigo,$1.codigo);
+                      } ;
 
-mensaje : expresion
-        | CADENA ;
+mensaje : expresion { 
+                      char *etiqPrintf = etiquetaPrinf($1.tipo);
+                      char *tab = generarTab();
+                      $$.codigo = (char*)malloc(strlen(tab) + strlen("printf(\"") + strlen(etiqPrintf) + strlen("\", ") + strlen($1.lexema) + strlen(");\n") + 1);
+                      strcpy($$.codigo, tab);
+                      strcat($$.codigo, "printf(\"");
+                      strcat($$.codigo, etiqPrintf);
+                      strcat($$.codigo, "\", ");
+                      strcat($$.codigo, $1.lexema);
+                      strcat($$.codigo, ");\n");
+                    }
+        | CADENA {
+                    char *tab = generarTab();
+                    $$.codigo = (char*)malloc(strlen(tab) + strlen("printf(\"%s\", ") + strlen($1.lexema) + strlen(");\n") + 1);
+                    strcpy($$.codigo, tab);
+                    strcat($$.codigo, "printf(\"%s\", ");
+                    strcat($$.codigo, $1.lexema);
+                    strcat($$.codigo, ");\n");
+                  } ;
 
 inicio_llamada : ID PARIZQ { $$.lexema = $1.lexema ;
                              posProced = buscarProced($1.lexema) ; 
