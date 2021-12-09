@@ -84,7 +84,7 @@ principal ()
         pe = pe--(#pe-1);
     }
     en otro caso {
-        pe = pe * pe2 ;
-        pe = pe2 - pe * (20/2000) ;
+        pe = pe * 5.0 ;
+        pe = pe2 * (20/2000) ;
     }       
 }
