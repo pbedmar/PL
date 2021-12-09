@@ -108,6 +108,7 @@ typedef struct {
   char  *nombre ;
   char  *codigo ;
   char  *codigoGlobal;
+  char  *codigoProced;
   dtipo tipo ;
 } atributos ;
 
@@ -617,6 +618,20 @@ programa    : cabecera_programa bloque {  $$.codigo = (char*)malloc(strlen("#inc
                                           fichero = fopen("src/codInter.c", "w");
                                           fputs($$.codigo,fichero);
                                           fclose(fichero);
+
+                                          // $$.codigoProced = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") + 1);
+                                          // strcpy($$.codigoProced,"#include <stdbool.h>\n#include <stdio.h>\n");
+                                          // strcat($$.codigoProced,"#include <math.h>\n\n");
+                                          // strcat($$.codigoProced,$2.codigoProced);
+
+                                          // printf ("%s", $2.codigoProced);
+
+                                          // if (!strcmp($$.codigoProced, "")) {
+                                          //   FILE *ficheroProced;
+                                          //   ficheroProced = fopen("src/dec_fun.c", "w");
+                                          //   fputs($$.codigoProced,ficheroProced);
+                                          //   fclose(ficheroProced);
+                                          // }
                                        };
 
 cabecera_programa   : PRINCIPAL PARIZQ PARDER { $$.codigo = (char*)malloc(strlen("int main()\n") + 1);
@@ -635,7 +650,12 @@ bloque  : inicio_bloque
           declar_de_variables_locales 
           declar_procedimientos 
           sentencias 
-          LLAVEDER { TS_VaciarENTRADAS(); }
+          LLAVEDER  { 
+                      TS_VaciarENTRADAS(); 
+
+                      // $$.codigoProced = (char*)malloc(strlen("bloquePrueba\n") + 1);
+                      // strcpy($$.codigoProced, "bloquePrueba\n");
+                    }
         | inicio_bloque
           declar_de_variables_locales 
           sentencias 
@@ -653,15 +673,34 @@ bloque  : inicio_bloque
                      strcat($$.codigo,"}\n"); 
                    } ;
 
-lista_parametros    : lista_parametros COMA parametro { TS_InsertaPARAM($3.lexema, $3.tipo); }
-                    | parametro { TS_InsertaPARAM($1.lexema, $1.tipo); } ;
+lista_parametros    : lista_parametros COMA parametro { 
+                                                        TS_InsertaPARAM($3.lexema, $3.tipo);
+
+                                                        // $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen(", ") + strlen($3.codigoProced) + 1);
+                                                        // strcpy($$.codigoProced, $1.codigoProced);
+                                                        // strcat($$.codigoProced, ", ");
+                                                        // strcat($$.codigoProced, $3.codigoProced);
+                                                      }
+                    | parametro { 
+                                  TS_InsertaPARAM($1.lexema, $1.tipo);
+
+                                  // $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + 1);
+                                  // strcpy($$.codigoProced, $1.codigoProced);
+                                } ;
 
 lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE { TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); }
                         | parametro IGUAL CONSTANTE { TS_InsertaPARAM_POR_DEF($1.lexema, $1.tipo); }
                         | lista_para_por_defecto COMA parametro IGUAL agregado_lista { TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); }
                         | parametro IGUAL agregado_lista { TS_InsertaPARAM_POR_DEF($1.lexema, $1.tipo); } ;
 
-parametro   : tipos ID { $$.tipo = tipoTmp; $$.lexema = $2.lexema; } ;
+parametro   : tipos ID  { 
+                          $$.tipo = tipoTmp; $$.lexema = $2.lexema;
+                          
+                          // $$.codigoProced = (char*)malloc(strlen($1.codigo) + strlen(" ") + strlen($2.lexema) + 1);
+                          // strcpy($$.codigoProced, $1.codigo);
+                          // strcat($$.codigoProced, " ");
+                          // strcat($$.codigoProced, $2.lexema);
+                        } ;
 
 declar_de_variables_locales : INICIOVAR variables_locales FINVAR { $$.codigo = (char*)malloc(strlen($2.codigo) + 1);
                                                                    $$.codigoGlobal = (char*)malloc(strlen($2.codigoGlobal) + 1);
@@ -746,16 +785,61 @@ declar_variables    : ID {  if(enAmbito($1.lexema) == 1)
                                                                   strcat($$.codigo,$5.lexema);
                                                                   } ;
 
-declar_procedimientos : declar_procedimientos declar_proced
-                      | declar_proced ;
+declar_procedimientos : declar_procedimientos declar_proced {
+                                                              // $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen($2.codigoProced) + 1);
+                                                              // strcpy($$.codigoProced, $1.codigoProced);
+                                                              // strcat($$.codigoProced, $2.codigoProced);
+                                                            }
+                      | declar_proced {
+                                        // $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + 1);
+                                        // strcpy($$.codigoProced, $1.codigoProced);
+                                      };
 
-declar_proced : cabecera_proced bloque { Subprog = 0; } ;
+declar_proced : cabecera_proced bloque  { Subprog = 0; 
 
-inicio_cabe_proced : PROCEDIMIENTO ID { TS_InsertaPROCED($2.lexema); } ;
+                                          // $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen($2.codigo) + strlen("\n") + 1);
+                                          // strcpy($$.codigoProced, $1.codigoProced);
+                                          // strcat($$.codigoProced, $2.codigo);
+                                          // strcat($$.codigoProced, "\n\n");
+                                        } ;
 
-cabecera_proced : inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por_defecto PARDER { Subprog = 1; }
-                | inicio_cabe_proced PARIZQ lista_parametros PARDER { Subprog = 1; }
-                | inicio_cabe_proced PARIZQ PARDER { Subprog = 1; }
+inicio_cabe_proced : PROCEDIMIENTO ID { 
+                                        TS_InsertaPROCED($2.lexema);
+
+                                        // $$.codigoProced = (char*)malloc(strlen("void ") + strlen($2.lexema) + 1);
+                                        // strcpy($$.codigoProced, "void ");
+                                        // strcat($$.codigoProced, $2.lexema);
+                                      } ;
+
+cabecera_proced : inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por_defecto PARDER { 
+                                                                                                  Subprog = 1;
+
+                                                                                                  // $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen(" (") + strlen($3.codigoProced)
+                                                                                                  //                    + strlen(", ") + strlen($5.codigoProced) + strlen(") ") + 1);
+                                                                                                  // strcpy($$.codigoProced, $1.codigoProced);
+                                                                                                  // strcat($$.codigoProced, " (");
+                                                                                                  // strcat($$.codigoProced, $3.codigoProced);
+                                                                                                  // strcat($$.codigoProced, ", ");
+                                                                                                  // strcat($$.codigoProced, $5.codigoProced);
+                                                                                                  // strcat($$.codigoProced, ") ");
+                                                                                                }
+                | inicio_cabe_proced PARIZQ lista_parametros PARDER { 
+                                                                      Subprog = 1;
+
+                                                                      // $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen(" (") + strlen($3.codigoProced) + strlen(") ") + 1);
+                                                                      // strcpy($$.codigoProced, $1.codigoProced);
+                                                                      // strcat($$.codigoProced, " (");
+                                                                      // strcat($$.codigoProced, $3.codigoProced);
+                                                                      // strcat($$.codigoProced, ") ");
+                                                                    }
+                | inicio_cabe_proced PARIZQ PARDER  { 
+                                                      Subprog = 1;
+
+                                                      // $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen(" (") + strlen(") ") + 1);
+                                                      // strcpy($$.codigoProced, $1.codigoProced);
+                                                      // strcat($$.codigoProced, " (");
+                                                      // strcat($$.codigoProced, ") ");
+                                                    }
                 | error ;
 
 sentencias  : sentencias sentencia { $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + 1);

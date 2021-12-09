@@ -10,6 +10,16 @@ principal ()
         caracter c1;
     fin_var 
 
+    procedimiento procedimientoE (caracter e1, caracter e2) {
+        leer e1, e2 ;
+        si (e1=='a')
+            imprimir e1 ;
+        en otro caso si (e1=='b')
+            imprimir e2 ;
+        en otro caso
+            imprimir ' ' ;
+    }
+
     ve = 2;
 
     si(5){
