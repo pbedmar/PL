@@ -427,7 +427,7 @@ void generarCodExpresionUnario(atributos *a, atributos *a1, atributos *a2, char*
                     + strlen(op) + strlen(a2->nombre) + strlen(";\n") + 1);
 
   
-  strcat(a->codigo,a2->codigo);
+  strcpy(a->codigo,a2->codigo);
   strcat(a->codigo,tab);
   strcat(a->codigo,tipoTmp);
   strcat(a->codigo," ");
@@ -477,7 +477,7 @@ void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atrib
               + strlen(") goto ") + strlen(etiqSalida) + strlen(";\n") + strlen(a5->codigo) +strlen(tab)+strlen("goto ") + strlen(etiqEntrada) + strlen(";\n") + strlen(etiqSalida) + strlen(": ;\n")+ 1);
 
   
-  strcat(a->codigo,etiqEntrada);
+  strcpy(a->codigo,etiqEntrada);
   strcat(a->codigo,": ;\n");
   strcat(a->codigo,a3->codigo);
 
