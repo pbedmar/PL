@@ -7,7 +7,7 @@ VERSION = c99
 all: generadorCodInter
 
 generadorCodInter: $(OBJ)/main.o $(OBJ)/y.tab.o
-	gcc -std=$(VERSION) -pthread -g $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
+	gcc -g -std=$(VERSION) -pthread -g $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
 
 ejecutablePrueba: $(SRC)/codInter.c
 	gcc $(SRC)/codInter.c -o $(BIN)/ejecutablePrueba
