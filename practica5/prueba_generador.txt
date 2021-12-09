@@ -62,4 +62,6 @@ principal ()
 
     imprimir "Hola\n";
     imprimir ve, " ", c1, " ", b1, "\n";
+
+    
 }

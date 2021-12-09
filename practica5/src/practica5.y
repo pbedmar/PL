@@ -428,7 +428,7 @@ void generarCodExpresionUnario(atributos *a, atributos *a1, atributos *a2, char*
                     + strlen(op) + strlen(a2->nombre) + strlen(";\n") + 1);
 
   
-  strcat(a->codigo,a2->codigo);
+  strcpy(a->codigo,a2->codigo);
   strcat(a->codigo,tab);
   strcat(a->codigo,tipoTmp);
   strcat(a->codigo," ");
@@ -478,7 +478,7 @@ void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atrib
               + strlen(") goto ") + strlen(etiqSalida) + strlen(";\n") + strlen(a5->codigo) +strlen(tab)+strlen("goto ") + strlen(etiqEntrada) + strlen(";\n") + strlen(etiqSalida) + strlen(": ;\n")+ 1);
 
   
-  strcat(a->codigo,etiqEntrada);
+  strcpy(a->codigo,etiqEntrada);
   strcat(a->codigo,": ;\n");
   strcat(a->codigo,a3->codigo);
 
@@ -606,32 +606,38 @@ char* etiquetaPrinf(dtipo tipo) {
 
 /** Seccion de producciones que definen la gramatica. **/
 
-programa    : cabecera_programa bloque {  $$.codigo = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") +strlen($2.codigoGlobal) + strlen("\n") + strlen($1.codigo) + strlen($2.codigo) + 1);
-                                          strcpy($$.codigo,"#include <stdbool.h>\n#include <stdio.h>\n");
-                                          strcat($$.codigo,"#include <math.h>\n\n");
-                                          strcat($$.codigo,$2.codigoGlobal);
-                                          strcat($$.codigo,"\n");
-                                          strcat($$.codigo,$1.codigo);
-                                          strcat($$.codigo,$2.codigo);
+programa    : cabecera_programa bloque {  
                                           
-                                          FILE *fichero;
-                                          fichero = fopen("src/codInter.c", "w");
-                                          fputs($$.codigo,fichero);
-                                          fclose(fichero);
+                                          
+                                        //la mario parte 
+                                        $$.codigo = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") +strlen($2.codigoGlobal) + strlen("\n") + strlen($1.codigo) + strlen($2.codigo) + 1);
+                                        strcpy($$.codigo,"#include <stdbool.h>\n#include <stdio.h>\n");
+                                        strcat($$.codigo,"#include <math.h>\n\n");
+                                        strcat($$.codigo,$2.codigoGlobal);
+                                        strcat($$.codigo,"\n");
+                                        strcat($$.codigo,$1.codigo);
+                                        strcat($$.codigo,$2.codigo);
+                                        
+                                        FILE *fichero;
+                                        fichero = fopen("src/codInter.c", "w");
+                                        fputs($$.codigo,fichero);
+                                        fclose(fichero); 
+                                        //la pedro parte
+                                        $$.codigoProced = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") + strlen($2.codigoProced) +1);
+                                        strcpy($$.codigoProced,"#include <stdbool.h>\n#include <stdio.h>\n");
+                                        strcat($$.codigoProced,"#include <math.h>\n\n");
+                                        strcat($$.codigoProced,$2.codigoProced);
 
-                                          $$.codigoProced = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") + 1);
-                                          strcpy($$.codigoProced,"#include <stdbool.h>\n#include <stdio.h>\n");
-                                          strcat($$.codigoProced,"#include <math.h>\n\n");
-                                          // strcat($$.codigoProced,$2.codigoProced);
+                                        printf ("%s", $2.codigoProced);
 
-                                          printf ("%s", $2.codigoProced);
-
-                                          // if (!strcmp($$.codigoProced, "")) {
-                                          //   FILE *ficheroProced;
-                                          //   ficheroProced = fopen("src/dec_fun.c", "w");
-                                          //   fputs($$.codigoProced,ficheroProced);
-                                          //   fclose(ficheroProced);
-                                          // }
+                                        if (!strcmp($$.codigoProced, "")) {
+                                          FILE *ficheroProced;
+                                          ficheroProced = fopen("src/dec_fun.c", "w");
+                                          fputs($$.codigoProced,ficheroProced);
+                                          fclose(ficheroProced);
+                                        }
+                                          
+                                          
                                        };
 
 cabecera_programa   : PRINCIPAL PARIZQ PARDER { $$.codigo = (char*)malloc(strlen("int main()\n") + 1);
@@ -655,6 +661,17 @@ bloque  : inicio_bloque
 
                       $$.codigoProced = (char*)malloc(strlen($3.codigoProced) + 1);
                       strcpy($$.codigoProced, $3.codigoProced);
+                      profun -= 1;
+                      char *tab = generarTab();
+                      $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen($4.codigo) + strlen(tab) + strlen("}\n") + 1);
+                      $$.codigoGlobal = (char*)malloc(strlen($2.codigoGlobal) + 1);
+                      strcpy($$.codigoGlobal,$2.codigoGlobal);
+
+                      strcpy($$.codigo,$1.codigo);
+                      strcat($$.codigo,$2.codigo);
+                      strcat($$.codigo,$4.codigo);
+                      strcat($$.codigo,tab);
+                      strcat($$.codigo,"}\n"); 
                     }
         | inicio_bloque
           declar_de_variables_locales 

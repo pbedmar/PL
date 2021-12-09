@@ -13,17 +13,17 @@ char c1;
 int main()
 {
 	{
-	int temp6 = 2;
-	ve = temp6;
+	int temp7 = 2;
+	ve = temp7;
 	}
 
-	int temp7 = 5;
-	if (!temp7) goto etiqueta1;
+	int temp8 = 5;
+	if (!temp8) goto etiqueta1;
 	{
 		int vt;
 		{
-		int temp8 = 3;
-		ve = temp8;
+		int temp9 = 3;
+		ve = temp9;
 		}
 
 	}
@@ -32,144 +32,144 @@ etiqueta1: ;
 	{
 		int vr;
 		{
-		int temp9 = 4;
-		vr = temp9;
+		int temp10 = 4;
+		vr = temp10;
 		}
 
 	}
 etiqueta0: ;
 
-	int temp10 = 0;
-	ve = temp10;
+	int temp11 = 0;
+	ve = temp11;
 etiqueta3: ;
-	int temp11 = ve;
-	int temp12 = 10;
-	bool temp13 = temp11 <= temp12;
-	if (!temp13) goto etiqueta2;
+	int temp12 = ve;
+	int temp13 = 10;
+	bool temp14 = temp12 <= temp13;
+	if (!temp14) goto etiqueta2;
 	{
 	{
 		{
-		int temp15 = 3;
-		ve2 = temp15;
+		int temp16 = 3;
+		ve2 = temp16;
 		}
 
 	}
-	int temp14 = 1;
-	ve += temp14;
+	int temp15 = 1;
+	ve += temp15;
 	goto etiqueta3;
 	}
 etiqueta2: ;
 
 	{
-	bool temp16 = b1;
-	bool temp17 = b2;
-	bool temp18 = temp16 || temp17;
-	b4 = temp18;
+	bool temp17 = b1;
+	bool temp18 = b2;
+	bool temp19 = temp17 || temp18;
+	b4 = temp19;
 	}
 
 	{
-	bool temp19 = b1;
-	bool temp20 = b4;
-	bool temp21 = temp19 && temp20;
-	b5 = temp21;
+	bool temp20 = b1;
+	bool temp21 = b4;
+	bool temp22 = temp20 && temp21;
+	b5 = temp22;
 	}
 
 	{
-	bool temp22 = b1;
-	bool temp23 = b2;
-	bool temp24 = temp22 ^ temp23;
-	b5 = temp24;
+	bool temp23 = b1;
+	bool temp24 = b2;
+	bool temp25 = temp23 ^ temp24;
+	b5 = temp25;
 	}
 
 	{
-	bool temp25 = b1;
-	bool temp26 = b2;
-	bool temp27 = temp25 != temp26;
-	b5 = temp27;
+	bool temp26 = b1;
+	bool temp27 = b2;
+	bool temp28 = temp26 != temp27;
+	b5 = temp28;
 	}
 
 	{
-	bool temp28 = b1;
-	bool temp29 = b2;
-	bool temp30 = temp28 == temp29;
-	b5 = temp30;
+	bool temp29 = b1;
+	bool temp30 = b2;
+	bool temp31 = temp29 == temp30;
+	b5 = temp31;
 	}
 
 	{
-	int temp31 = ve2;
-	int temp32 = ve5;
-	float temp33 = temp31 / temp32;
-	ve = temp33;
+	int temp32 = ve2;
+	int temp33 = ve5;
+	float temp34 = temp32 / temp33;
+	ve = temp34;
 	}
 
 	{
-	int temp34 = ve2;
-	int temp35 = ve5;
-	int temp36 = temp34 * temp35;
-	ve = temp36;
+	int temp35 = ve2;
+	int temp36 = ve5;
+	int temp37 = temp35 * temp36;
+	ve = temp37;
 	}
 
 	{
-	int temp37 = ve2;
-	int temp38 = ve5;
-	int temp39 = temp37 + temp38;
-	ve = temp39;
+	int temp38 = ve2;
+	int temp39 = ve5;
+	int temp40 = temp38 + temp39;
+	ve = temp40;
 	}
 
 	{
-	int temp40 = ve2;
-	int temp41 = ve5;
-	int temp42 = temp40 - temp41;
-	ve = temp42;
+	int temp41 = ve2;
+	int temp42 = ve5;
+	int temp43 = temp41 - temp42;
+	ve = temp43;
 	}
 
 	{
-	int temp43 = ve2;
-	int temp44 = --temp43;
-	ve = temp44;
+	int temp44 = ve2;
+	int temp45 = --temp44;
+	ve = temp45;
 	}
 
 	{
-	int temp45 = ve2;
-	int temp46 = ++temp45;
-	ve = temp46;
+	int temp46 = ve2;
+	int temp47 = ++temp46;
+	ve = temp47;
 	}
 
 	{
-	bool temp47 = b1;
-	bool temp48 = !temp47;
-	b5 = temp48;
+	bool temp48 = b1;
+	bool temp49 = !temp48;
+	b5 = temp49;
 	}
 
 	{
-	int temp49 = ve2;
-	int temp50 = -temp49;
-	ve = temp50;
+	int temp50 = ve2;
+	int temp51 = -temp50;
+	ve = temp51;
 	}
 
 	{
-	int temp51 = 2;
-	int temp52 = 5;
-	int temp53 = pow(temp51, temp52);
-	ve = temp53;
-	}
-
-	{
-	int temp54 = 0;
+	int temp52 = 2;
+	int temp53 = 5;
+	int temp54 = pow(temp52, temp53);
 	ve = temp54;
 	}
 
+	{
+	int temp55 = 0;
+	ve = temp55;
+	}
+
 etiqueta5: ;
-	int temp55 = ve;
-	int temp56 = 5;
-	bool temp57 = temp55 < temp56;
-	if (!temp57) goto etiqueta4;
+	int temp56 = ve;
+	int temp57 = 5;
+	bool temp58 = temp56 < temp57;
+	if (!temp58) goto etiqueta4;
 	{
 		{
-		int temp58 = ve;
-		int temp59 = 1;
-		int temp60 = temp58 + temp59;
-		ve = temp60;
+		int temp59 = ve;
+		int temp60 = 1;
+		int temp61 = temp59 + temp60;
+		ve = temp61;
 		}
 
 	}
