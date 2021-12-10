@@ -67,6 +67,9 @@ dtipo obtenerTipoLista(dtipo tipo) {
     case booleano:
       return lista_booleano;
     break;
+    default:
+      return lista_entero;
+    break;
   }
 }
 
@@ -280,6 +283,8 @@ dtipo listaATipo(dtipo tipo) {
     return booleano;
   } else if (tipo == lista_caracter) {
     return caracter;
+  } else {
+    return entero;
   }
 }
 
@@ -590,30 +595,24 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               }
             }
             | expresion ADITIVOS expresion {
-              int tipo1 = tipoANumero($1.tipo);
-              int tipo2 = tipoANumero($3.tipo);
-              int sumaTipos = tipo1 + tipo2;
-
-              if (tipo1 == 99 || tipo2 == 99) {
-                errorTipoOperador($2.lexema);
-              } else if (sumaTipos <= 8 && sumaTipos >= 6) {
-                errorTipoOperador($2.lexema);
-              } else {
-                if (sumaTipos == 0) {
-                  $$.tipo = entero;
-                } else if (sumaTipos==1 || sumaTipos==2) {
-                  $$.tipo = real;
+              if ($1.tipo == entero && $3.tipo == entero) {
+                $$.tipo = entero;
+              } else if ($1.tipo == real && $3.tipo == real) {
+                $$.tipo = real;
+              } else if ($1.tipo == lista_entero && $3.tipo == entero) {
+                $$.tipo = lista_entero;
+              } else if ($1.tipo == lista_real && $3.tipo == real) {
+                $$.tipo = lista_real;
+              } else if ($2.atrib == 0) {
+                if ($1.tipo == real && $3.tipo == lista_real) {
+                  $$.tipo = lista_real;
+                } else if ($1.tipo == entero && $3.tipo == lista_entero) {
+                  $$.tipo = lista_entero;
                 } else {
-                  if (tipo1 >= 3 && tipo2 <=1) {
-                    if (sumaTipos==3) {
-                      $$.tipo = lista_entero;
-                    } else {
-                      $$.tipo = lista_real;
-                    }
-                  } else {
-                    errorTipoOperador($2.lexema);
-                  }
+                  errorTipoOperador($2.lexema);
                 }
+              } else {
+                errorTipoOperador($2.lexema);
               }
             }
             | expresion DECRE_PRE expresion {
@@ -628,48 +627,57 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                 $$.tipo = listaATipo($1.tipo);
               } else {
                 errorTipoOperador($2.lexema);
-                printf("kk: %i %i",$1.tipo,$3.tipo);
               }
             }
             | expresion MULTIPLICATIVOS expresion {
-              int tipo1 = tipoANumero($1.tipo);
-              int tipo2 = tipoANumero($3.tipo);
-              int sumaTipos = tipo1 + tipo2;
-
-              if (tipo1 == 99 || tipo2 == 99) {
-                errorTipoOperador($2.lexema);
-              } else if (sumaTipos <= 8 && sumaTipos >= 6) {
-                errorTipoOperador($2.lexema);
-              } else {
-                if ($2.atrib == 1) {
-                  if (sumaTipos <=2) {
-                    $$.tipo = real;
-                  } else {
-                    if (tipo1 >= 3 && tipo2 <=1){
-                      $$.tipo = lista_real;
-                    } else {
-                      errorTipoOperador($2.lexema);
-                    }
-                  }
+              if ($2.atrib == 0) {
+                if ($1.tipo == entero && $3.tipo == entero) {
+                  $$.tipo = entero;
+                } else if ($1.tipo == real && $3.tipo == real) {
+                  $$.tipo = real;
+                } else if ($1.tipo == lista_entero && $3.tipo == entero) {
+                  $$.tipo = lista_entero;
+                } else if ($1.tipo == lista_real && $3.tipo == real) {
+                  $$.tipo = lista_real;
+                } else if ($1.tipo == real && $3.tipo == lista_real) {
+                  $$.tipo = lista_real;
+                } else if ($1.tipo == entero && $3.tipo == lista_entero) {
+                  $$.tipo = lista_entero;
                 } else {
-                  if (sumaTipos == 0) {
-                    $$.tipo = entero;
-                  } else if (sumaTipos==1 || sumaTipos==2) {
-                    $$.tipo = real;
-                  } else if (sumaTipos==3) {
-                    $$.tipo = lista_entero;
-                  } else {
-                    $$.tipo = lista_real;
-                  }
+                  errorTipoOperador($2.lexema);
+                }
+              } else if ($2.atrib == 1) {
+                if ($1.tipo == entero && $3.tipo == entero) {
+                  $$.tipo = entero;
+                } else if ($1.tipo == real && $3.tipo == real) {
+                  $$.tipo = real;
+                } else if ($1.tipo == lista_entero && $3.tipo == entero) {
+                  $$.tipo = lista_entero;
+                } else if ($1.tipo == lista_real && $3.tipo == real) {
+                  $$.tipo = lista_real;
+                } else {
+                  errorTipoOperador($2.lexema);
+                }
+              } else if ($2.atrib == 2) {
+                if ($1.tipo == lista_entero && $3.tipo == entero) {
+                  $$.tipo = lista_entero;
+                } else if ($1.tipo == lista_real && $3.tipo == entero) {
+                  $$.tipo = lista_real;
+                } else if ($1.tipo == lista_caracter && $3.tipo == entero) {
+                  $$.tipo = lista_caracter;
+                } else if ($1.tipo == lista_booleano && $3.tipo == entero) {
+                  $$.tipo = lista_booleano;
+                } else if ($1.tipo == entero && $3.tipo == entero) {
+                  $$.tipo = entero;
+                } else {
+                  errorTipoOperador($2.lexema);
                 }
               }
             }
             | expresion POTENCIAS expresion {
               if ($1.tipo == entero && $3.tipo == entero) {
                 $$.tipo = entero;
-              } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
-                $$.tipo = real;
-              } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
+              } else if ($1.tipo == real && $3.tipo == real) {
                 $$.tipo = real;
               } else if (esLista($1.tipo) && esLista($3.tipo) && $1.tipo == $3.tipo) {
                 $$.tipo = $1.tipo;
@@ -681,10 +689,6 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               if (!esLista($1.tipo) && !esLista($3.tipo)) {
                 if ($1.tipo == $3.tipo) {
                   $$.tipo = booleano;
-                } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
-                  $$.tipo = booleano;
-                } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
-                  $$.tipo = booleano;
                 } else {
                   errorTipoOperador($2.lexema);
                 }
@@ -695,9 +699,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | expresion RELACION expresion {
               if ($1.tipo == entero && $3.tipo == entero) {
                 $$.tipo = booleano;
-              } else if ($1.tipo == real && ($3.tipo == entero || $3.tipo == real)) {
-                $$.tipo = booleano;
-              } else if ($3.tipo == real && ($1.tipo == entero || $1.tipo == real)) {
+              } else if ($1.tipo == real && $3.tipo == real) {
                 $$.tipo = booleano;
               } else {
                 errorTipoOperador($2.lexema);
