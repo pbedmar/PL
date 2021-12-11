@@ -1,0 +1,129 @@
+principal ()
+{
+    inicio_var
+        entero   ve ;
+        entero   ve2 = 2;
+        entero   ve3, ve4;
+        entero   ve5 = 2, ve6 = 5;
+        entero   ve7, ve8 = 2, ve9;
+        booleano b1 = verdadero, b2 = falso, b4,b5;
+        caracter c1, c2 = 'h';
+        flotante fff = 3.3;
+    fin_var 
+
+    procedimiento procedimientoA (entero a1, flotante a2, caracter a3) {
+        inicio_var
+            entero x1, x2 ;
+        fin_var
+
+        procedimiento procedimientoB (caracter b1, booleano b2) {
+            inicio_var
+                flotante xf, x2 ;
+            fin_var
+
+            procedimiento procedimientoC (booleano c1, entero c2) {
+                inicio_var
+                    flotante x1 ;
+                fin_var
+
+                x1 = 1.3 ;
+                si (c2 > 10)
+                    c2 = c2-1 ;
+                en otro caso
+                    x1 = 3.1 ;
+            }
+
+            procedimientoC(verdadero, 10) ;
+            procedimientoC(falso, 1) ;
+            procedimientoC(verdadero, 23) ;
+
+            mientras (x2-xf<10.0)
+                x2 = x2 * xf ;
+        }
+
+        procedimiento procedimientoD (flotante d1) {
+            inicio_var
+                caracter dato ;
+                entero valor ;
+            fin_var
+
+            procedimiento procedimientoE (caracter e1, caracter e2) {
+                imprimir "procedimientoE: ", e2, "\n";
+            }
+            
+            procedimientoE('b', c2);
+
+            imprimir "procedimientoD. Inserta un entero: ";
+            leer d1 ;
+            imprimir "dato recibido: ";
+            si (d1 > 0.0) {
+                inicio_var
+                    entero dato ;
+                fin_var
+
+                dato = 2 ;
+                dato = valor*20/dato;
+                imprimir "mayor que cero\n";
+            } en otro caso {
+                valor = valor*100;
+                d1 = d1 / 1000.0 ;
+                imprimir "menor o igual que cero\n";
+            }
+        }
+
+        procedimientoB('d', falso);
+        procedimientoB('d', verdadero);
+        procedimientoD(3.8);
+        
+        x1 = 1;
+        x2 = 2;
+    } 
+
+    procedimientoA(ve2, fff, c2);
+
+    ve = 2;
+
+    si(5){
+        inicio_var
+            entero vt;
+        fin_var
+        ve = 3;
+    }
+    en otro caso{
+        inicio_var
+            entero vr;
+        fin_var
+        vr = 4;
+    }
+
+    para ve = 0; hasta ve <= 10 iterando 1 hacer{
+        ve2 = 3;
+    }
+
+    b4 = b1 o b2;
+    b5 = b1 y b4;
+    b5 = b1 o_exclusiva b2;
+    b5 = b1 != b2;
+    b5 = b1 == b2;
+    ve = ve2 / ve5; 
+    ve = ve2 * ve5; 
+    ve = ve2 + ve5; 
+    ve = ve2 - ve5; 
+    ve = --ve2;
+    ve = ++ve2;
+    b5 = no b1;
+    ve = -ve2;
+    ve = 2**5;
+
+    ve = 0;
+    mientras (ve < 5) {
+        ve = ve + 1;
+    }
+
+    imprimir "Inserta dos caracteres: ";
+    leer c1, c2;
+
+    imprimir "\n";
+    imprimir ve, " ", c2, " ", b2, "\n";
+    
+}
