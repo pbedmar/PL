@@ -607,9 +607,6 @@ char* etiquetaPrinf(dtipo tipo) {
 /** Seccion de producciones que definen la gramatica. **/
 
 programa    : cabecera_programa bloque {  
-                                          
-                                          
-                                        //la mario parte 
                                         $$.codigo = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") +strlen($2.codigoGlobal) + strlen("\n") + strlen($1.codigo) + strlen($2.codigo) + 1);
                                         strcpy($$.codigo,"#include <stdbool.h>\n#include <stdio.h>\n");
                                         strcat($$.codigo,"#include <math.h>\n\n");
@@ -619,24 +616,9 @@ programa    : cabecera_programa bloque {
                                         strcat($$.codigo,$2.codigo);
                                         
                                         FILE *fichero;
-                                        fichero = fopen("src/codInter.c", "w");
+                                        fichero = fopen("src/codInter.cpp", "w");
                                         fputs($$.codigo,fichero);
                                         fclose(fichero); 
-                                        //la pedro parte
-                                        $$.codigoProced = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") + strlen($2.codigoProced) +1);
-                                        strcpy($$.codigoProced,"#include <stdbool.h>\n#include <stdio.h>\n");
-                                        strcat($$.codigoProced,"#include <math.h>\n\n");
-                                        strcat($$.codigoProced,$2.codigoProced);
-
-                                        printf ("%s", $2.codigoProced);
-
-                                        if (!strcmp($$.codigoProced, "")) {
-                                          FILE *ficheroProced;
-                                          ficheroProced = fopen("src/dec_fun.c", "w");
-                                          fputs($$.codigoProced,ficheroProced);
-                                          fclose(ficheroProced);
-                                        }
-                                          
                                           
                                        };
 
@@ -659,16 +641,16 @@ bloque  : inicio_bloque
           LLAVEDER  { 
                       TS_VaciarENTRADAS(); 
 
-                      $$.codigoProced = (char*)malloc(strlen($3.codigoProced) + 1);
-                      strcpy($$.codigoProced, $3.codigoProced);
                       profun -= 1;
                       char *tab = generarTab();
-                      $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen($4.codigo) + strlen(tab) + strlen("}\n") + 1);
+
                       $$.codigoGlobal = (char*)malloc(strlen($2.codigoGlobal) + 1);
                       strcpy($$.codigoGlobal,$2.codigoGlobal);
 
+                      $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen($3.codigo) + strlen($4.codigo) + strlen(tab) + strlen("}\n") + 1);
                       strcpy($$.codigo,$1.codigo);
                       strcat($$.codigo,$2.codigo);
+                      strcat($$.codigo, $3.codigo);
                       strcat($$.codigo,$4.codigo);
                       strcat($$.codigo,tab);
                       strcat($$.codigo,"}\n"); 
@@ -693,16 +675,16 @@ bloque  : inicio_bloque
 lista_parametros    : lista_parametros COMA parametro { 
                                                         TS_InsertaPARAM($3.lexema, $3.tipo);
 
-                                                        $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen(", ") + strlen($3.codigoProced) + 1);
-                                                        strcpy($$.codigoProced, $1.codigoProced);
-                                                        strcat($$.codigoProced, ", ");
-                                                        strcat($$.codigoProced, $3.codigoProced);
+                                                        $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(", ") + strlen($3.codigo) + 1);
+                                                        strcpy($$.codigo, $1.codigo);
+                                                        strcat($$.codigo, ", ");
+                                                        strcat($$.codigo, $3.codigo);
                                                       }
                     | parametro { 
                                   TS_InsertaPARAM($1.lexema, $1.tipo);
 
-                                  $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + 1);
-                                  strcpy($$.codigoProced, $1.codigoProced);
+                                  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
+                                  strcpy($$.codigo, $1.codigo);
                                 } ;
 
 lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE { TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); }
@@ -713,10 +695,10 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE 
 parametro   : tipos ID  { 
                           $$.tipo = tipoTmp; $$.lexema = $2.lexema;
                           
-                          $$.codigoProced = (char*)malloc(strlen($1.codigo) + strlen(" ") + strlen($2.lexema) + 1);
-                          strcpy($$.codigoProced, $1.codigo);
-                          strcat($$.codigoProced, " ");
-                          strcat($$.codigoProced, $2.lexema);
+                          $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(" ") + strlen($2.lexema) + 1);
+                          strcpy($$.codigo, $1.codigo);
+                          strcat($$.codigo, " ");
+                          strcat($$.codigo, $2.lexema);
                         } ;
 
 declar_de_variables_locales : INICIOVAR variables_locales FINVAR { $$.codigo = (char*)malloc(strlen($2.codigo) + 1);
@@ -803,59 +785,64 @@ declar_variables    : ID {  if(enAmbito($1.lexema) == 1)
                                                                   } ;
 
 declar_procedimientos : declar_procedimientos declar_proced {
-                                                              $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen($2.codigoProced) + 1);
-                                                              strcpy($$.codigoProced, $1.codigoProced);
-                                                              strcat($$.codigoProced, $2.codigoProced);
+                                                              $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + 1);
+                                                              strcpy($$.codigo, $1.codigo);
+                                                              strcat($$.codigo, $2.codigo);
                                                             }
                       | declar_proced {
-                                        $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + 1);
-                                        strcpy($$.codigoProced, $1.codigoProced);
+                                        $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
+                                        strcpy($$.codigo, $1.codigo);
                                       };
 
 declar_proced : cabecera_proced bloque  { Subprog = 0; 
 
-                                          $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen($2.codigo) + strlen("\n\n") + 1);
-                                          strcpy($$.codigoProced, $1.codigoProced);
-                                          strcat($$.codigoProced, $2.codigo);
-                                          strcat($$.codigoProced, "\n\n");
+                                          char *tab = generarTab();
+                                          $$.codigo = (char*)malloc(strlen(tab) + strlen($1.codigo) + strlen("\n") + strlen($2.codigo) + strlen(";\n\n") + 1);
+                                          strcpy($$.codigo, tab);
+                                          strcat($$.codigo, $1.codigo);
+                                          strcat($$.codigo, "\n");
+                                          strcat($$.codigo, $2.codigo);
+                                          strcat($$.codigo, tab);
+                                          strcat($$.codigo, ";\n\n");
                                         } ;
 
 inicio_cabe_proced : PROCEDIMIENTO ID { 
                                         TS_InsertaPROCED($2.lexema);
 
-                                        $$.codigoProced = (char*)malloc(strlen("void ") + strlen($2.lexema) + 1);
-                                        strcpy($$.codigoProced, "void ");
-                                        strcat($$.codigoProced, $2.lexema);
+                                        $$.codigo = (char*)malloc(strlen("auto ") + strlen($2.lexema) + strlen("= [=] ") + 1);
+                                        strcpy($$.codigo, "auto ");
+                                        strcat($$.codigo, $2.lexema);
+                                        strcat($$.codigo, "= [=] ");
                                       } ;
 
 cabecera_proced : inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por_defecto PARDER { 
                                                                                                   Subprog = 1;
 
-                                                                                                  $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen(" (") + strlen($3.codigoProced)
-                                                                                                                     + strlen(", ") + strlen($5.codigoProced) + strlen(") ") + 1);
-                                                                                                  strcpy($$.codigoProced, $1.codigoProced);
-                                                                                                  strcat($$.codigoProced, " (");
-                                                                                                  strcat($$.codigoProced, $3.codigoProced);
-                                                                                                  strcat($$.codigoProced, ", ");
-                                                                                                  strcat($$.codigoProced, $5.codigoProced);
-                                                                                                  strcat($$.codigoProced, ") ");
+                                                                                                  $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(" (") + strlen($3.codigo)
+                                                                                                                     + strlen(", ") + strlen($5.codigo) + strlen(") ") + 1);
+                                                                                                  strcpy($$.codigo, $1.codigo);
+                                                                                                  strcat($$.codigo, " (");
+                                                                                                  strcat($$.codigo, $3.codigo);
+                                                                                                  strcat($$.codigo, ", ");
+                                                                                                  strcat($$.codigo, $5.codigo);
+                                                                                                  strcat($$.codigo, ") ");
                                                                                                 }
                 | inicio_cabe_proced PARIZQ lista_parametros PARDER { 
                                                                       Subprog = 1;
 
-                                                                      $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen(" (") + strlen($3.codigoProced) + strlen(") ") + 1);
-                                                                      strcpy($$.codigoProced, $1.codigoProced);
-                                                                      strcat($$.codigoProced, " (");
-                                                                      strcat($$.codigoProced, $3.codigoProced);
-                                                                      strcat($$.codigoProced, ") ");
+                                                                      $$.codigo = (char*)malloc(strlen($1.codigo) + strlen("(") + strlen($3.codigo) + strlen(")") + 1);
+                                                                      strcpy($$.codigo, $1.codigo);
+                                                                      strcat($$.codigo, "(");
+                                                                      strcat($$.codigo, $3.codigo);
+                                                                      strcat($$.codigo, ")");
                                                                     }
                 | inicio_cabe_proced PARIZQ PARDER  { 
                                                       Subprog = 1;
 
-                                                      $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen(" (") + strlen(") ") + 1);
-                                                      strcpy($$.codigoProced, $1.codigoProced);
-                                                      strcat($$.codigoProced, " (");
-                                                      strcat($$.codigoProced, ") ");
+                                                      $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(" (") + strlen(") ") + 1);
+                                                      strcpy($$.codigo, $1.codigo);
+                                                      strcat($$.codigo, " (");
+                                                      strcat($$.codigo, ") ");
                                                     }
                 | error ;
 
@@ -943,7 +930,19 @@ sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                                       strcpy($$.codigo,$2.codigo);
                                       strcat($$.codigo,"\n");
                                     } 
-            | llamada_proced
+            | llamada_proced {
+              char *tab = generarTab();
+              $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($1.codigoProced) + strlen(tab) 
+              + strlen($1.codigo) + strlen("\n") + strlen(tab) + strlen("}\n\n") + 1);
+              strcpy($$.codigo,tab);
+              strcat($$.codigo,"{\n");
+              strcat($$.codigo,$1.codigoProced);
+              strcat($$.codigo,tab);
+              strcat($$.codigo,$1.codigo);
+              strcat($$.codigo,"\n");
+              strcat($$.codigo,tab);
+              strcat($$.codigo,"}\n\n");
+            }
             | expresion MOV_LISTA PYC {if (esLista($1.tipo)) { $$.tipo = $1.tipo; } else {errorTipoOperador($2.lexema); }}
             | DOLLAR expresion PYC {if (esLista($2.tipo)) { $$.tipo = $2.tipo; } else {errorTipoOperador($1.lexema); }};
                                                                       
@@ -1083,7 +1082,12 @@ inicio_llamada : ID PARIZQ { $$.lexema = $1.lexema ;
                              if(posProced == -1){ 
                                mostrarErrorProcedDesco($1.lexema); 
                              }
-                             posParam = 0; };
+                             posParam = 0; 
+                            
+                             $$.codigo = (char*)malloc(strlen($1.lexema) + strlen("(") + 1);
+                             strcpy($$.codigo, $1.lexema);
+                             strcat($$.codigo, "(");
+                            };
 
 llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if(posProced != -1) {
                                                                   if(posParam < TS[posProced].parametrosMin) {
@@ -1092,7 +1096,15 @@ llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if(posProced != 
                                                                   else {
                                                                     comprobarParam();
                                                                   }
-                                                                } } 
+                                                                } 
+                                                                
+                                                                $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen(");") + 1);
+                                                                $$.codigoProced = (char*)malloc(strlen($2.codigoProced) + 1);
+                                                                strcpy($$.codigoProced, $2.codigoProced);
+                                                                strcpy($$.codigo, $1.codigo);
+                                                                strcat($$.codigo, $2.codigo);
+                                                                strcat($$.codigo, ");");
+                                                              } 
                 | inicio_llamada PARDER PYC { if(posProced != -1) {
                                                 if(posParam < TS[posProced].parametrosMin) {
                                                   mostrarErrorMinParam($1.lexema);
@@ -1100,7 +1112,15 @@ llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if(posProced != 
                                                 else {
                                                   comprobarParam();
                                                 }
-                                              } };
+                                              } 
+
+                                              $$.codigoProced = (char*)malloc(strlen("") + 1);
+                                              strcpy($$.codigoProced, "");
+
+                                              $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(");") + 1);
+                                              strcpy($$.codigo, $1.codigo);
+                                              strcat($$.codigo, ");");
+                                            };
 
 lista_expresiones   : lista_expresiones COMA expresion { if($$.tipo != $3.tipo) {
                                                            $$.tipo = desconocido;
@@ -1113,7 +1133,17 @@ lista_expresiones   : lista_expresiones COMA expresion { if($$.tipo != $3.tipo) 
                                                              listaParam[posParam] = $3.tipo;
                                                              posParam += 1;  
                                                            }
-                                                         } }
+                                                         } 
+                                                          $$.codigoProced = (char*)malloc(strlen($1.codigoProced) + strlen($3.codigo) + strlen("\n") + 1);
+                                                          strcpy($$.codigoProced, $1.codigoProced);
+                                                          strcat($$.codigoProced, $3.codigo);
+                                                          strcat($$.codigoProced, "\n");
+
+                                                          $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(", ") + strlen($3.nombre) + 1);
+                                                          strcpy($$.codigo, $1.codigo);
+                                                          strcat($$.codigo, ", ");
+                                                          strcat($$.codigo, $3.nombre);
+                                                        }
                     | expresion { $$.tipo = $1.tipo;
                                   if(posProced != -1) {
                                     if(posParam >= TS[posProced].parametrosMax) {
@@ -1123,7 +1153,15 @@ lista_expresiones   : lista_expresiones COMA expresion { if($$.tipo != $3.tipo) 
                                       listaParam[posParam] = $1.tipo;
                                       posParam += 1;  
                                     } 
-                                  } };
+                                  } 
+                                  
+                                  $$.codigoProced = (char*)malloc(strlen($1.codigo) + strlen("\n") + 1);
+                                  strcpy($$.codigoProced, $1.codigo);
+                                  strcat($$.codigoProced, "\n");
+
+                                  $$.codigo = (char*)malloc(strlen($1.nombre) + 1);
+                                  strcpy($$.codigo, $1.nombre);
+                                };
 
 expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | DECRE_PRE expresion {

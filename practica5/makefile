@@ -2,21 +2,21 @@ OBJ = obj
 INC = include
 BIN = bin
 SRC = src
-VERSION = c99
+VERSION = c++11
 
 all: generadorCodInter
 
 generadorCodInter: $(OBJ)/main.o $(OBJ)/y.tab.o
-	gcc -g -std=$(VERSION) -pthread -g $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
+	g++ -Wno-deprecated-register -Wno-write-strings -std=$(VERSION) -pthread -g $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
 
-ejecutablePrueba: $(SRC)/codInter.c
-	gcc $(SRC)/codInter.c -o $(BIN)/ejecutablePrueba
+ejecutablePrueba: $(SRC)/codInter.cpp
+	g++ -Wno-deprecated-register -Wno-write-strings $(SRC)/codInter.cpp -o $(BIN)/ejecutablePrueba
 
 $(OBJ)/y.tab.o: $(SRC)/y.tab.c
-	gcc -std=$(VERSION) -pthread -g -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
+	g++ -Wno-deprecated-register -Wno-write-strings -std=$(VERSION) -pthread -g -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
 
 $(OBJ)/main.o: $(SRC)/main.c
-	gcc -std=$(VERSION) -c $(SRC)/main.c -o $(OBJ)/main.o
+	g++ -Wno-deprecated-register -Wno-write-strings -std=$(VERSION) -c $(SRC)/main.c -o $(OBJ)/main.o
 
 $(SRC)/y.tab.c: $(SRC)/practica5.y $(SRC)/lex.yy.c
 	bison -v -d -o $(SRC)/y.tab.c $(SRC)/practica5.y
