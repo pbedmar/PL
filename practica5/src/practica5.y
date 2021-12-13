@@ -937,12 +937,22 @@ sentencia_if    : cabecera_if sentencia { descriptorDeInstrControl descrip = bus
                                      };
 
 lista_identificadores   : lista_identificadores COMA ID {
-                                                          $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($3.codigo) + 1);
+                                                          dtipo tipo = buscarTipoVariable($3.lexema);
+                                                          char *tab = generarTab();
+                                                          char *etiqPrintf = etiquetaPrinf(tipo);
+
+                                                          $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(tab) + strlen("scanf(\"") 
+                                                          + strlen(etiqPrintf) + strlen("\", &") + strlen($3.lexema) + strlen(");\n") + 1);
                                                           strcpy($$.codigo, $1.codigo);
-                                                          strcat($$.codigo, $3.codigo);
+                                                          strcat($$.codigo, tab);
+                                                          strcat($$.codigo, "scanf(\"");
+                                                          strcat($$.codigo, etiqPrintf);
+                                                          strcat($$.codigo, "\", &");
+                                                          strcat($$.codigo, $3.lexema);
+                                                          strcat($$.codigo, ");\n");
                                                         }
                         | ID {  
-                                if (declarado($1.lexema) == 0) { //TODO: Es correcto hacer este if else aqui?
+                                if (declarado($1.lexema) == 0) { 
                                   errorNoDeclarado($1.lexema);
                                 }
                                 else {
@@ -951,13 +961,13 @@ lista_identificadores   : lista_identificadores COMA ID {
                                   
                                   char *etiqPrintf = etiquetaPrinf(tipo);
                                   
-                                  $$.codigo = (char*)malloc(strlen(tab) + strlen("scanf(\"") + strlen(etiqPrintf) + strlen("\", &") + strlen($1.lexema) + strlen(");\n") + 1);
+                                  $$.codigo = (char*)malloc(strlen(tab) + strlen("scanf(\"") + strlen(etiqPrintf) + strlen("\", &") + strlen($1.lexema) + strlen("); getchar();\n") + 1);
                                   strcpy($$.codigo, tab);
                                   strcat($$.codigo, "scanf(\"");
                                   strcat($$.codigo, etiqPrintf);
                                   strcat($$.codigo, "\", &");
                                   strcat($$.codigo, $1.lexema);
-                                  strcat($$.codigo, ");\n");
+                                  strcat($$.codigo, "); getchar();\n");
                                 }
                               };
 
