@@ -687,10 +687,43 @@ lista_parametros    : lista_parametros COMA parametro {
                                   strcpy($$.codigo, $1.codigo);
                                 } ;
 
-lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE { TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); }
-                        | parametro IGUAL CONSTANTE { TS_InsertaPARAM_POR_DEF($1.lexema, $1.tipo); }
-                        | lista_para_por_defecto COMA parametro IGUAL agregado_lista { TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); }
-                        | parametro IGUAL agregado_lista { TS_InsertaPARAM_POR_DEF($1.lexema, $1.tipo); } ;
+lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE { 
+                            TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); 
+
+                            $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(", ") + strlen($3.codigo) + strlen(" = ") + strlen($5.lexema) + 1);
+                            strcpy($$.codigo, $1.codigo);
+                            strcat($$.codigo, ", ");
+                            strcat($$.codigo, $3.codigo);
+                            strcat($$.codigo, " = ");
+                            strcat($$.codigo, $5.lexema);
+                          }
+                        | parametro IGUAL CONSTANTE { 
+                                                      TS_InsertaPARAM_POR_DEF($1.lexema, $1.tipo);
+
+                                                      $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(" = ") + strlen($3.lexema));
+                                                      strcat($$.codigo, $1.codigo);
+                                                      strcat($$.codigo, " = ");
+                                                      strcat($$.codigo, $3.lexema);
+                                                    }
+                        | lista_para_por_defecto COMA parametro IGUAL agregado_lista  { 
+                                                                                        TS_InsertaPARAM_POR_DEF($3.lexema, $3.tipo); 
+
+                                                                                        $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(", ")
+                                                                                        + strlen($3.codigo) + strlen(" = ") + strlen($5.codigo) + 1);
+                                                                                        strcpy($$.codigo, $1.codigo);
+                                                                                        strcat($$.codigo, ", ");
+                                                                                        strcat($$.codigo, $3.codigo);
+                                                                                        strcat($$.codigo, " = ");
+                                                                                        strcat($$.codigo, $5.codigo);
+                                                                                      }
+                        | parametro IGUAL agregado_lista  { 
+                                                            TS_InsertaPARAM_POR_DEF($1.lexema, $1.tipo); 
+
+                                                            $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(" = ") + strlen($3.codigo));
+                                                            strcat($$.codigo, $1.codigo);
+                                                            strcat($$.codigo, " = ");
+                                                            strcat($$.codigo, $3.codigo);
+                                                          } ;
 
 parametro   : tipos ID  { 
                           $$.tipo = tipoTmp; $$.lexema = $2.lexema;

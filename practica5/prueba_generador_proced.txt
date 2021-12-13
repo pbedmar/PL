@@ -47,11 +47,11 @@ principal ()
                 entero valor ;
             fin_var
 
-            procedimiento procedimientoE (caracter e1, caracter e2) {
+            procedimiento procedimientoE (caracter e1, caracter e2 = 'x', caracter e3 = 'y') {
                 imprimir "procedimientoE: ", e2, "\n";
             }
             
-            procedimientoE('b', c2);
+            procedimientoE('b');
 
             imprimir "procedimientoD. Inserta un entero: ";
             leer d1 ;
