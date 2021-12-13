@@ -4,7 +4,7 @@ principal ()
         entero   n, curr ;
         flotante f;
         lista de entero pe, pe2;
-        entero tam;
+        entero tam, elem;
     fin_var 
 
     imprimir "introduce numero : ";
@@ -29,10 +29,28 @@ principal ()
     imprimir "\n";
 
     pe = pe++(6)@(0);
+    pe = pe++(-2)@(0);
+    pe = pe++(3)@(0);
+    pe = pe++(7)@(#pe);
     $pe;
     pe>>;
     pe>>;
     pe<<;
 
     tam = #pe;
+    elem = ?pe;
+    elem = pe@1;
+    pe = pe--1;
+    pe = pe%(#pe-1);
+
+    pe2 = pe2++(14)@(0);
+    pe2 = pe2**pe;
+
+    pe = pe+3;
+    pe2 = 4+pe2;
+    pe = pe-1;
+
+    pe = pe*2;
+    pe2 = 7*pe2;
+    pe2 = pe2/3;
 }

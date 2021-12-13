@@ -6,7 +6,7 @@ template <class T>
 class Lista{
     private:
         list<T> l;
-        typedef list<T>::iterator it;
+        typename list<T>::iterator it;
     public:
         void comienzoLista(){ it = l.begin();} 
         void avanzarLista(){ ++it;} 
@@ -15,7 +15,7 @@ class Lista{
         list<T> obtenerLista(){ return l;}
         T obtenerElementoActual(){ return *it;}
         T obtenerElementoPosicion(unsigned int pos){
-            typedef list<T>::iterator it_aux = l.begin();
+            typename list<T>::iterator it_aux = l.begin();
             for (unsigned int i = 0; i < pos; i++)
                 ++it_aux;
 
@@ -23,65 +23,65 @@ class Lista{
         }
 
         Lista<T> insertarElementoLista(T elem, unsigned int pos){
-            typedef list<T>::iterator it_aux = l.begin();
+            typename list<T>::iterator it_aux = l.begin();
             for (unsigned int i = 0; i < pos; i++)
                 ++it_aux;
 
-            l.insert(it_aux, elem)
+            l.insert(it_aux, elem);
             return *this;       
         }
 
-        Lista<T> eliminarElementoPosicion(T elem, unsigned int pos){
-            typedef list<T>::iterator it_aux = l.begin();
+        Lista<T> eliminarElementoPosicion(unsigned int pos){
+            typename list<T>::iterator it_aux = l.begin();
             for (unsigned int i = 0; i < pos; i++)
                 ++it_aux;
 
-            l.erase(it_aux, elem)
+            l.erase(it_aux);
             return *this;       
         }
 
-        Lista<T> eliminarElementosAPartirPosicion(T elem, unsigned int pos){
-            typedef list<T>::iterator it_aux = l.begin();
+        Lista<T> eliminarListaAPartirPosicion(unsigned int pos){
+            typename list<T>::iterator it_aux = l.begin();
             for (unsigned int i = 0; i < pos; i++)
                 ++it_aux;
 
             while (it_aux != l.end())
-                it_aux = l.erase(it_aux, elem)
+                it_aux = l.erase(it_aux);
                 
             return *this;       
         }
 
-        Lista<T> concatenar(Lista<T> L2){
+        Lista<T> concatenarListas(Lista<T> L2){
             list<T> l2 = L2.obtenerLista();
-            for (typedef list<T>::iterator it2 = l2.begin(); it2 != l2.end(); ++it2)
+            for (typename list<T>::iterator it2 = l2.begin(); it2 != l2.end(); ++it2)
                 l.insert(l.end(), *it2);
                 
             return *this;       
         }
 
         Lista<T> sumar(T n){  
-            for (typedef list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux)
+            for (typename list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux)
                 *it_aux += n;
                 
             return *this;        
         }
 
         Lista<T> restar(T n){  
-            for (typedef list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux)
+            for (typename list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux)
                 *it_aux -= n;
                 
             return *this;        
         }
 
         Lista<T> multiplicar(T n){  
-            for (typedef list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux)
+            for (typename list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux)
                 *it_aux *= n;
                 
             return *this;        
         }
 
         Lista<T> dividir(T n){  
-            for (typedef list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux)
+            for (typename list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux)
                 *it_aux /= n;
                 
             return *this;        
