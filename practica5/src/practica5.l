@@ -22,7 +22,7 @@ digitoCC [0-9]
 cadena \"[^\"]*\"
 id ({letra})+({letra}|{digitoCC}|_)*
 constante_entero {digitoSC}({digitoCC})*|0
-constante_real ({digitoSC}({digitoCC})*|0).({digitoCC})+
+constante_real ({digitoSC}({digitoCC})*|0)\.({digitoCC})+
 constante_booleano "verdadero"|"falso"
 constante_caracter '[^\"']'
 %%
