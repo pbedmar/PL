@@ -1,4 +1,4 @@
-Estado 86 conflictos: 1 desplazamiento/reducción
+Estado 78 conflictos: 1 desplazamiento/reducción
 
 
 Gramática
@@ -63,8 +63,8 @@ Gramática
    39          | LEER lista_identificadores PYC
    40          | IMPRIMIR mensajes PYC
    41          | llamada_proced
-   42          | expresion MOV_LISTA PYC
-   43          | DOLLAR expresion PYC
+   42          | ID MOV_LISTA PYC
+   43          | DOLLAR ID PYC
 
    44 sentencia_asignacion: ID IGUAL expresion PYC
 
@@ -145,7 +145,7 @@ Terminales con las reglas donde aparecen
     LEER (278) 39
     IMPRIMIR (279) 40
     CADENA (280) 53
-    ID (281) 12 19 20 21 22 26 44 48 49 54 76
+    ID (281) 12 19 20 21 22 26 42 43 44 48 49 54 76
     PYC (282) 17 39 40 42 43 44 55 56
     TIPOS (283) 81 82
     CONSTANTE (284) 8 9 78
@@ -255,7 +255,7 @@ No terminales con las reglas donde aparecen
         on right: 55 57 80
     expresion (75)
         on left: 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79
-        on right: 20 22 33 37 38 42 43 44 45 52 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75
+        on right: 20 22 33 37 38 44 45 52 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75
     agregado_lista (76)
         on left: 80
         on right: 10 11 77
@@ -363,41 +363,31 @@ Estado 11
     4 bloque: inicio_bloque declar_de_variables_locales . declar_procedimientos sentencias LLAVEDER
     5       | inicio_bloque declar_de_variables_locales . sentencias LLAVEDER
 
-    error             desplazar e ir al estado 18
-    LLAVEIZQ          desplazar e ir al estado 6
-    PROCEDIMIENTO     desplazar e ir al estado 19
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    SI                desplazar e ir al estado 22
-    MIENTRAS          desplazar e ir al estado 23
-    PARA              desplazar e ir al estado 24
-    LEER              desplazar e ir al estado 25
-    IMPRIMIR          desplazar e ir al estado 26
-    ID                desplazar e ir al estado 27
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-    DOLLAR            desplazar e ir al estado 34
+    error          desplazar e ir al estado 18
+    LLAVEIZQ       desplazar e ir al estado 6
+    PROCEDIMIENTO  desplazar e ir al estado 19
+    SI             desplazar e ir al estado 20
+    MIENTRAS       desplazar e ir al estado 21
+    PARA           desplazar e ir al estado 22
+    LEER           desplazar e ir al estado 23
+    IMPRIMIR       desplazar e ir al estado 24
+    ID             desplazar e ir al estado 25
+    DOLLAR         desplazar e ir al estado 26
 
     inicio_bloque          ir al estado 7
-    bloque                 ir al estado 35
-    declar_procedimientos  ir al estado 36
-    declar_proced          ir al estado 37
-    inicio_cabe_proced     ir al estado 38
-    cabecera_proced        ir al estado 39
-    sentencias             ir al estado 40
-    cabecera_for           ir al estado 41
-    sentencia              ir al estado 42
-    sentencia_asignacion   ir al estado 43
-    cabecera_if            ir al estado 44
-    sentencia_if           ir al estado 45
-    inicio_llamada         ir al estado 46
-    llamada_proced         ir al estado 47
-    expresion              ir al estado 48
-    agregado_lista         ir al estado 49
+    bloque                 ir al estado 27
+    declar_procedimientos  ir al estado 28
+    declar_proced          ir al estado 29
+    inicio_cabe_proced     ir al estado 30
+    cabecera_proced        ir al estado 31
+    sentencias             ir al estado 32
+    cabecera_for           ir al estado 33
+    sentencia              ir al estado 34
+    sentencia_asignacion   ir al estado 35
+    cabecera_if            ir al estado 36
+    sentencia_if           ir al estado 37
+    inicio_llamada         ir al estado 38
+    llamada_proced         ir al estado 39
 
 
 Estado 12
@@ -411,7 +401,7 @@ Estado 13
 
    82 tipos: LISTADE . TIPOS
 
-    TIPOS  desplazar e ir al estado 50
+    TIPOS  desplazar e ir al estado 40
 
 
 Estado 14
@@ -428,10 +418,10 @@ Estado 15
 
     error    desplazar e ir al estado 12
     LISTADE  desplazar e ir al estado 13
-    FINVAR   desplazar e ir al estado 51
+    FINVAR   desplazar e ir al estado 41
     TIPOS    desplazar e ir al estado 14
 
-    cuerpo_declar_variables  ir al estado 52
+    cuerpo_declar_variables  ir al estado 42
     tipos                    ir al estado 17
 
 
@@ -446,715 +436,564 @@ Estado 17
 
    17 cuerpo_declar_variables: tipos . declar_variables PYC
 
-    ID  desplazar e ir al estado 53
+    ID  desplazar e ir al estado 43
 
-    declar_variables  ir al estado 54
+    declar_variables  ir al estado 44
 
 
 Estado 18
 
    30 cabecera_proced: error .
-   79 expresion: error .
 
-    LLAVEIZQ  reduce usando la regla 30 (cabecera_proced)
-    $default  reduce usando la regla 79 (expresion)
+    $default  reduce usando la regla 30 (cabecera_proced)
 
 
 Estado 19
 
    26 inicio_cabe_proced: PROCEDIMIENTO . ID
 
-    ID  desplazar e ir al estado 55
+    ID  desplazar e ir al estado 45
 
 
 Estado 20
 
-   59 expresion: PARIZQ . expresion PARDER
+   45 cabecera_if: SI . PARIZQ expresion PARDER
 
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 58
-    agregado_lista  ir al estado 49
+    PARIZQ  desplazar e ir al estado 46
 
 
 Estado 21
 
-   80 agregado_lista: CORCHIZQ . lista_expresiones CORCHDER
+   37 sentencia: MIENTRAS . PARIZQ expresion PARDER sentencia
 
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    lista_expresiones  ir al estado 59
-    expresion          ir al estado 60
-    agregado_lista     ir al estado 49
+    PARIZQ  desplazar e ir al estado 47
 
 
 Estado 22
 
-   45 cabecera_if: SI . PARIZQ expresion PARDER
+   33 cabecera_for: PARA . sentencia_asignacion HASTA expresion
 
-    PARIZQ  desplazar e ir al estado 61
+    ID  desplazar e ir al estado 48
+
+    sentencia_asignacion  ir al estado 49
 
 
 Estado 23
 
-   37 sentencia: MIENTRAS . PARIZQ expresion PARDER sentencia
+   39 sentencia: LEER . lista_identificadores PYC
 
-    PARIZQ  desplazar e ir al estado 62
+    ID  desplazar e ir al estado 50
+
+    lista_identificadores  ir al estado 51
 
 
 Estado 24
 
-   33 cabecera_for: PARA . sentencia_asignacion HASTA expresion
+   40 sentencia: IMPRIMIR . mensajes PYC
 
-    ID  desplazar e ir al estado 63
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    CADENA            desplazar e ir al estado 55
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
 
-    sentencia_asignacion  ir al estado 64
+    mensajes        ir al estado 63
+    mensaje         ir al estado 64
+    expresion       ir al estado 65
+    agregado_lista  ir al estado 66
 
 
 Estado 25
 
-   39 sentencia: LEER . lista_identificadores PYC
+   42 sentencia: ID . MOV_LISTA PYC
+   44 sentencia_asignacion: ID . IGUAL expresion PYC
+   54 inicio_llamada: ID . PARIZQ
 
-    ID  desplazar e ir al estado 65
-
-    lista_identificadores  ir al estado 66
+    PARIZQ     desplazar e ir al estado 67
+    IGUAL      desplazar e ir al estado 68
+    MOV_LISTA  desplazar e ir al estado 69
 
 
 Estado 26
 
-   40 sentencia: IMPRIMIR . mensajes PYC
+   43 sentencia: DOLLAR . ID PYC
 
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    CADENA            desplazar e ir al estado 67
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    mensajes        ir al estado 68
-    mensaje         ir al estado 69
-    expresion       ir al estado 70
-    agregado_lista  ir al estado 49
+    ID  desplazar e ir al estado 70
 
 
 Estado 27
-
-   44 sentencia_asignacion: ID . IGUAL expresion PYC
-   54 inicio_llamada: ID . PARIZQ
-   76 expresion: ID .
-
-    PARIZQ  desplazar e ir al estado 71
-    IGUAL   desplazar e ir al estado 72
-
-    $default  reduce usando la regla 76 (expresion)
-
-
-Estado 28
-
-   78 expresion: CONSTANTE .
-
-    $default  reduce usando la regla 78 (expresion)
-
-
-Estado 29
-
-   64 expresion: ADITIVOS . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 73
-    agregado_lista  ir al estado 49
-
-
-Estado 30
-
-   62 expresion: NOT . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 74
-    agregado_lista  ir al estado 49
-
-
-Estado 31
-
-   60 expresion: DECRE_PRE . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 75
-    agregado_lista  ir al estado 49
-
-
-Estado 32
-
-   61 expresion: INCRE_PRE . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 76
-    agregado_lista  ir al estado 49
-
-
-Estado 33
-
-   63 expresion: UNARIO_PRE_LISTA . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 77
-    agregado_lista  ir al estado 49
-
-
-Estado 34
-
-   43 sentencia: DOLLAR . expresion PYC
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 78
-    agregado_lista  ir al estado 49
-
-
-Estado 35
 
    34 sentencia: bloque .
 
     $default  reduce usando la regla 34 (sentencia)
 
 
-Estado 36
+Estado 28
 
     4 bloque: inicio_bloque declar_de_variables_locales declar_procedimientos . sentencias LLAVEDER
    23 declar_procedimientos: declar_procedimientos . declar_proced
 
-    error             desplazar e ir al estado 18
-    LLAVEIZQ          desplazar e ir al estado 6
-    PROCEDIMIENTO     desplazar e ir al estado 19
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    SI                desplazar e ir al estado 22
-    MIENTRAS          desplazar e ir al estado 23
-    PARA              desplazar e ir al estado 24
-    LEER              desplazar e ir al estado 25
-    IMPRIMIR          desplazar e ir al estado 26
-    ID                desplazar e ir al estado 27
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-    DOLLAR            desplazar e ir al estado 34
+    error          desplazar e ir al estado 18
+    LLAVEIZQ       desplazar e ir al estado 6
+    PROCEDIMIENTO  desplazar e ir al estado 19
+    SI             desplazar e ir al estado 20
+    MIENTRAS       desplazar e ir al estado 21
+    PARA           desplazar e ir al estado 22
+    LEER           desplazar e ir al estado 23
+    IMPRIMIR       desplazar e ir al estado 24
+    ID             desplazar e ir al estado 25
+    DOLLAR         desplazar e ir al estado 26
 
     inicio_bloque         ir al estado 7
-    bloque                ir al estado 35
-    declar_proced         ir al estado 79
-    inicio_cabe_proced    ir al estado 38
-    cabecera_proced       ir al estado 39
-    sentencias            ir al estado 80
-    cabecera_for          ir al estado 41
-    sentencia             ir al estado 42
-    sentencia_asignacion  ir al estado 43
-    cabecera_if           ir al estado 44
-    sentencia_if          ir al estado 45
-    inicio_llamada        ir al estado 46
-    llamada_proced        ir al estado 47
-    expresion             ir al estado 48
-    agregado_lista        ir al estado 49
+    bloque                ir al estado 27
+    declar_proced         ir al estado 71
+    inicio_cabe_proced    ir al estado 30
+    cabecera_proced       ir al estado 31
+    sentencias            ir al estado 72
+    cabecera_for          ir al estado 33
+    sentencia             ir al estado 34
+    sentencia_asignacion  ir al estado 35
+    cabecera_if           ir al estado 36
+    sentencia_if          ir al estado 37
+    inicio_llamada        ir al estado 38
+    llamada_proced        ir al estado 39
 
 
-Estado 37
+Estado 29
 
    24 declar_procedimientos: declar_proced .
 
     $default  reduce usando la regla 24 (declar_procedimientos)
 
 
-Estado 38
+Estado 30
 
    27 cabecera_proced: inicio_cabe_proced . PARIZQ lista_parametros COMA lista_para_por_defecto PARDER
    28                | inicio_cabe_proced . PARIZQ lista_parametros PARDER
    29                | inicio_cabe_proced . PARIZQ PARDER
 
-    PARIZQ  desplazar e ir al estado 81
+    PARIZQ  desplazar e ir al estado 73
 
 
-Estado 39
+Estado 31
 
    25 declar_proced: cabecera_proced . bloque
 
     LLAVEIZQ  desplazar e ir al estado 6
 
     inicio_bloque  ir al estado 7
-    bloque         ir al estado 82
+    bloque         ir al estado 74
 
 
-Estado 40
+Estado 32
 
     5 bloque: inicio_bloque declar_de_variables_locales sentencias . LLAVEDER
    31 sentencias: sentencias . sentencia
 
-    error             desplazar e ir al estado 56
-    LLAVEIZQ          desplazar e ir al estado 6
-    LLAVEDER          desplazar e ir al estado 83
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    SI                desplazar e ir al estado 22
-    MIENTRAS          desplazar e ir al estado 23
-    PARA              desplazar e ir al estado 24
-    LEER              desplazar e ir al estado 25
-    IMPRIMIR          desplazar e ir al estado 26
-    ID                desplazar e ir al estado 27
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-    DOLLAR            desplazar e ir al estado 34
+    LLAVEIZQ  desplazar e ir al estado 6
+    LLAVEDER  desplazar e ir al estado 75
+    SI        desplazar e ir al estado 20
+    MIENTRAS  desplazar e ir al estado 21
+    PARA      desplazar e ir al estado 22
+    LEER      desplazar e ir al estado 23
+    IMPRIMIR  desplazar e ir al estado 24
+    ID        desplazar e ir al estado 25
+    DOLLAR    desplazar e ir al estado 26
 
     inicio_bloque         ir al estado 7
-    bloque                ir al estado 35
-    cabecera_for          ir al estado 41
-    sentencia             ir al estado 84
-    sentencia_asignacion  ir al estado 43
-    cabecera_if           ir al estado 44
-    sentencia_if          ir al estado 45
-    inicio_llamada        ir al estado 46
-    llamada_proced        ir al estado 47
-    expresion             ir al estado 48
-    agregado_lista        ir al estado 49
+    bloque                ir al estado 27
+    cabecera_for          ir al estado 33
+    sentencia             ir al estado 76
+    sentencia_asignacion  ir al estado 35
+    cabecera_if           ir al estado 36
+    sentencia_if          ir al estado 37
+    inicio_llamada        ir al estado 38
+    llamada_proced        ir al estado 39
 
 
-Estado 41
+Estado 33
 
    38 sentencia: cabecera_for . ITERANDO expresion HACER sentencia
 
-    ITERANDO  desplazar e ir al estado 85
+    ITERANDO  desplazar e ir al estado 77
 
 
-Estado 42
+Estado 34
 
    32 sentencias: sentencia .
 
     $default  reduce usando la regla 32 (sentencias)
 
 
-Estado 43
+Estado 35
 
    35 sentencia: sentencia_asignacion .
 
     $default  reduce usando la regla 35 (sentencia)
 
 
-Estado 44
+Estado 36
 
    46 sentencia_if: cabecera_if . sentencia
    47             | cabecera_if . sentencia OTROCASO sentencia
 
-    error             desplazar e ir al estado 56
-    LLAVEIZQ          desplazar e ir al estado 6
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    SI                desplazar e ir al estado 22
-    MIENTRAS          desplazar e ir al estado 23
-    PARA              desplazar e ir al estado 24
-    LEER              desplazar e ir al estado 25
-    IMPRIMIR          desplazar e ir al estado 26
-    ID                desplazar e ir al estado 27
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-    DOLLAR            desplazar e ir al estado 34
+    LLAVEIZQ  desplazar e ir al estado 6
+    SI        desplazar e ir al estado 20
+    MIENTRAS  desplazar e ir al estado 21
+    PARA      desplazar e ir al estado 22
+    LEER      desplazar e ir al estado 23
+    IMPRIMIR  desplazar e ir al estado 24
+    ID        desplazar e ir al estado 25
+    DOLLAR    desplazar e ir al estado 26
 
     inicio_bloque         ir al estado 7
-    bloque                ir al estado 35
-    cabecera_for          ir al estado 41
-    sentencia             ir al estado 86
-    sentencia_asignacion  ir al estado 43
-    cabecera_if           ir al estado 44
-    sentencia_if          ir al estado 45
-    inicio_llamada        ir al estado 46
-    llamada_proced        ir al estado 47
-    expresion             ir al estado 48
-    agregado_lista        ir al estado 49
+    bloque                ir al estado 27
+    cabecera_for          ir al estado 33
+    sentencia             ir al estado 78
+    sentencia_asignacion  ir al estado 35
+    cabecera_if           ir al estado 36
+    sentencia_if          ir al estado 37
+    inicio_llamada        ir al estado 38
+    llamada_proced        ir al estado 39
 
 
-Estado 45
+Estado 37
 
    36 sentencia: sentencia_if .
 
     $default  reduce usando la regla 36 (sentencia)
 
 
-Estado 46
+Estado 38
 
    55 llamada_proced: inicio_llamada . lista_expresiones PARDER PYC
    56               | inicio_llamada . PARDER PYC
 
-    error             desplazar e ir al estado 56
-    PARDER            desplazar e ir al estado 87
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
+    error             desplazar e ir al estado 52
+    PARDER            desplazar e ir al estado 79
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
 
-    lista_expresiones  ir al estado 88
-    expresion          ir al estado 60
-    agregado_lista     ir al estado 49
+    lista_expresiones  ir al estado 80
+    expresion          ir al estado 81
+    agregado_lista     ir al estado 66
 
 
-Estado 47
+Estado 39
 
    41 sentencia: llamada_proced .
 
     $default  reduce usando la regla 41 (sentencia)
 
 
-Estado 48
-
-   42 sentencia: expresion . MOV_LISTA PYC
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-    MOV_LISTA        desplazar e ir al estado 100
-
-
-Estado 49
-
-   77 expresion: agregado_lista .
-
-    $default  reduce usando la regla 77 (expresion)
-
-
-Estado 50
+Estado 40
 
    82 tipos: LISTADE TIPOS .
 
     $default  reduce usando la regla 82 (tipos)
 
 
-Estado 51
+Estado 41
 
    13 declar_de_variables_locales: INICIOVAR variables_locales FINVAR .
 
     $default  reduce usando la regla 13 (declar_de_variables_locales)
 
 
-Estado 52
+Estado 42
 
    15 variables_locales: variables_locales cuerpo_declar_variables .
 
     $default  reduce usando la regla 15 (variables_locales)
 
 
-Estado 53
+Estado 43
 
    19 declar_variables: ID .
    20                 | ID . IGUAL expresion
 
-    IGUAL  desplazar e ir al estado 101
+    IGUAL  desplazar e ir al estado 82
 
     $default  reduce usando la regla 19 (declar_variables)
 
 
-Estado 54
+Estado 44
 
    17 cuerpo_declar_variables: tipos declar_variables . PYC
    21 declar_variables: declar_variables . COMA ID
    22                 | declar_variables . COMA ID IGUAL expresion
 
-    COMA  desplazar e ir al estado 102
-    PYC   desplazar e ir al estado 103
+    COMA  desplazar e ir al estado 83
+    PYC   desplazar e ir al estado 84
 
 
-Estado 55
+Estado 45
 
    26 inicio_cabe_proced: PROCEDIMIENTO ID .
 
     $default  reduce usando la regla 26 (inicio_cabe_proced)
 
 
-Estado 56
-
-   79 expresion: error .
-
-    $default  reduce usando la regla 79 (expresion)
-
-
-Estado 57
-
-   76 expresion: ID .
-
-    $default  reduce usando la regla 76 (expresion)
-
-
-Estado 58
-
-   59 expresion: PARIZQ expresion . PARDER
-   65          | expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    PARDER           desplazar e ir al estado 104
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-
-Estado 59
-
-   57 lista_expresiones: lista_expresiones . COMA expresion
-   80 agregado_lista: CORCHIZQ lista_expresiones . CORCHDER
-
-    COMA      desplazar e ir al estado 105
-    CORCHDER  desplazar e ir al estado 106
-
-
-Estado 60
-
-   58 lista_expresiones: expresion .
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 58 (lista_expresiones)
-
-
-Estado 61
+Estado 46
 
    45 cabecera_if: SI PARIZQ . expresion PARDER
 
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
 
-    expresion       ir al estado 107
-    agregado_lista  ir al estado 49
+    expresion       ir al estado 85
+    agregado_lista  ir al estado 66
 
 
-Estado 62
+Estado 47
 
    37 sentencia: MIENTRAS PARIZQ . expresion PARDER sentencia
 
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
 
-    expresion       ir al estado 108
-    agregado_lista  ir al estado 49
+    expresion       ir al estado 86
+    agregado_lista  ir al estado 66
 
 
-Estado 63
+Estado 48
 
    44 sentencia_asignacion: ID . IGUAL expresion PYC
 
-    IGUAL  desplazar e ir al estado 72
+    IGUAL  desplazar e ir al estado 68
 
 
-Estado 64
+Estado 49
 
    33 cabecera_for: PARA sentencia_asignacion . HASTA expresion
 
-    HASTA  desplazar e ir al estado 109
+    HASTA  desplazar e ir al estado 87
 
 
-Estado 65
+Estado 50
 
    49 lista_identificadores: ID .
 
     $default  reduce usando la regla 49 (lista_identificadores)
 
 
-Estado 66
+Estado 51
 
    39 sentencia: LEER lista_identificadores . PYC
    48 lista_identificadores: lista_identificadores . COMA ID
 
-    COMA  desplazar e ir al estado 110
-    PYC   desplazar e ir al estado 111
+    COMA  desplazar e ir al estado 88
+    PYC   desplazar e ir al estado 89
 
 
-Estado 67
+Estado 52
+
+   79 expresion: error .
+
+    $default  reduce usando la regla 79 (expresion)
+
+
+Estado 53
+
+   59 expresion: PARIZQ . expresion PARDER
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 90
+    agregado_lista  ir al estado 66
+
+
+Estado 54
+
+   80 agregado_lista: CORCHIZQ . lista_expresiones CORCHDER
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    lista_expresiones  ir al estado 91
+    expresion          ir al estado 81
+    agregado_lista     ir al estado 66
+
+
+Estado 55
 
    53 mensaje: CADENA .
 
     $default  reduce usando la regla 53 (mensaje)
 
 
-Estado 68
+Estado 56
+
+   76 expresion: ID .
+
+    $default  reduce usando la regla 76 (expresion)
+
+
+Estado 57
+
+   78 expresion: CONSTANTE .
+
+    $default  reduce usando la regla 78 (expresion)
+
+
+Estado 58
+
+   64 expresion: ADITIVOS . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 92
+    agregado_lista  ir al estado 66
+
+
+Estado 59
+
+   62 expresion: NOT . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 93
+    agregado_lista  ir al estado 66
+
+
+Estado 60
+
+   60 expresion: DECRE_PRE . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 94
+    agregado_lista  ir al estado 66
+
+
+Estado 61
+
+   61 expresion: INCRE_PRE . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 95
+    agregado_lista  ir al estado 66
+
+
+Estado 62
+
+   63 expresion: UNARIO_PRE_LISTA . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 96
+    agregado_lista  ir al estado 66
+
+
+Estado 63
 
    40 sentencia: IMPRIMIR mensajes . PYC
    50 mensajes: mensajes . COMA mensaje
 
-    COMA  desplazar e ir al estado 112
-    PYC   desplazar e ir al estado 113
+    COMA  desplazar e ir al estado 97
+    PYC   desplazar e ir al estado 98
 
 
-Estado 69
+Estado 64
 
    51 mensajes: mensaje .
 
     $default  reduce usando la regla 51 (mensajes)
 
 
-Estado 70
+Estado 65
 
    52 mensaje: expresion .
    65 expresion: expresion . ADITIVOS expresion
@@ -1169,157 +1008,186 @@ Estado 70
    74          | expresion . XOR expresion
    75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
 
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
 
     $default  reduce usando la regla 52 (mensaje)
 
 
-Estado 71
+Estado 66
+
+   77 expresion: agregado_lista .
+
+    $default  reduce usando la regla 77 (expresion)
+
+
+Estado 67
 
    54 inicio_llamada: ID PARIZQ .
 
     $default  reduce usando la regla 54 (inicio_llamada)
 
 
-Estado 72
+Estado 68
 
    44 sentencia_asignacion: ID IGUAL . expresion PYC
 
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
 
-    expresion       ir al estado 114
-    agregado_lista  ir al estado 49
+    expresion       ir al estado 110
+    agregado_lista  ir al estado 66
+
+
+Estado 69
+
+   42 sentencia: ID MOV_LISTA . PYC
+
+    PYC  desplazar e ir al estado 111
+
+
+Estado 70
+
+   43 sentencia: DOLLAR ID . PYC
+
+    PYC  desplazar e ir al estado 112
+
+
+Estado 71
+
+   23 declar_procedimientos: declar_procedimientos declar_proced .
+
+    $default  reduce usando la regla 23 (declar_procedimientos)
+
+
+Estado 72
+
+    4 bloque: inicio_bloque declar_de_variables_locales declar_procedimientos sentencias . LLAVEDER
+   31 sentencias: sentencias . sentencia
+
+    LLAVEIZQ  desplazar e ir al estado 6
+    LLAVEDER  desplazar e ir al estado 113
+    SI        desplazar e ir al estado 20
+    MIENTRAS  desplazar e ir al estado 21
+    PARA      desplazar e ir al estado 22
+    LEER      desplazar e ir al estado 23
+    IMPRIMIR  desplazar e ir al estado 24
+    ID        desplazar e ir al estado 25
+    DOLLAR    desplazar e ir al estado 26
+
+    inicio_bloque         ir al estado 7
+    bloque                ir al estado 27
+    cabecera_for          ir al estado 33
+    sentencia             ir al estado 76
+    sentencia_asignacion  ir al estado 35
+    cabecera_if           ir al estado 36
+    sentencia_if          ir al estado 37
+    inicio_llamada        ir al estado 38
+    llamada_proced        ir al estado 39
 
 
 Estado 73
 
-   64 expresion: ADITIVOS expresion .
-   65          | expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+   27 cabecera_proced: inicio_cabe_proced PARIZQ . lista_parametros COMA lista_para_por_defecto PARDER
+   28                | inicio_cabe_proced PARIZQ . lista_parametros PARDER
+   29                | inicio_cabe_proced PARIZQ . PARDER
 
-    DECRE_PRE  desplazar e ir al estado 97
-    INCRE_PRE  desplazar e ir al estado 98
-    ELEM_POSI  desplazar e ir al estado 99
+    LISTADE  desplazar e ir al estado 13
+    PARDER   desplazar e ir al estado 114
+    TIPOS    desplazar e ir al estado 14
 
-    $default  reduce usando la regla 64 (expresion)
+    lista_parametros  ir al estado 115
+    parametro         ir al estado 116
+    tipos             ir al estado 117
 
 
 Estado 74
 
-   62 expresion: NOT expresion .
-   65          | expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+   25 declar_proced: cabecera_proced bloque .
 
-    DECRE_PRE  desplazar e ir al estado 97
-    INCRE_PRE  desplazar e ir al estado 98
-    ELEM_POSI  desplazar e ir al estado 99
-
-    $default  reduce usando la regla 62 (expresion)
+    $default  reduce usando la regla 25 (declar_proced)
 
 
 Estado 75
 
-   60 expresion: DECRE_PRE expresion .
-   65          | expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+    5 bloque: inicio_bloque declar_de_variables_locales sentencias LLAVEDER .
 
-    DECRE_PRE  desplazar e ir al estado 97
-    INCRE_PRE  desplazar e ir al estado 98
-    ELEM_POSI  desplazar e ir al estado 99
-
-    $default  reduce usando la regla 60 (expresion)
+    $default  reduce usando la regla 5 (bloque)
 
 
 Estado 76
 
-   61 expresion: INCRE_PRE expresion .
-   65          | expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+   31 sentencias: sentencias sentencia .
 
-    INCRE_PRE  desplazar e ir al estado 98
-    ELEM_POSI  desplazar e ir al estado 99
-
-    $default  reduce usando la regla 61 (expresion)
+    $default  reduce usando la regla 31 (sentencias)
 
 
 Estado 77
 
-   63 expresion: UNARIO_PRE_LISTA expresion .
-   65          | expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+   38 sentencia: cabecera_for ITERANDO . expresion HACER sentencia
 
-    ELEM_POSI  desplazar e ir al estado 99
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
 
-    $default  reduce usando la regla 63 (expresion)
+    expresion       ir al estado 118
+    agregado_lista  ir al estado 66
 
 
 Estado 78
 
-   43 sentencia: DOLLAR expresion . PYC
+   46 sentencia_if: cabecera_if sentencia .
+   47             | cabecera_if sentencia . OTROCASO sentencia
+
+    OTROCASO  desplazar e ir al estado 119
+
+    OTROCASO  [reduce usando la regla 46 (sentencia_if)]
+    $default  reduce usando la regla 46 (sentencia_if)
+
+
+Estado 79
+
+   56 llamada_proced: inicio_llamada PARDER . PYC
+
+    PYC  desplazar e ir al estado 120
+
+
+Estado 80
+
+   55 llamada_proced: inicio_llamada lista_expresiones . PARDER PYC
+   57 lista_expresiones: lista_expresiones . COMA expresion
+
+    COMA    desplazar e ir al estado 121
+    PARDER  desplazar e ir al estado 122
+
+
+Estado 81
+
+   58 lista_expresiones: expresion .
    65 expresion: expresion . ADITIVOS expresion
    66          | expresion . DECRE_PRE expresion
    67          | expresion . ELEM_POSI expresion
@@ -1332,430 +1200,56 @@ Estado 78
    74          | expresion . XOR expresion
    75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
 
-    PYC              desplazar e ir al estado 115
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
 
-
-Estado 79
-
-   23 declar_procedimientos: declar_procedimientos declar_proced .
-
-    $default  reduce usando la regla 23 (declar_procedimientos)
-
-
-Estado 80
-
-    4 bloque: inicio_bloque declar_de_variables_locales declar_procedimientos sentencias . LLAVEDER
-   31 sentencias: sentencias . sentencia
-
-    error             desplazar e ir al estado 56
-    LLAVEIZQ          desplazar e ir al estado 6
-    LLAVEDER          desplazar e ir al estado 116
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    SI                desplazar e ir al estado 22
-    MIENTRAS          desplazar e ir al estado 23
-    PARA              desplazar e ir al estado 24
-    LEER              desplazar e ir al estado 25
-    IMPRIMIR          desplazar e ir al estado 26
-    ID                desplazar e ir al estado 27
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-    DOLLAR            desplazar e ir al estado 34
-
-    inicio_bloque         ir al estado 7
-    bloque                ir al estado 35
-    cabecera_for          ir al estado 41
-    sentencia             ir al estado 84
-    sentencia_asignacion  ir al estado 43
-    cabecera_if           ir al estado 44
-    sentencia_if          ir al estado 45
-    inicio_llamada        ir al estado 46
-    llamada_proced        ir al estado 47
-    expresion             ir al estado 48
-    agregado_lista        ir al estado 49
-
-
-Estado 81
-
-   27 cabecera_proced: inicio_cabe_proced PARIZQ . lista_parametros COMA lista_para_por_defecto PARDER
-   28                | inicio_cabe_proced PARIZQ . lista_parametros PARDER
-   29                | inicio_cabe_proced PARIZQ . PARDER
-
-    LISTADE  desplazar e ir al estado 13
-    PARDER   desplazar e ir al estado 117
-    TIPOS    desplazar e ir al estado 14
-
-    lista_parametros  ir al estado 118
-    parametro         ir al estado 119
-    tipos             ir al estado 120
+    $default  reduce usando la regla 58 (lista_expresiones)
 
 
 Estado 82
 
-   25 declar_proced: cabecera_proced bloque .
+   20 declar_variables: ID IGUAL . expresion
 
-    $default  reduce usando la regla 25 (declar_proced)
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 123
+    agregado_lista  ir al estado 66
 
 
 Estado 83
 
-    5 bloque: inicio_bloque declar_de_variables_locales sentencias LLAVEDER .
-
-    $default  reduce usando la regla 5 (bloque)
-
-
-Estado 84
-
-   31 sentencias: sentencias sentencia .
-
-    $default  reduce usando la regla 31 (sentencias)
-
-
-Estado 85
-
-   38 sentencia: cabecera_for ITERANDO . expresion HACER sentencia
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 121
-    agregado_lista  ir al estado 49
-
-
-Estado 86
-
-   46 sentencia_if: cabecera_if sentencia .
-   47             | cabecera_if sentencia . OTROCASO sentencia
-
-    OTROCASO  desplazar e ir al estado 122
-
-    OTROCASO  [reduce usando la regla 46 (sentencia_if)]
-    $default  reduce usando la regla 46 (sentencia_if)
-
-
-Estado 87
-
-   56 llamada_proced: inicio_llamada PARDER . PYC
-
-    PYC  desplazar e ir al estado 123
-
-
-Estado 88
-
-   55 llamada_proced: inicio_llamada lista_expresiones . PARDER PYC
-   57 lista_expresiones: lista_expresiones . COMA expresion
-
-    COMA    desplazar e ir al estado 105
-    PARDER  desplazar e ir al estado 124
-
-
-Estado 89
-
-   72 expresion: expresion OR . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 125
-    agregado_lista  ir al estado 49
-
-
-Estado 90
-
-   73 expresion: expresion AND . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 126
-    agregado_lista  ir al estado 49
-
-
-Estado 91
-
-   74 expresion: expresion XOR . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 127
-    agregado_lista  ir al estado 49
-
-
-Estado 92
-
-   70 expresion: expresion IGUALDAD . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 128
-    agregado_lista  ir al estado 49
-
-
-Estado 93
-
-   71 expresion: expresion RELACION . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 129
-    agregado_lista  ir al estado 49
-
-
-Estado 94
-
-   65 expresion: expresion ADITIVOS . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 130
-    agregado_lista  ir al estado 49
-
-
-Estado 95
-
-   68 expresion: expresion MULTIPLICATIVOS . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 131
-    agregado_lista  ir al estado 49
-
-
-Estado 96
-
-   69 expresion: expresion POTENCIAS . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 132
-    agregado_lista  ir al estado 49
-
-
-Estado 97
-
-   66 expresion: expresion DECRE_PRE . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 133
-    agregado_lista  ir al estado 49
-
-
-Estado 98
-
-   75 expresion: expresion INCRE_PRE . expresion ELEM_POSI expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 134
-    agregado_lista  ir al estado 49
-
-
-Estado 99
-
-   67 expresion: expresion ELEM_POSI . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 135
-    agregado_lista  ir al estado 49
-
-
-Estado 100
-
-   42 sentencia: expresion MOV_LISTA . PYC
-
-    PYC  desplazar e ir al estado 136
-
-
-Estado 101
-
-   20 declar_variables: ID IGUAL . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 137
-    agregado_lista  ir al estado 49
-
-
-Estado 102
-
    21 declar_variables: declar_variables COMA . ID
    22                 | declar_variables COMA . ID IGUAL expresion
 
-    ID  desplazar e ir al estado 138
+    ID  desplazar e ir al estado 124
 
 
-Estado 103
+Estado 84
 
    17 cuerpo_declar_variables: tipos declar_variables PYC .
 
     $default  reduce usando la regla 17 (cuerpo_declar_variables)
 
 
-Estado 104
-
-   59 expresion: PARIZQ expresion PARDER .
-
-    $default  reduce usando la regla 59 (expresion)
-
-
-Estado 105
-
-   57 lista_expresiones: lista_expresiones COMA . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 139
-    agregado_lista  ir al estado 49
-
-
-Estado 106
-
-   80 agregado_lista: CORCHIZQ lista_expresiones CORCHDER .
-
-    $default  reduce usando la regla 80 (agregado_lista)
-
-
-Estado 107
+Estado 85
 
    45 cabecera_if: SI PARIZQ expresion . PARDER
    65 expresion: expresion . ADITIVOS expresion
@@ -1770,21 +1264,21 @@ Estado 107
    74          | expresion . XOR expresion
    75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
 
-    PARDER           desplazar e ir al estado 140
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
+    PARDER           desplazar e ir al estado 125
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
 
 
-Estado 108
+Estado 86
 
    37 sentencia: MIENTRAS PARIZQ expresion . PARDER sentencia
    65 expresion: expresion . ADITIVOS expresion
@@ -1799,82 +1293,436 @@ Estado 108
    74          | expresion . XOR expresion
    75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
 
-    PARDER           desplazar e ir al estado 141
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
+    PARDER           desplazar e ir al estado 126
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
 
 
-Estado 109
+Estado 87
 
    33 cabecera_for: PARA sentencia_asignacion HASTA . expresion
 
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
 
-    expresion       ir al estado 142
-    agregado_lista  ir al estado 49
+    expresion       ir al estado 127
+    agregado_lista  ir al estado 66
 
 
-Estado 110
+Estado 88
 
    48 lista_identificadores: lista_identificadores COMA . ID
 
-    ID  desplazar e ir al estado 143
+    ID  desplazar e ir al estado 128
 
 
-Estado 111
+Estado 89
 
    39 sentencia: LEER lista_identificadores PYC .
 
     $default  reduce usando la regla 39 (sentencia)
 
 
-Estado 112
+Estado 90
+
+   59 expresion: PARIZQ expresion . PARDER
+   65          | expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    PARDER           desplazar e ir al estado 129
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+
+Estado 91
+
+   57 lista_expresiones: lista_expresiones . COMA expresion
+   80 agregado_lista: CORCHIZQ lista_expresiones . CORCHDER
+
+    COMA      desplazar e ir al estado 121
+    CORCHDER  desplazar e ir al estado 130
+
+
+Estado 92
+
+   64 expresion: ADITIVOS expresion .
+   65          | expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    DECRE_PRE  desplazar e ir al estado 107
+    INCRE_PRE  desplazar e ir al estado 108
+    ELEM_POSI  desplazar e ir al estado 109
+
+    $default  reduce usando la regla 64 (expresion)
+
+
+Estado 93
+
+   62 expresion: NOT expresion .
+   65          | expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    DECRE_PRE  desplazar e ir al estado 107
+    INCRE_PRE  desplazar e ir al estado 108
+    ELEM_POSI  desplazar e ir al estado 109
+
+    $default  reduce usando la regla 62 (expresion)
+
+
+Estado 94
+
+   60 expresion: DECRE_PRE expresion .
+   65          | expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    DECRE_PRE  desplazar e ir al estado 107
+    INCRE_PRE  desplazar e ir al estado 108
+    ELEM_POSI  desplazar e ir al estado 109
+
+    $default  reduce usando la regla 60 (expresion)
+
+
+Estado 95
+
+   61 expresion: INCRE_PRE expresion .
+   65          | expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    INCRE_PRE  desplazar e ir al estado 108
+    ELEM_POSI  desplazar e ir al estado 109
+
+    $default  reduce usando la regla 61 (expresion)
+
+
+Estado 96
+
+   63 expresion: UNARIO_PRE_LISTA expresion .
+   65          | expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    ELEM_POSI  desplazar e ir al estado 109
+
+    $default  reduce usando la regla 63 (expresion)
+
+
+Estado 97
 
    50 mensajes: mensajes COMA . mensaje
 
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    CADENA            desplazar e ir al estado 67
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    CADENA            desplazar e ir al estado 55
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
 
-    mensaje         ir al estado 144
-    expresion       ir al estado 70
-    agregado_lista  ir al estado 49
+    mensaje         ir al estado 131
+    expresion       ir al estado 65
+    agregado_lista  ir al estado 66
 
 
-Estado 113
+Estado 98
 
    40 sentencia: IMPRIMIR mensajes PYC .
 
     $default  reduce usando la regla 40 (sentencia)
 
 
-Estado 114
+Estado 99
+
+   72 expresion: expresion OR . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 132
+    agregado_lista  ir al estado 66
+
+
+Estado 100
+
+   73 expresion: expresion AND . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 133
+    agregado_lista  ir al estado 66
+
+
+Estado 101
+
+   74 expresion: expresion XOR . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 134
+    agregado_lista  ir al estado 66
+
+
+Estado 102
+
+   70 expresion: expresion IGUALDAD . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 135
+    agregado_lista  ir al estado 66
+
+
+Estado 103
+
+   71 expresion: expresion RELACION . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 136
+    agregado_lista  ir al estado 66
+
+
+Estado 104
+
+   65 expresion: expresion ADITIVOS . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 137
+    agregado_lista  ir al estado 66
+
+
+Estado 105
+
+   68 expresion: expresion MULTIPLICATIVOS . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 138
+    agregado_lista  ir al estado 66
+
+
+Estado 106
+
+   69 expresion: expresion POTENCIAS . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 139
+    agregado_lista  ir al estado 66
+
+
+Estado 107
+
+   66 expresion: expresion DECRE_PRE . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 140
+    agregado_lista  ir al estado 66
+
+
+Estado 108
+
+   75 expresion: expresion INCRE_PRE . expresion ELEM_POSI expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 141
+    agregado_lista  ir al estado 66
+
+
+Estado 109
+
+   67 expresion: expresion ELEM_POSI . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 142
+    agregado_lista  ir al estado 66
+
+
+Estado 110
 
    44 sentencia_asignacion: ID IGUAL expresion . PYC
    65 expresion: expresion . ADITIVOS expresion
@@ -1889,66 +1737,73 @@ Estado 114
    74          | expresion . XOR expresion
    75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
 
-    PYC              desplazar e ir al estado 145
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
+    PYC              desplazar e ir al estado 143
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
 
 
-Estado 115
+Estado 111
 
-   43 sentencia: DOLLAR expresion PYC .
+   42 sentencia: ID MOV_LISTA PYC .
+
+    $default  reduce usando la regla 42 (sentencia)
+
+
+Estado 112
+
+   43 sentencia: DOLLAR ID PYC .
 
     $default  reduce usando la regla 43 (sentencia)
 
 
-Estado 116
+Estado 113
 
     4 bloque: inicio_bloque declar_de_variables_locales declar_procedimientos sentencias LLAVEDER .
 
     $default  reduce usando la regla 4 (bloque)
 
 
-Estado 117
+Estado 114
 
    29 cabecera_proced: inicio_cabe_proced PARIZQ PARDER .
 
     $default  reduce usando la regla 29 (cabecera_proced)
 
 
-Estado 118
+Estado 115
 
     6 lista_parametros: lista_parametros . COMA parametro
    27 cabecera_proced: inicio_cabe_proced PARIZQ lista_parametros . COMA lista_para_por_defecto PARDER
    28                | inicio_cabe_proced PARIZQ lista_parametros . PARDER
 
-    COMA    desplazar e ir al estado 146
-    PARDER  desplazar e ir al estado 147
+    COMA    desplazar e ir al estado 144
+    PARDER  desplazar e ir al estado 145
 
 
-Estado 119
+Estado 116
 
     7 lista_parametros: parametro .
 
     $default  reduce usando la regla 7 (lista_parametros)
 
 
-Estado 120
+Estado 117
 
    12 parametro: tipos . ID
 
-    ID  desplazar e ir al estado 148
+    ID  desplazar e ir al estado 146
 
 
-Estado 121
+Estado 118
 
    38 sentencia: cabecera_for ITERANDO expresion . HACER sentencia
    65 expresion: expresion . ADITIVOS expresion
@@ -1963,361 +1818,78 @@ Estado 121
    74          | expresion . XOR expresion
    75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
 
-    HACER            desplazar e ir al estado 149
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
+    HACER            desplazar e ir al estado 147
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
 
 
-Estado 122
+Estado 119
 
    47 sentencia_if: cabecera_if sentencia OTROCASO . sentencia
 
-    error             desplazar e ir al estado 56
-    LLAVEIZQ          desplazar e ir al estado 6
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    SI                desplazar e ir al estado 22
-    MIENTRAS          desplazar e ir al estado 23
-    PARA              desplazar e ir al estado 24
-    LEER              desplazar e ir al estado 25
-    IMPRIMIR          desplazar e ir al estado 26
-    ID                desplazar e ir al estado 27
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-    DOLLAR            desplazar e ir al estado 34
+    LLAVEIZQ  desplazar e ir al estado 6
+    SI        desplazar e ir al estado 20
+    MIENTRAS  desplazar e ir al estado 21
+    PARA      desplazar e ir al estado 22
+    LEER      desplazar e ir al estado 23
+    IMPRIMIR  desplazar e ir al estado 24
+    ID        desplazar e ir al estado 25
+    DOLLAR    desplazar e ir al estado 26
 
     inicio_bloque         ir al estado 7
-    bloque                ir al estado 35
-    cabecera_for          ir al estado 41
-    sentencia             ir al estado 150
-    sentencia_asignacion  ir al estado 43
-    cabecera_if           ir al estado 44
-    sentencia_if          ir al estado 45
-    inicio_llamada        ir al estado 46
-    llamada_proced        ir al estado 47
-    expresion             ir al estado 48
-    agregado_lista        ir al estado 49
+    bloque                ir al estado 27
+    cabecera_for          ir al estado 33
+    sentencia             ir al estado 148
+    sentencia_asignacion  ir al estado 35
+    cabecera_if           ir al estado 36
+    sentencia_if          ir al estado 37
+    inicio_llamada        ir al estado 38
+    llamada_proced        ir al estado 39
 
 
-Estado 123
+Estado 120
 
    56 llamada_proced: inicio_llamada PARDER PYC .
 
     $default  reduce usando la regla 56 (llamada_proced)
 
 
-Estado 124
+Estado 121
+
+   57 lista_expresiones: lista_expresiones COMA . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 149
+    agregado_lista  ir al estado 66
+
+
+Estado 122
 
    55 llamada_proced: inicio_llamada lista_expresiones PARDER . PYC
 
-    PYC  desplazar e ir al estado 151
+    PYC  desplazar e ir al estado 150
 
 
-Estado 125
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   72          | expresion OR expresion .
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 72 (expresion)
-
-
-Estado 126
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   73          | expresion AND expresion .
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 73 (expresion)
-
-
-Estado 127
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   74          | expresion XOR expresion .
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 74 (expresion)
-
-
-Estado 128
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   70          | expresion IGUALDAD expresion .
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 70 (expresion)
-
-
-Estado 129
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   71          | expresion RELACION expresion .
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 71 (expresion)
-
-
-Estado 130
-
-   65 expresion: expresion . ADITIVOS expresion
-   65          | expresion ADITIVOS expresion .
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 65 (expresion)
-
-
-Estado 131
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   68          | expresion MULTIPLICATIVOS expresion .
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    POTENCIAS  desplazar e ir al estado 96
-    DECRE_PRE  desplazar e ir al estado 97
-    INCRE_PRE  desplazar e ir al estado 98
-    ELEM_POSI  desplazar e ir al estado 99
-
-    $default  reduce usando la regla 68 (expresion)
-
-
-Estado 132
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   69          | expresion POTENCIAS expresion .
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    DECRE_PRE  desplazar e ir al estado 97
-    INCRE_PRE  desplazar e ir al estado 98
-    ELEM_POSI  desplazar e ir al estado 99
-
-    $default  reduce usando la regla 69 (expresion)
-
-
-Estado 133
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   66          | expresion DECRE_PRE expresion .
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    DECRE_PRE  desplazar e ir al estado 97
-    INCRE_PRE  desplazar e ir al estado 98
-    ELEM_POSI  desplazar e ir al estado 99
-
-    $default  reduce usando la regla 66 (expresion)
-
-
-Estado 134
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-   75          | expresion INCRE_PRE expresion . ELEM_POSI expresion
-
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 152
-
-
-Estado 135
-
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   67          | expresion ELEM_POSI expresion .
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 67 (expresion)
-
-
-Estado 136
-
-   42 sentencia: expresion MOV_LISTA PYC .
-
-    $default  reduce usando la regla 42 (sentencia)
-
-
-Estado 137
+Estado 123
 
    20 declar_variables: ID IGUAL expresion .
    65 expresion: expresion . ADITIVOS expresion
@@ -2332,104 +1904,63 @@ Estado 137
    74          | expresion . XOR expresion
    75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
 
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
 
     $default  reduce usando la regla 20 (declar_variables)
 
 
-Estado 138
+Estado 124
 
    21 declar_variables: declar_variables COMA ID .
    22                 | declar_variables COMA ID . IGUAL expresion
 
-    IGUAL  desplazar e ir al estado 153
+    IGUAL  desplazar e ir al estado 151
 
     $default  reduce usando la regla 21 (declar_variables)
 
 
-Estado 139
-
-   57 lista_expresiones: lista_expresiones COMA expresion .
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 57 (lista_expresiones)
-
-
-Estado 140
+Estado 125
 
    45 cabecera_if: SI PARIZQ expresion PARDER .
 
     $default  reduce usando la regla 45 (cabecera_if)
 
 
-Estado 141
+Estado 126
 
    37 sentencia: MIENTRAS PARIZQ expresion PARDER . sentencia
 
-    error             desplazar e ir al estado 56
-    LLAVEIZQ          desplazar e ir al estado 6
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    SI                desplazar e ir al estado 22
-    MIENTRAS          desplazar e ir al estado 23
-    PARA              desplazar e ir al estado 24
-    LEER              desplazar e ir al estado 25
-    IMPRIMIR          desplazar e ir al estado 26
-    ID                desplazar e ir al estado 27
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-    DOLLAR            desplazar e ir al estado 34
+    LLAVEIZQ  desplazar e ir al estado 6
+    SI        desplazar e ir al estado 20
+    MIENTRAS  desplazar e ir al estado 21
+    PARA      desplazar e ir al estado 22
+    LEER      desplazar e ir al estado 23
+    IMPRIMIR  desplazar e ir al estado 24
+    ID        desplazar e ir al estado 25
+    DOLLAR    desplazar e ir al estado 26
 
     inicio_bloque         ir al estado 7
-    bloque                ir al estado 35
-    cabecera_for          ir al estado 41
-    sentencia             ir al estado 154
-    sentencia_asignacion  ir al estado 43
-    cabecera_if           ir al estado 44
-    sentencia_if          ir al estado 45
-    inicio_llamada        ir al estado 46
-    llamada_proced        ir al estado 47
-    expresion             ir al estado 48
-    agregado_lista        ir al estado 49
+    bloque                ir al estado 27
+    cabecera_for          ir al estado 33
+    sentencia             ir al estado 152
+    sentencia_asignacion  ir al estado 35
+    cabecera_if           ir al estado 36
+    sentencia_if          ir al estado 37
+    inicio_llamada        ir al estado 38
+    llamada_proced        ir al estado 39
 
 
-Estado 142
+Estado 127
 
    33 cabecera_for: PARA sentencia_asignacion HASTA expresion .
    65 expresion: expresion . ADITIVOS expresion
@@ -2444,43 +1975,341 @@ Estado 142
    74          | expresion . XOR expresion
    75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
 
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
 
     $default  reduce usando la regla 33 (cabecera_for)
 
 
-Estado 143
+Estado 128
 
    48 lista_identificadores: lista_identificadores COMA ID .
 
     $default  reduce usando la regla 48 (lista_identificadores)
 
 
-Estado 144
+Estado 129
+
+   59 expresion: PARIZQ expresion PARDER .
+
+    $default  reduce usando la regla 59 (expresion)
+
+
+Estado 130
+
+   80 agregado_lista: CORCHIZQ lista_expresiones CORCHDER .
+
+    $default  reduce usando la regla 80 (agregado_lista)
+
+
+Estado 131
 
    50 mensajes: mensajes COMA mensaje .
 
     $default  reduce usando la regla 50 (mensajes)
 
 
-Estado 145
+Estado 132
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   72          | expresion OR expresion .
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+    $default  reduce usando la regla 72 (expresion)
+
+
+Estado 133
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   73          | expresion AND expresion .
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+    $default  reduce usando la regla 73 (expresion)
+
+
+Estado 134
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   74          | expresion XOR expresion .
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+    $default  reduce usando la regla 74 (expresion)
+
+
+Estado 135
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   70          | expresion IGUALDAD expresion .
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+    $default  reduce usando la regla 70 (expresion)
+
+
+Estado 136
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   71          | expresion RELACION expresion .
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+    $default  reduce usando la regla 71 (expresion)
+
+
+Estado 137
+
+   65 expresion: expresion . ADITIVOS expresion
+   65          | expresion ADITIVOS expresion .
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+    $default  reduce usando la regla 65 (expresion)
+
+
+Estado 138
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   68          | expresion MULTIPLICATIVOS expresion .
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    POTENCIAS  desplazar e ir al estado 106
+    DECRE_PRE  desplazar e ir al estado 107
+    INCRE_PRE  desplazar e ir al estado 108
+    ELEM_POSI  desplazar e ir al estado 109
+
+    $default  reduce usando la regla 68 (expresion)
+
+
+Estado 139
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   69          | expresion POTENCIAS expresion .
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    DECRE_PRE  desplazar e ir al estado 107
+    INCRE_PRE  desplazar e ir al estado 108
+    ELEM_POSI  desplazar e ir al estado 109
+
+    $default  reduce usando la regla 69 (expresion)
+
+
+Estado 140
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   66          | expresion DECRE_PRE expresion .
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    DECRE_PRE  desplazar e ir al estado 107
+    INCRE_PRE  desplazar e ir al estado 108
+    ELEM_POSI  desplazar e ir al estado 109
+
+    $default  reduce usando la regla 66 (expresion)
+
+
+Estado 141
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+   75          | expresion INCRE_PRE expresion . ELEM_POSI expresion
+
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 153
+
+
+Estado 142
+
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   67          | expresion ELEM_POSI expresion .
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+    $default  reduce usando la regla 67 (expresion)
+
+
+Estado 143
 
    44 sentencia_asignacion: ID IGUAL expresion PYC .
 
     $default  reduce usando la regla 44 (sentencia_asignacion)
 
 
-Estado 146
+Estado 144
 
     6 lista_parametros: lista_parametros COMA . parametro
    27 cabecera_proced: inicio_cabe_proced PARIZQ lista_parametros COMA . lista_para_por_defecto PARDER
@@ -2488,146 +2317,195 @@ Estado 146
     LISTADE  desplazar e ir al estado 13
     TIPOS    desplazar e ir al estado 14
 
-    lista_para_por_defecto  ir al estado 155
-    parametro               ir al estado 156
-    tipos                   ir al estado 120
+    lista_para_por_defecto  ir al estado 154
+    parametro               ir al estado 155
+    tipos                   ir al estado 117
 
 
-Estado 147
+Estado 145
 
    28 cabecera_proced: inicio_cabe_proced PARIZQ lista_parametros PARDER .
 
     $default  reduce usando la regla 28 (cabecera_proced)
 
 
-Estado 148
+Estado 146
 
    12 parametro: tipos ID .
 
     $default  reduce usando la regla 12 (parametro)
 
 
-Estado 149
+Estado 147
 
    38 sentencia: cabecera_for ITERANDO expresion HACER . sentencia
 
-    error             desplazar e ir al estado 56
-    LLAVEIZQ          desplazar e ir al estado 6
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    SI                desplazar e ir al estado 22
-    MIENTRAS          desplazar e ir al estado 23
-    PARA              desplazar e ir al estado 24
-    LEER              desplazar e ir al estado 25
-    IMPRIMIR          desplazar e ir al estado 26
-    ID                desplazar e ir al estado 27
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-    DOLLAR            desplazar e ir al estado 34
+    LLAVEIZQ  desplazar e ir al estado 6
+    SI        desplazar e ir al estado 20
+    MIENTRAS  desplazar e ir al estado 21
+    PARA      desplazar e ir al estado 22
+    LEER      desplazar e ir al estado 23
+    IMPRIMIR  desplazar e ir al estado 24
+    ID        desplazar e ir al estado 25
+    DOLLAR    desplazar e ir al estado 26
 
     inicio_bloque         ir al estado 7
-    bloque                ir al estado 35
-    cabecera_for          ir al estado 41
-    sentencia             ir al estado 157
-    sentencia_asignacion  ir al estado 43
-    cabecera_if           ir al estado 44
-    sentencia_if          ir al estado 45
-    inicio_llamada        ir al estado 46
-    llamada_proced        ir al estado 47
-    expresion             ir al estado 48
-    agregado_lista        ir al estado 49
+    bloque                ir al estado 27
+    cabecera_for          ir al estado 33
+    sentencia             ir al estado 156
+    sentencia_asignacion  ir al estado 35
+    cabecera_if           ir al estado 36
+    sentencia_if          ir al estado 37
+    inicio_llamada        ir al estado 38
+    llamada_proced        ir al estado 39
 
 
-Estado 150
+Estado 148
 
    47 sentencia_if: cabecera_if sentencia OTROCASO sentencia .
 
     $default  reduce usando la regla 47 (sentencia_if)
 
 
-Estado 151
+Estado 149
+
+   57 lista_expresiones: lista_expresiones COMA expresion .
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+    $default  reduce usando la regla 57 (lista_expresiones)
+
+
+Estado 150
 
    55 llamada_proced: inicio_llamada lista_expresiones PARDER PYC .
 
     $default  reduce usando la regla 55 (llamada_proced)
 
 
-Estado 152
-
-   67 expresion: expresion ELEM_POSI . expresion
-   75          | expresion INCRE_PRE expresion ELEM_POSI . expresion
-
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
-
-    expresion       ir al estado 158
-    agregado_lista  ir al estado 49
-
-
-Estado 153
+Estado 151
 
    22 declar_variables: declar_variables COMA ID IGUAL . expresion
 
-    error             desplazar e ir al estado 56
-    PARIZQ            desplazar e ir al estado 20
-    CORCHIZQ          desplazar e ir al estado 21
-    ID                desplazar e ir al estado 57
-    CONSTANTE         desplazar e ir al estado 28
-    ADITIVOS          desplazar e ir al estado 29
-    NOT               desplazar e ir al estado 30
-    DECRE_PRE         desplazar e ir al estado 31
-    INCRE_PRE         desplazar e ir al estado 32
-    UNARIO_PRE_LISTA  desplazar e ir al estado 33
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
 
-    expresion       ir al estado 159
-    agregado_lista  ir al estado 49
+    expresion       ir al estado 157
+    agregado_lista  ir al estado 66
 
 
-Estado 154
+Estado 152
 
    37 sentencia: MIENTRAS PARIZQ expresion PARDER sentencia .
 
     $default  reduce usando la regla 37 (sentencia)
 
 
-Estado 155
+Estado 153
+
+   67 expresion: expresion ELEM_POSI . expresion
+   75          | expresion INCRE_PRE expresion ELEM_POSI . expresion
+
+    error             desplazar e ir al estado 52
+    PARIZQ            desplazar e ir al estado 53
+    CORCHIZQ          desplazar e ir al estado 54
+    ID                desplazar e ir al estado 56
+    CONSTANTE         desplazar e ir al estado 57
+    ADITIVOS          desplazar e ir al estado 58
+    NOT               desplazar e ir al estado 59
+    DECRE_PRE         desplazar e ir al estado 60
+    INCRE_PRE         desplazar e ir al estado 61
+    UNARIO_PRE_LISTA  desplazar e ir al estado 62
+
+    expresion       ir al estado 158
+    agregado_lista  ir al estado 66
+
+
+Estado 154
 
     8 lista_para_por_defecto: lista_para_por_defecto . COMA parametro IGUAL CONSTANTE
    10                       | lista_para_por_defecto . COMA parametro IGUAL agregado_lista
    27 cabecera_proced: inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por_defecto . PARDER
 
-    COMA    desplazar e ir al estado 160
-    PARDER  desplazar e ir al estado 161
+    COMA    desplazar e ir al estado 159
+    PARDER  desplazar e ir al estado 160
 
 
-Estado 156
+Estado 155
 
     6 lista_parametros: lista_parametros COMA parametro .
     9 lista_para_por_defecto: parametro . IGUAL CONSTANTE
    11                       | parametro . IGUAL agregado_lista
 
-    IGUAL  desplazar e ir al estado 162
+    IGUAL  desplazar e ir al estado 161
 
     $default  reduce usando la regla 6 (lista_parametros)
 
 
-Estado 157
+Estado 156
 
    38 sentencia: cabecera_for ITERANDO expresion HACER sentencia .
 
     $default  reduce usando la regla 38 (sentencia)
+
+
+Estado 157
+
+   22 declar_variables: declar_variables COMA ID IGUAL expresion .
+   65 expresion: expresion . ADITIVOS expresion
+   66          | expresion . DECRE_PRE expresion
+   67          | expresion . ELEM_POSI expresion
+   68          | expresion . MULTIPLICATIVOS expresion
+   69          | expresion . POTENCIAS expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . RELACION expresion
+   72          | expresion . OR expresion
+   73          | expresion . AND expresion
+   74          | expresion . XOR expresion
+   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
+
+    OR               desplazar e ir al estado 99
+    AND              desplazar e ir al estado 100
+    XOR              desplazar e ir al estado 101
+    IGUALDAD         desplazar e ir al estado 102
+    RELACION         desplazar e ir al estado 103
+    ADITIVOS         desplazar e ir al estado 104
+    MULTIPLICATIVOS  desplazar e ir al estado 105
+    POTENCIAS        desplazar e ir al estado 106
+    DECRE_PRE        desplazar e ir al estado 107
+    INCRE_PRE        desplazar e ir al estado 108
+    ELEM_POSI        desplazar e ir al estado 109
+
+    $default  reduce usando la regla 22 (declar_variables)
 
 
 Estado 158
@@ -2646,42 +2524,12 @@ Estado 158
    75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
    75          | expresion INCRE_PRE expresion ELEM_POSI expresion .
 
-    ELEM_POSI  desplazar e ir al estado 99
+    ELEM_POSI  desplazar e ir al estado 109
 
     $default  reduce usando la regla 75 (expresion)
 
 
 Estado 159
-
-   22 declar_variables: declar_variables COMA ID IGUAL expresion .
-   65 expresion: expresion . ADITIVOS expresion
-   66          | expresion . DECRE_PRE expresion
-   67          | expresion . ELEM_POSI expresion
-   68          | expresion . MULTIPLICATIVOS expresion
-   69          | expresion . POTENCIAS expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . RELACION expresion
-   72          | expresion . OR expresion
-   73          | expresion . AND expresion
-   74          | expresion . XOR expresion
-   75          | expresion . INCRE_PRE expresion ELEM_POSI expresion
-
-    OR               desplazar e ir al estado 89
-    AND              desplazar e ir al estado 90
-    XOR              desplazar e ir al estado 91
-    IGUALDAD         desplazar e ir al estado 92
-    RELACION         desplazar e ir al estado 93
-    ADITIVOS         desplazar e ir al estado 94
-    MULTIPLICATIVOS  desplazar e ir al estado 95
-    POTENCIAS        desplazar e ir al estado 96
-    DECRE_PRE        desplazar e ir al estado 97
-    INCRE_PRE        desplazar e ir al estado 98
-    ELEM_POSI        desplazar e ir al estado 99
-
-    $default  reduce usando la regla 22 (declar_variables)
-
-
-Estado 160
 
     8 lista_para_por_defecto: lista_para_por_defecto COMA . parametro IGUAL CONSTANTE
    10                       | lista_para_por_defecto COMA . parametro IGUAL agregado_lista
@@ -2689,69 +2537,69 @@ Estado 160
     LISTADE  desplazar e ir al estado 13
     TIPOS    desplazar e ir al estado 14
 
-    parametro  ir al estado 163
-    tipos      ir al estado 120
+    parametro  ir al estado 162
+    tipos      ir al estado 117
 
 
-Estado 161
+Estado 160
 
    27 cabecera_proced: inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por_defecto PARDER .
 
     $default  reduce usando la regla 27 (cabecera_proced)
 
 
-Estado 162
+Estado 161
 
     9 lista_para_por_defecto: parametro IGUAL . CONSTANTE
    11                       | parametro IGUAL . agregado_lista
 
-    CORCHIZQ   desplazar e ir al estado 21
-    CONSTANTE  desplazar e ir al estado 164
+    CORCHIZQ   desplazar e ir al estado 54
+    CONSTANTE  desplazar e ir al estado 163
 
-    agregado_lista  ir al estado 165
+    agregado_lista  ir al estado 164
 
 
-Estado 163
+Estado 162
 
     8 lista_para_por_defecto: lista_para_por_defecto COMA parametro . IGUAL CONSTANTE
    10                       | lista_para_por_defecto COMA parametro . IGUAL agregado_lista
 
-    IGUAL  desplazar e ir al estado 166
+    IGUAL  desplazar e ir al estado 165
 
 
-Estado 164
+Estado 163
 
     9 lista_para_por_defecto: parametro IGUAL CONSTANTE .
 
     $default  reduce usando la regla 9 (lista_para_por_defecto)
 
 
-Estado 165
+Estado 164
 
    11 lista_para_por_defecto: parametro IGUAL agregado_lista .
 
     $default  reduce usando la regla 11 (lista_para_por_defecto)
 
 
-Estado 166
+Estado 165
 
     8 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL . CONSTANTE
    10                       | lista_para_por_defecto COMA parametro IGUAL . agregado_lista
 
-    CORCHIZQ   desplazar e ir al estado 21
-    CONSTANTE  desplazar e ir al estado 167
+    CORCHIZQ   desplazar e ir al estado 54
+    CONSTANTE  desplazar e ir al estado 166
 
-    agregado_lista  ir al estado 168
+    agregado_lista  ir al estado 167
 
 
-Estado 167
+Estado 166
 
     8 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL CONSTANTE .
 
     $default  reduce usando la regla 8 (lista_para_por_defecto)
 
 
-Estado 168
+Estado 167
 
    10 lista_para_por_defecto: lista_para_por_defecto COMA parametro IGUAL agregado_lista .
 

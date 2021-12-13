@@ -2,6 +2,9 @@ principal ()
 {
     inicio_var
         entero   n, curr ;
+        flotante f;
+        lista de entero pe, pe2;
+        entero tam;
     fin_var 
 
     imprimir "introduce numero : ";
@@ -24,4 +27,12 @@ principal ()
     }
 
     imprimir "\n";
+
+    pe = pe++(6)@(0);
+    $pe;
+    pe>>;
+    pe>>;
+    pe<<;
+
+    tam = #pe;
 }
