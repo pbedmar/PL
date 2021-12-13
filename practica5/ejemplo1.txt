@@ -1,13 +1,27 @@
 principal ()
 {
     inicio_var
-        flotante   n, d ;
+        entero   n, curr ;
     fin_var 
 
     imprimir "introduce numero : ";
     leer n;
-    d = 2.0;
+    imprimir " ", n, " == ";
+    curr = 2;
     
-    imprimir "Numeros: ", n*d;
-    
+    mientras (curr <= n) {
+        inicio_var
+            entero d;
+        fin_var
+
+        d = n/curr;
+
+        si(d*curr == n)
+            imprimir "* ", curr, " ";
+        en otro caso{
+            curr = curr+1;
+        }
+    }
+
+    imprimir "\n";
 }

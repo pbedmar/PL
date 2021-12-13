@@ -402,6 +402,33 @@ void generarCodNull(atributos *a) {
   strcpy(a->codigoGlobal,"");
 }
 
+void generarCodPrograma(atributos *a, atributos *a1, atributos *a2) {
+  a->codigo = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") +strlen(a2->codigoGlobal) + strlen("\n") + strlen(a1->codigo) + strlen(a2->codigo) + 1);
+  strcpy(a->codigo,"#include <stdbool.h>\n#include <stdio.h>\n");
+  strcat(a->codigo,"#include <math.h>\n\n");
+  strcat(a->codigo,a2->codigoGlobal);
+  strcat(a->codigo,"\n");
+  strcat(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  
+  FILE *fichero;
+  fichero = fopen("src/codInter.c", "w");
+  fputs(a->codigo,fichero);
+  fclose(fichero);
+}
+
+void generarCodCabeProg(atributos *a) {
+  a->codigo = (char*)malloc(strlen("int main(int argc, char* argv[])\n") + 1);
+  strcpy(a->codigo,"int main(int argc, char* argv[])\n");
+}
+
+void generarCodIniBloque(atributos *a) {
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(tab) + strlen("{\n") + 1);
+  strcpy(a->codigo,tab);
+  strcat(a->codigo,"{\n");
+}
+
 char* etiquetaPrinf(dtipo tipo) {
    //TODO: Deberíamos de contemplar el tipo lista?
   switch(tipo) {
@@ -643,30 +670,18 @@ void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atrib
 
 /** Seccion de producciones que definen la gramatica. **/
 
-programa    : cabecera_programa bloque {  $$.codigo = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") +strlen($2.codigoGlobal) + strlen("\n") + strlen($1.codigo) + strlen($2.codigo) + 1);
-                                          strcpy($$.codigo,"#include <stdbool.h>\n#include <stdio.h>\n");
-                                          strcat($$.codigo,"#include <math.h>\n\n");
-                                          strcat($$.codigo,$2.codigoGlobal);
-                                          strcat($$.codigo,"\n");
-                                          strcat($$.codigo,$1.codigo);
-                                          strcat($$.codigo,$2.codigo);
-                                          
-                                          FILE *fichero;
-                                          fichero = fopen("src/codInter.c", "w");
-                                          fputs($$.codigo,fichero);
-                                          fclose(fichero);
+programa    : cabecera_programa bloque {  
+                                          generarCodPrograma(&$$, &$1, &$2);
                                        };
 
-cabecera_programa   : PRINCIPAL PARIZQ PARDER { $$.codigo = (char*)malloc(strlen("int main()\n") + 1);
-                                                strcpy($$.codigo,"int main()\n");
-                                                 };
+cabecera_programa   : PRINCIPAL PARIZQ PARDER { 
+                                                generarCodCabeProg(&$$);
+                                              };
 
-inicio_bloque : LLAVEIZQ { TS_InsertaMARCA();
-                           char *tab = generarTab();
-                           $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + 1);
-                           strcpy($$.codigo,tab);
-                           strcat($$.codigo,"{\n");
-                           profun += 1;
+inicio_bloque : LLAVEIZQ { 
+                            TS_InsertaMARCA();
+                            generarCodIniBloque(&$$);
+                            profun += 1;
                           } ;
 
 bloque  : inicio_bloque
