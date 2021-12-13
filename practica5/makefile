@@ -9,8 +9,15 @@ all: generadorCodInter
 generadorCodInter: $(OBJ)/main.o $(OBJ)/y.tab.o
 	gcc -std=$(VERSION) -pthread -g $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
 
-ejecutablePrueba: $(SRC)/codInter.c
-	gcc $(SRC)/codInter.c -o $(BIN)/ejecutablePrueba
+generadorCodEjemplos: $(BIN)/generadorCodInter ejemplo1.txt ejemplo2.txt
+	./$(BIN)/generadorCodInter ejemplo1.txt
+	mv ./$(SRC)/codInter.c ./$(SRC)/ejemplo1.c
+	./$(BIN)/generadorCodInter ejemplo2.txt
+	mv ./$(SRC)/codInter.c ./$(SRC)/ejemplo2.c
+
+ejecutableEjemplos: $(SRC)/ejemplo1.c $(SRC)/ejemplo2.c
+	gcc $(SRC)/ejemplo1.c -o $(BIN)/ejemplo1
+	gcc $(SRC)/ejemplo2.c -o $(BIN)/ejemplo2
 
 $(OBJ)/y.tab.o: $(SRC)/y.tab.c
 	gcc -std=$(VERSION) -pthread -g -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o

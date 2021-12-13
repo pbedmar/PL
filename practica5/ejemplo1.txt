@@ -1,0 +1,19 @@
+principal ()
+{
+    inicio_var
+        flotante   n, d ;
+    fin_var 
+
+    imprimir "introduce numero : ";
+    leer n;
+    d = 1;
+    
+    imprimir "Numeros: ";
+    
+    mientras (d < n) {
+        
+        imprimir " ", (d/2);
+        
+        d = d+1.0;
+    }
+}

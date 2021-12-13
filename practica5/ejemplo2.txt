@@ -1,0 +1,18 @@
+principal ()
+{
+    inicio_var
+        entero   ini, fin, i ;
+    fin_var 
+
+    imprimir "introduce numero : ";
+    leer ini;
+    imprimir "introduce numero : ";
+    leer fin;
+
+    para i = ini; hasta i <= fin iterando 1 hacer{
+        si(i%2 == 0)
+            imprimir i, " es par\n";
+        en otro caso
+            imprimir i, " es impar\n";
+    }
+}

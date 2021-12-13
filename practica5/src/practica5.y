@@ -393,6 +393,15 @@ char* etiqueta() {
   return salida;
 }
 
+void generarCodNull(atributos *a) {
+  a->codigo = (char*)malloc(strlen("") + 1);
+  strcpy(a->codigo,"");
+  a->nombre = (char*)malloc(strlen("") + 1);
+  strcpy(a->nombre,"");
+  a->codigoGlobal = (char*)malloc(strlen("") + 1);
+  strcpy(a->codigoGlobal,"");
+}
+
 void generarCodExpresion(atributos *a, atributos *a1, atributos *a2, atributos *a3, char* op){
   //generacion de codigo
   char *varTmp = temporal();
