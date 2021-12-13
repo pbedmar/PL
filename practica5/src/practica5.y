@@ -429,6 +429,249 @@ void generarCodIniBloque(atributos *a) {
   strcat(a->codigo,"{\n");
 }
 
+void generarCodBloqueSinProce(atributos *a, atributos *a1, atributos *a2, atributos *a3) {
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(a3->codigo) + strlen(tab) + strlen("}\n") + 1);
+  a->codigoGlobal = (char*)malloc(strlen(a2->codigoGlobal) + 1);
+  strcpy(a->codigoGlobal,a2->codigoGlobal);
+
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,a3->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"}\n"); 
+}
+
+void generarCodDeclarVar(atributos *a, atributos *a2) {
+  a->codigo = (char*)malloc(strlen(a2->codigo) + 1);
+  a->codigoGlobal = (char*)malloc(strlen(a2->codigoGlobal) + 1);
+  strcpy(a->codigoGlobal,a2->codigoGlobal);
+  strcpy(a->codigo,a2->codigo);
+}
+
+void generarCodVarLocRecur(atributos *a, atributos *a1, atributos *a2) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + 1);
+  a->codigoGlobal = (char*)malloc(strlen(a1->codigoGlobal) + strlen(a2->codigoGlobal) + 1);
+  strcpy(a->codigoGlobal,a1->codigoGlobal);
+  strcat(a->codigoGlobal,a2->codigoGlobal);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+}
+
+void generarCodVarLoc(atributos *a, atributos *a1) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + 1);
+  a->codigoGlobal = (char*)malloc(strlen(a1->codigoGlobal) + 1);
+  strcpy(a->codigoGlobal,a1->codigoGlobal);
+  strcpy(a->codigo,a1->codigo); 
+}
+
+void generarCodCuerpoVar(atributos *a, atributos *a1, atributos *a2) {
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(tab) + strlen(a1->codigo) + strlen(" ") + strlen(a2->codigo) + strlen(";\n") + 1);
+  a->codigoGlobal = (char*)malloc(strlen("") + 1);
+  strcpy(a->codigoGlobal,"");
+  strcpy(a->codigo,tab);
+  strcat(a->codigo,a1->codigo);
+  strcat(a->codigo, " ");
+  strcat(a->codigo, a2->codigo);
+  strcat(a->codigo, ";\n");
+}
+
+void generarCodCuerpoVarMain(atributos *a, atributos *a1, atributos *a2) {
+  a->codigoGlobal = (char*)malloc(strlen(a1->codigo) + strlen(" ") + strlen(a2->codigo) + strlen(";\n") + 1);
+  a->codigo = (char*)malloc(strlen("") + 1);
+  strcpy(a->codigo,"");
+  strcpy(a->codigoGlobal,a1->codigo);
+  strcat(a->codigoGlobal, " ");
+  strcat(a->codigoGlobal, a2->codigo);
+  strcat(a->codigoGlobal, ";\n");
+}
+
+void generarCodDeclarSimple(atributos *a, atributos *a1) {
+  a->codigo = (char*)malloc(strlen(a1->lexema) + 1);
+  strcpy(a->codigo,a1->lexema);
+}
+
+void generarCodDeclarAsig(atributos *a, atributos *a1, atributos *a3) {
+  a->codigo = (char*)malloc(strlen(a1->lexema) + strlen(" = ") + strlen(a3->lexema) + 1);
+  strcpy(a->codigo,a1->lexema);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a3->lexema);
+}
+
+void generarCodDeclarSimpleRecu(atributos *a, atributos *a1, atributos *a3) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(", ") + strlen(a3->lexema) + 1);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,", ");
+  strcat(a->codigo,a3->lexema);
+}
+
+void generarCodDeclarAsigRecu(atributos *a, atributos *a1, atributos *a3, atributos *a5) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(", ") + strlen(a3->lexema) + strlen(" = ") + strlen(a5->lexema) + 1);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,", ");
+  strcat(a->codigo,a3->lexema);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a5->lexema);
+}
+
+void generarCodSentencias(atributos *a, atributos *a1, atributos *a2) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + 1);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo); 
+}
+
+void generarCodSentencia(atributos *a, atributos *a1) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + 1);
+  strcpy(a->codigo,a1->codigo); 
+}
+
+void generarCodCabeFor(atributos *a, atributos *a2, atributos *a4) {
+  char *etiqSalida = etiqueta();
+  char *etiqEntrada = etiqueta();
+  TS_InsertaDescripControl(a2->nombre, etiqEntrada, etiqSalida, NULL);
+  
+  char *tab = generarTab();
+                        
+  a->codigo = (char*)malloc(strlen(a2->codigo) + strlen(etiqEntrada) + strlen(": ;\n") + strlen(a4->codigo) + strlen(tab) + strlen("if (!") + strlen(a4->nombre) 
+              + strlen(") goto ") + strlen(etiqSalida) + strlen(";\n") + 1);
+  
+  strcpy(a->codigo,a2->codigo);
+  strcat(a->codigo,etiqEntrada);
+  strcat(a->codigo,": ;\n");
+  strcat(a->codigo,a4->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"if (!");
+  strcat(a->codigo,a4->nombre);
+  strcat(a->codigo,") goto ");
+  strcat(a->codigo,etiqSalida);
+  strcat(a->codigo,";\n");
+}
+
+void generarCodSentBloque(atributos *a, atributos *a1) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + 1);
+  strcpy(a->codigo,a1->codigo);
+}
+
+void generarCodSentAsig(atributos *a, atributos *a1) {
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen(a1->codigo) + strlen(tab) + strlen("}\n\n") + 1);
+  strcpy(a->codigo,tab);
+  strcat(a->codigo,"{\n");
+  strcat(a->codigo,a1->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"}\n\n");
+}
+
+void generarCodIf(atributos *a, atributos *a1) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen("\n") + 1);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,"\n");
+}
+
+void generarCodFor(atributos *a, atributos *a1, atributos *a3, atributos *a5) {
+  char *tab = generarTab();
+  descriptorDeInstrControl descrip = buscarDescrip();
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen("{\n") + strlen(a5->codigo) + strlen(a3->codigo) + strlen(tab) 
+              + strlen(descrip.nombreVarControl) + strlen(" += ") + strlen(a3->nombre) + strlen(";\n") + strlen(tab) + strlen("goto ") 
+              + strlen(descrip.etiquetaEntrada) + strlen(";\n") + strlen(tab) + strlen("}\n") + strlen(descrip.etiquetaSalida) + strlen(": ;\n\n") + 1);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"{\n");
+  strcat(a->codigo,a5->codigo);
+  strcat(a->codigo,a3->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,descrip.nombreVarControl);
+  strcat(a->codigo," += ");
+  strcat(a->codigo,a3->nombre);
+  strcat(a->codigo,";\n");
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"goto ");
+  strcat(a->codigo,descrip.etiquetaEntrada);
+  strcat(a->codigo,";\n");
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"}\n");
+  strcat(a->codigo,descrip.etiquetaSalida);
+  strcat(a->codigo,": ;\n\n");
+
+  TOPE -= 1;
+}
+
+void generarCodLeer(atributos *a, atributos *a2) {
+  a->codigo = (char*)malloc(strlen(a2->codigo) + strlen("\n") + 1);
+  strcpy(a->codigo,a2->codigo);
+  strcat(a->codigo,"\n");
+}
+
+void generarCodImprimir(atributos *a, atributos *a2) {
+  a->codigo = (char*)malloc(strlen(a2->codigo) + strlen("\n") + 1);
+  strcpy(a->codigo,a2->codigo);
+  strcat(a->codigo,"\n");
+}
+
+void generarCodAsig(atributos *a, atributos *a1, atributos *a3) {
+  char *tab = generarTab();
+  a->nombre = strdup(a1->lexema);
+  a->codigo = (char*)malloc(strlen(a3->codigo) + strlen(tab) + strlen(a1->lexema) + strlen(" = ") + strlen(a3->nombre) + strlen(";\n") + 1);
+  strcpy(a->codigo,a3->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,a1->lexema);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a3->nombre);
+  strcat(a->codigo,";\n");
+}
+
+void generarCodCabeIf(atributos *a, atributos *a3) {
+  char *etiqSalida = etiqueta();                                         
+  char *etiqElse = etiqueta();
+  
+  TS_InsertaDescripControl(NULL, NULL, etiqSalida, etiqElse);
+  
+  char *tab = generarTab();
+
+  a->codigo = (char*)malloc(strlen(a3->codigo) + strlen(tab) + strlen("if (!") + strlen(a3->nombre) + strlen(") goto ") + strlen(etiqElse) + strlen(";\n") + 1);
+  
+  strcpy(a->codigo,a3->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"if (!");
+  strcat(a->codigo,a3->nombre);
+  strcat(a->codigo,") goto ");
+  strcat(a->codigo,etiqElse);
+  strcat(a->codigo,";\n");
+}
+
+void generarCodSentIf(atributos *a, atributos *a1, atributos *a2) {
+  descriptorDeInstrControl descrip = buscarDescrip();
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(descrip.etiquetaElse) + strlen(": ;\n") + 1);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,descrip.etiquetaElse);
+  strcat(a->codigo,": ;\n");
+
+  TOPE -= 1; 
+}
+
+void generarCodSentIfElse(atributos *a, atributos *a1, atributos *a2, atributos *a4) {
+  descriptorDeInstrControl descrip = buscarDescrip();
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(tab) + strlen("goto ") + strlen(descrip.etiquetaSalida)
+                + strlen(";\n") + strlen(descrip.etiquetaElse) + strlen(": ;\n") + strlen(a4->codigo) + strlen(descrip.etiquetaSalida)
+                + strlen(": ;\n") + 1);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"goto ");
+  strcat(a->codigo,descrip.etiquetaSalida);
+  strcat(a->codigo,";\n");
+  strcat(a->codigo,descrip.etiquetaElse);
+  strcat(a->codigo,": ;\n");
+  strcat(a->codigo,a4->codigo);
+  strcat(a->codigo,descrip.etiquetaSalida);
+  strcat(a->codigo,": ;\n");
+
+  TOPE -= 1;
+}
+
 char* etiquetaPrinf(dtipo tipo) {
    //TODO: Deberíamos de contemplar el tipo lista?
   switch(tipo) {
@@ -446,6 +689,100 @@ char* etiquetaPrinf(dtipo tipo) {
     break;
   }
 }
+
+void generarCodListaIdentRecu(atributos *a, atributos *a1, atributos *a3) {
+  dtipo tipo = buscarTipoVariable(a3->lexema);
+  char *tab = generarTab();
+  char *etiqPrintf = etiquetaPrinf(tipo);
+
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen("scanf(\"") 
+  + strlen(etiqPrintf) + strlen("\", &") + strlen(a3->lexema) + strlen(");\n") + 1);
+  strcpy(a->codigo, a1->codigo);
+  strcat(a->codigo, tab);
+  strcat(a->codigo, "scanf(\"");
+  strcat(a->codigo, etiqPrintf);
+  strcat(a->codigo, "\", &");
+  strcat(a->codigo, a3->lexema);
+  strcat(a->codigo, ");\n");
+}
+
+void generarCodListaIdent(atributos *a, atributos *a1) {
+  dtipo tipo = buscarTipoVariable(a1->lexema);
+  char *tab = generarTab();
+
+  char *etiqPrintf = etiquetaPrinf(tipo);
+
+  a->codigo = (char*)malloc(strlen(tab) + strlen("scanf(\"") + strlen(etiqPrintf) + strlen("\", &") + strlen(a1->lexema) + strlen("); getchar();\n") + 1);
+  strcpy(a->codigo, tab);
+  strcat(a->codigo, "scanf(\"");
+  strcat(a->codigo, etiqPrintf);
+  strcat(a->codigo, "\", &");
+  strcat(a->codigo, a1->lexema);
+  strcat(a->codigo, "); getchar();\n");
+}
+
+void generarCodMensajesRecu(atributos *a, atributos *a1, atributos *a3) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a3->codigo) + 1);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a3->codigo);
+}
+
+void generarCodMensajes(atributos *a, atributos *a1) {
+  a->codigo = (char*)malloc(strlen(a1->codigo) + 1);
+  strcpy(a->codigo,a1->codigo);
+}
+
+void generarCodigoExpParen(atributos *a, atributos *a2) {
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = (") + strlen(a2->nombre) 
+              + strlen(");\n") + 1);
+
+  strcpy(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = (");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+}
+
+void generarCodId(atributos *a, atributos *a1) {
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->lexema) + strlen(";\n") + 1);
+  strcpy(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->lexema);
+  strcat(a->codigo,";\n");
+
+  a->nombre = strdup(varTmp); 
+}
+
+void generarCodConst(atributos *a, atributos *a1) {
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a1->tipo);
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a->lexema) + strlen(";\n") + 1);
+  strcpy(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a->lexema);
+  strcat(a->codigo,";\n");
+
+  a->nombre = strdup(varTmp);
+}
+
 
 void generarCodMensajeExp(atributos *a, atributos *a1) {
   char *etiqPrintf = etiquetaPrinf(a1->tipo);
@@ -551,7 +888,7 @@ void potencia(atributos *a, atributos *a1, atributos *a2, atributos *a3){
 void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atributos *a4, atributos *a5){
   char *etiqSalida = etiqueta();
   char *etiqEntrada = etiqueta();
-  //TS_InsertaDescripControl($2.nombre, etiqEntrada, etiqSalida, NULL);
+  TS_InsertaDescripControl(a2->nombre, etiqEntrada, etiqSalida, NULL);
   char *tab = generarTab();
 
   a->codigo = (char*)malloc(strlen(etiqEntrada) + strlen(": ;\n") + strlen(a3->codigo) + strlen(tab) + strlen("if (!") + strlen(a3->nombre) 
@@ -575,6 +912,8 @@ void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atrib
   strcat(a->codigo,";\n");
   strcat(a->codigo,etiqSalida);
   strcat(a->codigo,": ;\n");
+
+  TOPE -= 1;
 
 }
 
@@ -692,18 +1031,10 @@ bloque  : inicio_bloque
         | inicio_bloque
           declar_de_variables_locales 
           sentencias 
-          LLAVEDER { TS_VaciarENTRADAS();
-                     profun -= 1;
-                     char *tab = generarTab();
-                     $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen($3.codigo) + strlen(tab) + strlen("}\n") + 1);
-                     $$.codigoGlobal = (char*)malloc(strlen($2.codigoGlobal) + 1);
-                     strcpy($$.codigoGlobal,$2.codigoGlobal);
-
-                     strcpy($$.codigo,$1.codigo);
-                     strcat($$.codigo,$2.codigo);
-                     strcat($$.codigo,$3.codigo);
-                     strcat($$.codigo,tab);
-                     strcat($$.codigo,"}\n"); 
+          LLAVEDER { 
+                      TS_VaciarENTRADAS();
+                      profun -= 1;
+                      generarCodBloqueSinProce(&$$, &$1, &$2, &$3);
                    } ;
 
 lista_parametros    : lista_parametros COMA parametro { TS_InsertaPARAM($3.lexema, $3.tipo); }
@@ -716,88 +1047,95 @@ lista_para_por_defecto  : lista_para_por_defecto COMA parametro IGUAL CONSTANTE 
 
 parametro   : tipos ID { $$.tipo = tipoTmp; $$.lexema = $2.lexema; } ;
 
-declar_de_variables_locales : INICIOVAR variables_locales FINVAR { $$.codigo = (char*)malloc(strlen($2.codigo) + 1);
-                                                                   $$.codigoGlobal = (char*)malloc(strlen($2.codigoGlobal) + 1);
-                                                                   strcpy($$.codigoGlobal,$2.codigoGlobal);
-                                                                   strcpy($$.codigo,$2.codigo); }
-                            | { $$.codigo = (char*)malloc(strlen("") + 1);
-                                $$.codigoGlobal = (char*)malloc(strlen("") + 1);
-                                strcpy($$.codigoGlobal,"");
-                                strcpy($$.codigo,""); };
+declar_de_variables_locales : INICIOVAR variables_locales FINVAR { 
+                                                                    generarCodDeclarVar(&$$, &$2);
+                                                                  }
+                            | { 
+                                generarCodNull(&$$);
+                              };
 
-variables_locales   : variables_locales cuerpo_declar_variables { $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + 1);
-                                                                  $$.codigoGlobal = (char*)malloc(strlen($1.codigoGlobal) + strlen($2.codigoGlobal) + 1);
-                                                                  strcpy($$.codigoGlobal,$1.codigoGlobal);
-                                                                  strcat($$.codigoGlobal,$2.codigoGlobal);
-                                                                  strcpy($$.codigo,$1.codigo);
-                                                                  strcat($$.codigo,$2.codigo); }
-                    | cuerpo_declar_variables { $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
-                                                $$.codigoGlobal = (char*)malloc(strlen($1.codigoGlobal) + 1);
-                                                strcpy($$.codigoGlobal,$1.codigoGlobal);
-                                                strcpy($$.codigo,$1.codigo); } ;
+variables_locales   : variables_locales cuerpo_declar_variables { 
+                                                                  generarCodVarLocRecur(&$$, &$1, &$2);
+                                                                }
+                    | cuerpo_declar_variables { 
+                                                generarCodVarLoc(&$$, &$1);
+                                              } ;
 
 cuerpo_declar_variables : tipos declar_variables PYC { if(profun > 1) {
-                                                         char *tab = generarTab();
-                                                         $$.codigo = (char*)malloc(strlen(tab) + strlen($1.codigo) + strlen(" ") + strlen($2.codigo) + strlen(";\n") + 1);
-                                                         $$.codigoGlobal = (char*)malloc(strlen("") + 1);
-                                                         strcpy($$.codigoGlobal,"");
-                                                         strcpy($$.codigo,tab);
-                                                         strcat($$.codigo,$1.codigo);
-                                                         strcat($$.codigo, " ");
-                                                         strcat($$.codigo, $2.codigo);
-                                                         strcat($$.codigo, ";\n");
+                                                         generarCodCuerpoVar(&$$, &$1, &$2);
                                                        }
                                                        else {
-                                                         $$.codigoGlobal = (char*)malloc(strlen($1.codigo) + strlen(" ") + strlen($2.codigo) + strlen(";\n") + 1);
-                                                         $$.codigo = (char*)malloc(strlen("") + 1);
-                                                         strcpy($$.codigo,"");
-                                                         strcpy($$.codigoGlobal,$1.codigo);
-                                                         strcat($$.codigoGlobal, " ");
-                                                         strcat($$.codigoGlobal, $2.codigo);
-                                                         strcat($$.codigoGlobal, ";\n");
-                                                       } }
-                        | error ;
+                                                         generarCodCuerpoVarMain(&$$, &$1, &$2);
+                                                       } 
+                                                      }
+                        | error {
+                                  generarCodNull(&$$);
+                                } ;
 
-declar_variables    : ID {  if(enAmbito($1.lexema) == 1)
+declar_variables    : ID {  
+                            int correcto = 0;
+                            if(enAmbito($1.lexema) == 1)
                               errorYaDeclarado($1.lexema);
-                            else
+                            else {
                               TS_InsertaVAR($1.lexema, tipoTmp);
-                            
-                            $$.codigo = (char*)malloc(strlen($1.lexema) + 1);
-                            strcpy($$.codigo,$1.lexema);
+                              correcto = 1;
+                            }
+
+                            if(correcto == 1) {
+                              generarCodDeclarSimple(&$$, &$1);
+                            }
+                            else {
+                              generarCodNull(&$$);
+                            }
                           }
-                    | ID IGUAL expresion {  if(enAmbito($1.lexema) == 1)
+                    | ID IGUAL expresion {  
+                                            int correcto = 0;
+                                            if(enAmbito($1.lexema) == 1)
                                               errorYaDeclarado($1.lexema);
-                                            else
+                                            else {
                                               TS_InsertaVAR($1.lexema, tipoTmp);
-                                            
-                                            $$.codigo = (char*)malloc(strlen($1.lexema) + strlen(" = ") + strlen($3.lexema) + 1);
-                                            strcpy($$.codigo,$1.lexema);
-                                            strcat($$.codigo," = ");
-                                            strcat($$.codigo,$3.lexema);
+                                              correcto = 1;
+                                            }
+
+                                            if(correcto == 1) {
+                                              generarCodDeclarAsig(&$$, &$1, &$3);
+                                            }
+                                            else {
+                                              generarCodNull(&$$);
+                                            }
                                          }
-                    | declar_variables COMA ID {  if(enAmbito($3.lexema) == 1)
+                    | declar_variables COMA ID {  
+                                                  int correcto = 0;
+                                                  if(enAmbito($3.lexema) == 1)
                                                     errorYaDeclarado($3.lexema);
-                                                  else
+                                                  else {
                                                     TS_InsertaVAR($3.lexema, tipoTmp);
-                                                  
-                                                  $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(", ") + strlen($3.lexema) + 1);
-                                                  strcpy($$.codigo,$1.codigo);
-                                                  strcat($$.codigo,", ");
-                                                  strcat($$.codigo,$3.lexema);
+                                                    correcto = 1;
+                                                  }
+
+                                                  if(correcto == 1) {
+                                                    generarCodDeclarSimpleRecu(&$$, &$1, &$3);
+                                                  }
+                                                  else {
+                                                    generarCodNull(&$$);
+                                                  }
                                                 }
-                    | declar_variables COMA ID IGUAL expresion {  if(enAmbito($3.lexema) == 1)
+                    | declar_variables COMA ID IGUAL expresion {  
+                                                                  int correcto = 0;
+                                                                  if(enAmbito($3.lexema) == 1)
                                                                     errorYaDeclarado($3.lexema);
-                                                                  else
+                                                                  else {
                                                                     TS_InsertaVAR($3.lexema, tipoTmp);
-                                                                    
-                                                                  $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(", ") + strlen($3.lexema) + strlen(" = ") + strlen($5.lexema) + 1);
-                                                                  strcpy($$.codigo,$1.codigo);
-                                                                  strcat($$.codigo,", ");
-                                                                  strcat($$.codigo,$3.lexema);
-                                                                  strcat($$.codigo," = ");
-                                                                  strcat($$.codigo,$5.lexema);
-                                                                  } ;
+                                                                    correcto = 1;
+                                                                  }
+
+                                                                  if(correcto == 1) {
+                                                                    generarCodDeclarAsigRecu(&$$, &$1, &$3, &$5);
+                                                                  }
+                                                                  else {
+                                                                    generarCodNull(&$$);
+                                                                  }
+                                                                } ;
 
 declar_procedimientos : declar_procedimientos declar_proced
                       | declar_proced ;
@@ -809,215 +1147,110 @@ inicio_cabe_proced : PROCEDIMIENTO ID { TS_InsertaPROCED($2.lexema); } ;
 cabecera_proced : inicio_cabe_proced PARIZQ lista_parametros COMA lista_para_por_defecto PARDER { Subprog = 1; }
                 | inicio_cabe_proced PARIZQ lista_parametros PARDER { Subprog = 1; }
                 | inicio_cabe_proced PARIZQ PARDER { Subprog = 1; }
-                | error ;
+                | error {
+                          generarCodNull(&$$);
+                        } ;
 
-sentencias  : sentencias sentencia { $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + 1);
-                                     strcpy($$.codigo,$1.codigo);
-                                     strcat($$.codigo,$2.codigo); }
-            | sentencia { $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
-                          strcpy($$.codigo,$1.codigo); } ;
+sentencias  : sentencias sentencia { 
+                                     generarCodSentencias(&$$, &$1, &$2);
+                                    }
+            | sentencia { 
+                          generarCodSentencia(&$$, &$1);
+                        } ;
 
 cabecera_for  : PARA sentencia_asignacion HASTA expresion 
-                      { char *etiqSalida = etiqueta();
-                        char *etiqEntrada = etiqueta();
-                        TS_InsertaDescripControl($2.nombre, etiqEntrada, etiqSalida, NULL);
-                        char *tab = generarTab();
-                        
-                        $$.codigo = (char*)malloc(strlen($2.codigo) + strlen(etiqEntrada) + strlen(": ;\n") + strlen($4.codigo) + strlen(tab) + strlen("if (!") + strlen($4.nombre) 
-                                    + strlen(") goto ") + strlen(etiqSalida) + strlen(";\n") + 1);
-                        
-                        strcpy($$.codigo,$2.codigo);
-                        strcat($$.codigo,etiqEntrada);
-                        strcat($$.codigo,": ;\n");
-                        strcat($$.codigo,$4.codigo);
-                        
-                        strcat($$.codigo,tab);
-                        strcat($$.codigo,"if (!");
-                        strcat($$.codigo,$4.nombre);
-                        strcat($$.codigo,") goto ");
-                        strcat($$.codigo,etiqSalida);
-                        strcat($$.codigo,";\n");
+                      { 
+                        generarCodCabeFor(&$$, &$2, &$4);
                       }
 
-sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
-                        strcpy($$.codigo,$1.codigo);
+sentencia   : bloque {  
+                        generarCodSentBloque(&$$, &$1);
                      }
-            | sentencia_asignacion { char *tab = generarTab();
-                                     $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($1.codigo) + strlen(tab) + strlen("}\n\n") + 1);
-                                     strcpy($$.codigo,tab);
-                                     strcat($$.codigo,"{\n");
-                                     strcat($$.codigo,$1.codigo);
-                                     strcat($$.codigo,tab);
-                                     strcat($$.codigo,"}\n\n"); }
-            | sentencia_if {  $$.codigo = (char*)malloc(strlen($1.codigo) + strlen("\n") + 1);
-                              strcpy($$.codigo,$1.codigo);
-                              strcat($$.codigo,"\n");
+            | sentencia_asignacion {  
+                                     generarCodSentAsig(&$$, &$1);
+                                    }
+            | sentencia_if {  
+                              generarCodIf(&$$, &$1);
                            }
             | MIENTRAS PARIZQ expresion PARDER sentencia
             {
               bucleWhile(&$$,&$1,&$2,&$3,&$4,&$5);
             }
             | cabecera_for ITERANDO expresion HACER sentencia  
-                                  { char *tab = generarTab();
-                                    descriptorDeInstrControl descrip = buscarDescrip();
-                                    $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(tab) + strlen("{\n") + strlen($5.codigo) + strlen($3.codigo) + strlen(tab) 
-                                                + strlen(descrip.nombreVarControl) + strlen(" += ") + strlen($3.nombre) + strlen(";\n") + strlen(tab) + strlen("goto ") 
-                                                + strlen(descrip.etiquetaEntrada) + strlen(";\n") + strlen(tab) + strlen("}\n") + strlen(descrip.etiquetaSalida) + strlen(": ;\n\n") + 1);
-                                    strcpy($$.codigo,$1.codigo);
-                                    strcat($$.codigo,tab);
-                                    strcat($$.codigo,"{\n");
-                                    strcat($$.codigo,$5.codigo);
-                                    strcat($$.codigo,$3.codigo);
-                                    strcat($$.codigo,tab);
-                                    strcat($$.codigo,descrip.nombreVarControl);
-                                    strcat($$.codigo," += ");
-                                    strcat($$.codigo,$3.nombre);
-                                    strcat($$.codigo,";\n");
-                                    strcat($$.codigo,tab);
-                                    strcat($$.codigo,"goto ");
-                                    strcat($$.codigo,descrip.etiquetaEntrada);
-                                    strcat($$.codigo,";\n");
-                                    strcat($$.codigo,tab);
-                                    strcat($$.codigo,"}\n");
-                                    strcat($$.codigo,descrip.etiquetaSalida);
-                                    strcat($$.codigo,": ;\n\n");
-
-                                    TOPE -= 1;
+                                  { 
+                                    generarCodFor(&$$, &$1, &$3, &$5);
                                   }
             | LEER lista_identificadores PYC  {
-                                                $$.codigo = (char*)malloc(strlen($2.codigo) + strlen("\n") + 1);
-                                                strcpy($$.codigo,$2.codigo);
-                                                strcat($$.codigo,"\n");
+                                                generarCodLeer(&$$, &$2);
                                               }
 
             | IMPRIMIR mensajes PYC {
-                                      $$.codigo = (char*)malloc(strlen($2.codigo) + strlen("\n") + 1);
-                                      strcpy($$.codigo,$2.codigo);
-                                      strcat($$.codigo,"\n");
+                                      generarCodImprimir(&$$, &$2);
                                     } 
             | llamada_proced
             | expresion MOV_LISTA PYC {if (esLista($1.tipo)) { $$.tipo = $1.tipo; } else {errorTipoOperador($2.lexema); }}
             | DOLLAR expresion PYC {if (esLista($2.tipo)) { $$.tipo = $2.tipo; } else {errorTipoOperador($1.lexema); }};
                                                                       
 sentencia_asignacion  : ID IGUAL expresion PYC {
-                                                if (declarado($1.lexema) == 0) {
-                                                  errorNoDeclarado($1.lexema);
-                                                }
-                                                else {
-                                                  if ($1.tipo == entero && $3.tipo == real) {
-
-                                                  } else if ($1.tipo == real && $3.tipo == entero) {
-
-                                                  } else if (buscarTipoVariable($1.lexema) != $3.tipo){
-                                                    mostrarErrorTipoAsig($3.tipo);
+                                                  int correcto = 0;
+                                                  if (declarado($1.lexema) == 0) {
+                                                    errorNoDeclarado($1.lexema);
                                                   }
-                                                }
+                                                  else {
+                                                    if ($1.tipo == entero && $3.tipo == real) {
+                                                      correcto = 1;
+                                                    } else if ($1.tipo == real && $3.tipo == entero) {
+                                                      correcto = 1;
+                                                    } else if (buscarTipoVariable($1.lexema) != $3.tipo){
+                                                      mostrarErrorTipoAsig($3.tipo);
+                                                    }
+                                                  }
 
-                                                char *tab = generarTab();
-                                                $$.nombre = strdup($1.lexema);
-                                                $$.codigo = (char*)malloc(strlen($3.codigo) + strlen(tab) + strlen($1.lexema) + strlen(" = ") + strlen($3.nombre) + strlen(";\n") + 1);
-                                                strcpy($$.codigo,$3.codigo);
-                                                strcat($$.codigo,tab);
-                                                strcat($$.codigo,$1.lexema);
-                                                strcat($$.codigo," = ");
-                                                strcat($$.codigo,$3.nombre);
-                                                strcat($$.codigo,";\n");
+                                                  if(correcto == 1) {
+                                                    generarCodAsig(&$$, &$1, &$3);
+                                                  }
+                                                  else {
+                                                    generarCodNull(&$$);
+                                                  }
                                                 } ;
 
-cabecera_if : SI PARIZQ expresion PARDER { char *etiqSalida = etiqueta();
-                                           
-                                           char *etiqElse = etiqueta();
-                                           
-                                           TS_InsertaDescripControl(NULL, NULL, etiqSalida, etiqElse);
-                                           
-                                           char *tab = generarTab();
-
-                                           
-
-                                           $$.codigo = (char*)malloc(strlen($3.codigo) + strlen(tab) + strlen("if (!") + strlen($3.nombre) + strlen(") goto ") + strlen(etiqElse) + strlen(";\n") + 1);
-                                           
-                                           strcpy($$.codigo,$3.codigo);
-                                           strcat($$.codigo,tab);
-                                           strcat($$.codigo,"if (!");
-                                           strcat($$.codigo,$3.nombre);
-                                           strcat($$.codigo,") goto ");
-                                           strcat($$.codigo,etiqElse);
-                                           strcat($$.codigo,";\n");
+cabecera_if : SI PARIZQ expresion PARDER { 
+                                           generarCodCabeIf(&$$, &$3);
                                          } ;
 
-sentencia_if    : cabecera_if sentencia { descriptorDeInstrControl descrip = buscarDescrip();
-                                          $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen(descrip.etiquetaElse) + strlen(": ;\n") + 1);
-                                          strcpy($$.codigo,$1.codigo);
-                                          strcat($$.codigo,$2.codigo);
-                                          strcat($$.codigo,descrip.etiquetaElse);
-                                          strcat($$.codigo,": ;\n");
-
-                                          TOPE -= 1; 
+sentencia_if    : cabecera_if sentencia { 
+                                          generarCodSentIf(&$$, &$1, &$2);
                                         }
                 | cabecera_if sentencia
-                  OTROCASO sentencia {  descriptorDeInstrControl descrip = buscarDescrip();
-                                        char *tab = generarTab();
-                                        $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($2.codigo) + strlen(tab) + strlen("goto ") + strlen(descrip.etiquetaSalida)
-                                                     + strlen(";\n") + strlen(descrip.etiquetaElse) + strlen(": ;\n") + strlen($4.codigo) + strlen(descrip.etiquetaSalida)
-                                                     + strlen(": ;\n") + 1);
-                                        strcpy($$.codigo,$1.codigo);
-                                        strcat($$.codigo,$2.codigo);
-                                        strcat($$.codigo,tab);
-                                        strcat($$.codigo,"goto ");
-                                        strcat($$.codigo,descrip.etiquetaSalida);
-                                        strcat($$.codigo,";\n");
-                                        strcat($$.codigo,descrip.etiquetaElse);
-                                        strcat($$.codigo,": ;\n");
-                                        strcat($$.codigo,$4.codigo);
-                                        strcat($$.codigo,descrip.etiquetaSalida);
-                                        strcat($$.codigo,": ;\n");
-
-                                        TOPE -= 1;
+                  OTROCASO sentencia {  
+                                        generarCodSentIfElse(&$$, &$1, &$2, &$4);
                                      };
 
 lista_identificadores   : lista_identificadores COMA ID {
-                                                          dtipo tipo = buscarTipoVariable($3.lexema);
-                                                          char *tab = generarTab();
-                                                          char *etiqPrintf = etiquetaPrinf(tipo);
-
-                                                          $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(tab) + strlen("scanf(\"") 
-                                                          + strlen(etiqPrintf) + strlen("\", &") + strlen($3.lexema) + strlen(");\n") + 1);
-                                                          strcpy($$.codigo, $1.codigo);
-                                                          strcat($$.codigo, tab);
-                                                          strcat($$.codigo, "scanf(\"");
-                                                          strcat($$.codigo, etiqPrintf);
-                                                          strcat($$.codigo, "\", &");
-                                                          strcat($$.codigo, $3.lexema);
-                                                          strcat($$.codigo, ");\n");
+                                                          generarCodListaIdentRecu(&$$, &$1, &$3);
                                                         }
                         | ID {  
+                                int correcto = 0;
                                 if (declarado($1.lexema) == 0) { 
                                   errorNoDeclarado($1.lexema);
                                 }
                                 else {
-                                  dtipo tipo = buscarTipoVariable($1.lexema);
-                                  char *tab = generarTab();
-                                  
-                                  char *etiqPrintf = etiquetaPrinf(tipo);
-                                  
-                                  $$.codigo = (char*)malloc(strlen(tab) + strlen("scanf(\"") + strlen(etiqPrintf) + strlen("\", &") + strlen($1.lexema) + strlen("); getchar();\n") + 1);
-                                  strcpy($$.codigo, tab);
-                                  strcat($$.codigo, "scanf(\"");
-                                  strcat($$.codigo, etiqPrintf);
-                                  strcat($$.codigo, "\", &");
-                                  strcat($$.codigo, $1.lexema);
-                                  strcat($$.codigo, "); getchar();\n");
+                                  correcto = 1;
+                                }
+
+                                if(correcto == 1) {
+                                  generarCodListaIdent(&$$, &$1);
+                                }
+                                else {
+                                  generarCodNull(&$$);
                                 }
                               };
 
 mensajes    : mensajes COMA mensaje {
-                                      $$.codigo = (char*)malloc(strlen($1.codigo) + strlen($3.codigo) + 1);
-                                      strcpy($$.codigo,$1.codigo);
-                                      strcat($$.codigo,$3.codigo);
+                                      generarCodMensajesRecu(&$$, &$1, &$3);
                                     }
             | mensaje {
-                        $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
-                        strcpy($$.codigo,$1.codigo);
+                        generarCodMensajes(&$$, &$1);
                       } ;
 
 mensaje : expresion { 
@@ -1041,7 +1274,8 @@ llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if(posProced != 
                                                                   else {
                                                                     comprobarParam();
                                                                   }
-                                                                } } 
+                                                                } 
+                                                              } 
                 | inicio_llamada PARDER PYC { if(posProced != -1) {
                                                 if(posParam < TS[posProced].parametrosMin) {
                                                   mostrarErrorMinParam($1.lexema);
@@ -1049,7 +1283,8 @@ llamada_proced  : inicio_llamada lista_expresiones PARDER PYC { if(posProced != 
                                                 else {
                                                   comprobarParam();
                                                 }
-                                              } };
+                                              } 
+                                            };
 
 lista_expresiones   : lista_expresiones COMA expresion { if($$.tipo != $3.tipo) {
                                                            $$.tipo = desconocido;
@@ -1062,7 +1297,8 @@ lista_expresiones   : lista_expresiones COMA expresion { if($$.tipo != $3.tipo) 
                                                              listaParam[posParam] = $3.tipo;
                                                              posParam += 1;  
                                                            }
-                                                         } }
+                                                         } 
+                                                        }
                     | expresion { $$.tipo = $1.tipo;
                                   if(posProced != -1) {
                                     if(posParam >= TS[posProced].parametrosMax) {
@@ -1072,32 +1308,60 @@ lista_expresiones   : lista_expresiones COMA expresion { if($$.tipo != $3.tipo) 
                                       listaParam[posParam] = $1.tipo;
                                       posParam += 1;  
                                     } 
-                                  } };
+                                  } 
+                                };
 
-expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
+expresion   : PARIZQ expresion PARDER {
+                                        $$.tipo = $2.tipo;
+                                        generarCodigoExpParen(&$$, &$2);
+                                      }
             | DECRE_PRE expresion {
+              int correcto = 0;
               if (esNumerico($2.tipo)){
                 $$.tipo = $2.tipo;
-                generarCodExpresionUnario(&$$,&$1,&$2,$1.lexema);
+                correcto = 1;
               } else {
                 errorTipoOperador($1.lexema);
+              }
+
+              if(correcto == 1) {
+                generarCodExpresionUnario(&$$,&$1,&$2,$1.lexema);
+              }
+              else {
+                generarCodNull;
               }
             }
             | INCRE_PRE expresion {
+              int correcto = 0;
               if (esNumerico($2.tipo)){
                 $$.tipo = $2.tipo;
-                generarCodExpresionUnario(&$$,&$1,&$2,$1.lexema);
+                correcto = 1;
               } else {
                 errorTipoOperador($1.lexema);
               }
+
+              if(correcto == 1) {
+                generarCodExpresionUnario(&$$,&$1,&$2,$1.lexema);
+              }
+              else {
+                generarCodNull;
+              }
             } 
             | NOT expresion {
+              int correcto = 0;
               if ($2.tipo == booleano){
                 $$.tipo = $2.tipo;
-                generarCodExpresionUnario(&$$,&$1,&$2,"!");
+                correcto = 1;
               } else {
                 errorTipoOperador($1.lexema);
               } 
+
+              if(correcto == 1) {
+                generarCodExpresionUnario(&$$,&$1,&$2,"!");
+              }
+              else {
+                generarCodNull;
+              }
             }
             | UNARIO_PRE_LISTA expresion {
               if (esLista($2.tipo)) {
@@ -1111,11 +1375,19 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               }
             }
             | ADITIVOS expresion %prec UNARIOS {
+              int correcto = 0;
               if (esNumerico($2.tipo)){
                 $$.tipo = $2.tipo;
-                generarCodExpresionUnario(&$$,&$1,&$2,$1.lexema);
+                correcto = 1;
               } else {
                 errorTipoOperador($1.lexema);
+              }
+
+              if(correcto == 1) {
+                generarCodExpresionUnario(&$$,&$1,&$2,$1.lexema);
+              }
+              else {
+                generarCodNull;
               }
             }
             | expresion ADITIVOS expresion {
@@ -1297,39 +1569,51 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               }
             }
             | expresion OR expresion {
+              int correcto = 0;
               if ($1.tipo == booleano && $3.tipo == booleano) {
                 $$.tipo = booleano;
-                generarCodExpresion(&$$,&$1,&$2,&$3,"||");
-
+                correcto = 1;
               } else {
                 errorTipoOperador($2.lexema);
-                $$.codigo = (char*)malloc(strlen("") + 1);
-                strcpy($$.codigo,"");
-                $$.nombre = strdup("");
+              }
+
+              if(correcto == 1) {
+                generarCodExpresion(&$$,&$1,&$2,&$3,"||");
+              }
+              else {
+                generarCodNull(&$$);
               }
             }
             | expresion AND expresion {
+              int correcto = 0;
               if ($1.tipo == booleano && $3.tipo == booleano) {
                 $$.tipo = booleano;
-                generarCodExpresion(&$$,&$1,&$2,&$3,"&&");
+                correcto = 1;
               } else {
                 errorTipoOperador($2.lexema);
-                $$.codigo = (char*)malloc(strlen("") + 1);
-                strcpy($$.codigo,"");
-                $$.nombre = strdup("");
+              }
+
+              if(correcto == 1) {
+                generarCodExpresion(&$$,&$1,&$2,&$3,"&&");
+              }
+              else {
+                generarCodNull(&$$);
               }
             }
             | expresion XOR expresion {
+              int correcto = 0;
               if ($1.tipo == booleano && $3.tipo == booleano) {
                 $$.tipo = booleano;
-                generarCodExpresion(&$$,&$1,&$2,&$3,"^");
-
-              
+                correcto = 1;
               } else {
                 errorTipoOperador($2.lexema);
-                $$.codigo = (char*)malloc(strlen("") + 1);
-                strcpy($$.codigo,"");
-                $$.nombre = strdup("");
+              }
+
+              if(correcto == 1) {
+                generarCodExpresion(&$$,&$1,&$2,&$3,"^");
+              }
+              else {
+                generarCodNull(&$$);
               }
             }
             | expresion INCRE_PRE expresion ELEM_POSI expresion {
@@ -1339,26 +1623,22 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                 errorTipoOperador2($2.lexema, $4.lexema);
               }
             }
-            | ID  { if (declarado($1.lexema) == 0) {
+            | ID  { 
+                    int correcto = 0;
+                    if (declarado($1.lexema) == 0) {
                       errorNoDeclarado($1.lexema);
                     }
                     else {
                       $$.tipo = buscarTipoVariable($1.lexema);
-
                       $$.lexema = $1.lexema;
-                      char *varTmp = temporal();
-                      char *tipoTmp = obtenerTipo($$.tipo);
-                      char *tab = generarTab();
-                      $$.codigo = (char*)malloc(strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen($1.lexema) + strlen(";\n") + 1);
-                      strcpy($$.codigo,tab);
-                      strcat($$.codigo,tipoTmp);
-                      strcat($$.codigo," ");
-                      strcat($$.codigo,varTmp);
-                      strcat($$.codigo," = ");
-                      strcat($$.codigo,$1.lexema);
-                      strcat($$.codigo,";\n");
+                      correcto = 1;
+                    }
 
-                      $$.nombre = strdup(varTmp); 
+                    if(correcto == 1) {
+                      generarCodId(&$$, &$1);
+                    }
+                    else {
+                      generarCodNull(&$$);
                     }
                   }
             | agregado_lista { $$.tipo = $1.tipo;
@@ -1375,21 +1655,12 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                           else {
                             $$.lexema = $1.lexema;
                           }
-                          char *varTmp = temporal();
-                          char *tipoTmp = obtenerTipo($1.tipo);
-                          char *tab = generarTab();
-                          $$.codigo = (char*)malloc(strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen($$.lexema) + strlen(";\n") + 1);
-                          strcpy($$.codigo,tab);
-                          strcat($$.codigo,tipoTmp);
-                          strcat($$.codigo," ");
-                          strcat($$.codigo,varTmp);
-                          strcat($$.codigo," = ");
-                          strcat($$.codigo,$$.lexema);
-                          strcat($$.codigo,";\n");
 
-                          $$.nombre = strdup(varTmp); 
+                          generarCodConst(&$$, &$1);
                         }
-            | error ;
+            | error {
+                      generarCodNull(&$$);
+                    } ;
 
 agregado_lista  : CORCHIZQ lista_expresiones CORCHDER { $$.tipo = $2.tipo; };
 
