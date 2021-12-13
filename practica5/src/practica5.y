@@ -402,6 +402,46 @@ void generarCodNull(atributos *a) {
   strcpy(a->codigoGlobal,"");
 }
 
+char* etiquetaPrinf(dtipo tipo) {
+   //TODO: Deberíamos de contemplar el tipo lista?
+  switch(tipo) {
+    case entero:
+      return "%i";
+    break;
+    case real:
+      return "%f";
+    break;
+    case booleano:
+      return "%i";
+    break;
+    case caracter:
+      return "%c";
+    break;
+  }
+}
+
+void generarCodMensajeExp(atributos *a, atributos *a1) {
+  char *etiqPrintf = etiquetaPrinf(a1->tipo);
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen("printf(\"") + strlen(etiqPrintf) + strlen("\", ") + strlen(a1->nombre) + strlen(");\n") + 1);
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo, tab);
+  strcat(a->codigo, "printf(\"");
+  strcat(a->codigo, etiqPrintf);
+  strcat(a->codigo, "\", ");
+  strcat(a->codigo, a1->nombre);
+  strcat(a->codigo, ");\n");
+}
+
+void generarCodMensajeCad(atributos *a, atributos *a1) {
+  char *tab = generarTab();
+  a->codigo = (char*)malloc(strlen(tab) + strlen("printf(\"%s\", ") + strlen(a1->lexema) + strlen(");\n") + 1);
+  strcpy(a->codigo, tab);
+  strcat(a->codigo, "printf(\"%s\", ");
+  strcat(a->codigo, a1->lexema);
+  strcat(a->codigo, ");\n");
+}
+
 void generarCodExpresion(atributos *a, atributos *a1, atributos *a2, atributos *a3, char* op){
   //generacion de codigo
   char *varTmp = temporal();
@@ -511,23 +551,7 @@ void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atrib
 
 }
 
-char* etiquetaPrinf(dtipo tipo) {
-   //TODO: Deberíamos de contemplar el tipo lista?
-  switch(tipo) {
-    case entero:
-      return "%i";
-    break;
-    case real:
-      return "%f";
-    break;
-    case booleano:
-      return "%i";
-    break;
-    case caracter:
-      return "%c";
-    break;
-  }
-}
+
 
 
 %}
@@ -982,23 +1006,10 @@ mensajes    : mensajes COMA mensaje {
                       } ;
 
 mensaje : expresion { 
-                      char *etiqPrintf = etiquetaPrinf($1.tipo);
-                      char *tab = generarTab();
-                      $$.codigo = (char*)malloc(strlen(tab) + strlen("printf(\"") + strlen(etiqPrintf) + strlen("\", ") + strlen($1.lexema) + strlen(");\n") + 1);
-                      strcpy($$.codigo, tab);
-                      strcat($$.codigo, "printf(\"");
-                      strcat($$.codigo, etiqPrintf);
-                      strcat($$.codigo, "\", ");
-                      strcat($$.codigo, $1.lexema);
-                      strcat($$.codigo, ");\n");
+                      generarCodMensajeExp(&$$, &$1);
                     }
         | CADENA {
-                    char *tab = generarTab();
-                    $$.codigo = (char*)malloc(strlen(tab) + strlen("printf(\"%s\", ") + strlen($1.lexema) + strlen(");\n") + 1);
-                    strcpy($$.codigo, tab);
-                    strcat($$.codigo, "printf(\"%s\", ");
-                    strcat($$.codigo, $1.lexema);
-                    strcat($$.codigo, ");\n");
+                    generarCodMensajeCad(&$$, &$1);
                   } ;
 
 inicio_llamada : ID PARIZQ { $$.lexema = $1.lexema ;

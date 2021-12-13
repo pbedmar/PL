@@ -8,32 +8,17 @@ int main()
 {
 	printf("%s", "introduce numero : ");
 
-	scanf("%f", &n);
+	scanf("%f", &n); getchar();
 
 	{
-	int temp0 = 1;
+	float temp0 = 2.0;
 	d = temp0;
 	}
 
 	printf("%s", "Numeros: ");
+	float temp1 = n;
+	float temp2 = d;
+	float temp3 = temp1 * temp2;
+	printf("%f", temp3);
 
-etiqueta1: ;
-	float temp1 = d;
-	float temp2 = n;
-	bool temp3 = temp1 < temp2;
-	if (!temp3) goto etiqueta0;
-	{
-		printf("%s", " ");
-		printf("%f", " ");
-
-		{
-		float temp6 = d;
-		float temp7 = 1.0;
-		float temp8 = temp6 + temp7;
-		d = temp8;
-		}
-
-	}
-	goto etiqueta1;
-etiqueta0: ;
 }

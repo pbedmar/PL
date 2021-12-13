@@ -6,14 +6,8 @@ principal ()
 
     imprimir "introduce numero : ";
     leer n;
-    d = 1;
+    d = 2.0;
     
-    imprimir "Numeros: ";
+    imprimir "Numeros: ", n*d;
     
-    mientras (d < n) {
-        
-        imprimir " ", (d/2);
-        
-        d = d+1.0;
-    }
 }

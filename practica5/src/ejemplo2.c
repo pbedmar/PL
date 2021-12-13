@@ -8,11 +8,11 @@ int main()
 {
 	printf("%s", "introduce numero : ");
 
-	scanf("%i", &ini);
+	scanf("%i", &ini); getchar();
 
 	printf("%s", "introduce numero : ");
 
-	scanf("%i", &fin);
+	scanf("%i", &fin); getchar();
 
 	int temp0 = ini;
 	i = temp0;
@@ -29,12 +29,14 @@ etiqueta1: ;
 		int temp8 = 0;
 		bool temp9 = temp7 == temp8;
 		if (!temp9) goto etiqueta3;
-		printf("%i", i);
+		int temp10 = i;
+		printf("%i", temp10);
 		printf("%s", " es par\n");
 
 		goto etiqueta2;
 etiqueta3: ;
-		printf("%i", i);
+		int temp11 = i;
+		printf("%i", temp11);
 		printf("%s", " es impar\n");
 
 etiqueta2: ;
