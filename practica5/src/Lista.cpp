@@ -1,5 +1,6 @@
 #include <iostream>
 #include <list>
+#include <cstring>
 using namespace std;
 
 template <class T>
@@ -87,8 +88,19 @@ class Lista{
             return *this;        
         }
 
+        string imprimirLista(){
+            string resultado = "{";
+            for (typename list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux){
+                if(typeid(*it_aux) == typeid(char))
+                    resultado +=  *it_aux;
+                else
+                    resultado +=  to_string(*it_aux);
+                if(it_aux != --(l.end()))
+                    resultado += ",";
+            }
+            
+            resultado += "}";
 
-
-
-
+            return resultado;
+        }
 };

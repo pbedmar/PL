@@ -5,6 +5,9 @@
 
 int n, curr;
 Lista<int> pe, pe2;
+Lista<float> pf;
+Lista<char> pc;
+Lista<bool> pb;
 int tam, elem;
 
 int main(int argc, char* argv[])
@@ -221,4 +224,26 @@ etiqueta2: ;
 	pe2 = temp78;
 	}
 
+
+
+
+	// Prueba para mostrar lista
+	pf = pf.insertarElementoLista(3.1, 0);
+	pf = pf.insertarElementoLista(1, 0);
+	pf = pf.insertarElementoLista(4.6, 0);
+	pf = pf.insertarElementoLista(-3, 0);
+	pf = pf.insertarElementoLista(7, 0);
+	cout << pf.imprimirLista() << endl;
+
+
+	pb = pb.insertarElementoLista(true, 0);
+	pb = pb.insertarElementoLista(true, 0);
+	pb = pb.insertarElementoLista(false, 0);
+	cout << pb.imprimirLista() << endl;
+
+
+	pc = pc.insertarElementoLista('a', 0);
+	pc = pc.insertarElementoLista('b', 0);
+	pc = pc.insertarElementoLista('c', 0);
+	cout << pc.imprimirLista() << endl;
 }
