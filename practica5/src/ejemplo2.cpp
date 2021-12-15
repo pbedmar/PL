@@ -6,12 +6,16 @@ int ini, fin, i;
 
 int main(int argc, char* argv[])
 {
+{
 	printf("%s", "introduce numero : ");
 
+}
 	scanf("%i", &ini); getchar();
 
+{
 	printf("%s", "introduce numero : ");
 
+}
 	scanf("%i", &fin); getchar();
 
 	int temp0 = ini;
@@ -29,16 +33,20 @@ etiqueta1: ;
 		int temp8 = 0;
 		bool temp9 = temp7 == temp8;
 		if (!temp9) goto etiqueta3;
+{
 		int temp10 = i;
 		printf("%i", temp10);
 		printf("%s", " es par\n");
 
+}
 		goto etiqueta2;
 etiqueta3: ;
+{
 		int temp11 = i;
 		printf("%i", temp11);
 		printf("%s", " es impar\n");
 
+}
 etiqueta2: ;
 
 	}

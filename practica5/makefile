@@ -2,28 +2,32 @@ OBJ = obj
 INC = include
 BIN = bin
 SRC = src
-VERSION = c99
+VERSION = c++11
+HIDE_WARNINGS = -Wno-write-strings -Wno-deprecated-register
 
 all: generadorCodInter
 
 generadorCodInter: $(OBJ)/main.o $(OBJ)/y.tab.o
-	gcc -std=$(VERSION) -pthread -g $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
+	g++ $(HIDE_WARNINGS) -std=$(VERSION) -pthread -g $(OBJ)/main.o $(OBJ)/y.tab.o -o $(BIN)/generadorCodInter
 
 generadorCodEjemplos: $(BIN)/generadorCodInter ejemplo1.txt ejemplo2.txt
 	./$(BIN)/generadorCodInter ejemplo1.txt
-	mv ./$(SRC)/codInter.c ./$(SRC)/ejemplo1.c
+	mv ./$(SRC)/codInter.cpp ./$(SRC)/ejemplo1.cpp
 	./$(BIN)/generadorCodInter ejemplo2.txt
-	mv ./$(SRC)/codInter.c ./$(SRC)/ejemplo2.c
+	mv ./$(SRC)/codInter.cpp ./$(SRC)/ejemplo2.cpp
+	./$(BIN)/generadorCodInter ejemploProcedimientos.txt
+	mv ./$(SRC)/codInter.cpp ./$(SRC)/ejemploProcedimientos.cpp
 
-ejecutableEjemplos: $(SRC)/ejemplo1.c $(SRC)/ejemplo2.c
-	gcc $(SRC)/ejemplo1.c -o $(BIN)/ejemplo1
-	gcc $(SRC)/ejemplo2.c -o $(BIN)/ejemplo2
+ejecutableEjemplos: $(SRC)/ejemplo1.cpp $(SRC)/ejemplo2.cpp
+	g++ -std=$(VERSION) $(HIDE_WARNINGS) $(SRC)/ejemplo1.cpp -o $(BIN)/ejemplo1
+	g++ -std=$(VERSION) $(HIDE_WARNINGS) $(SRC)/ejemplo2.cpp -o $(BIN)/ejemplo2
+	g++ -std=$(VERSION) $(HIDE_WARNINGS) $(SRC)/ejemploProcedimientos.cpp -o $(BIN)/ejemploProcedimientos
 
 $(OBJ)/y.tab.o: $(SRC)/y.tab.c
-	gcc -std=$(VERSION) -pthread -g -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
+	g++ $(HIDE_WARNINGS) -std=$(VERSION) -pthread -g -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
 
-$(OBJ)/main.o: $(SRC)/main.c
-	gcc -std=$(VERSION) -c $(SRC)/main.c -o $(OBJ)/main.o
+$(OBJ)/main.o: $(SRC)/main.cpp
+	g++ $(HIDE_WARNINGS) -std=$(VERSION) -c $(SRC)/main.cpp -o $(OBJ)/main.o
 
 $(SRC)/y.tab.c: $(SRC)/practica5.y $(SRC)/lex.yy.c
 	bison -v -d -o $(SRC)/y.tab.c $(SRC)/practica5.y

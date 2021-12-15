@@ -1,25 +1,27 @@
 principal ()
 {
     inicio_var
-        entero   n, d ;
+        entero   n, curr ;
     fin_var 
 
     imprimir "introduce numero : ";
     leer n;
     imprimir " ", n, " == ";
-    d = 1;
+    curr = 2;
     
-    mientras (d <= n) {
+    mientras (curr <= n) {
         inicio_var
-            entero aux;
+            entero d;
         fin_var
 
-        aux = n%d;
+        d = n/curr;
 
-        si(aux == 0)
-            imprimir "* ", d, " ";
-            
-        d = d + 1;
+        si(d*curr == n) {
+            imprimir " * ", curr;
+            n = n / curr;
+        } en otro caso {
+            curr = curr+1 ;
+        }
     }
 
     imprimir "\n";
