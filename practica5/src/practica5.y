@@ -555,11 +555,13 @@ void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atrib
   //TS_InsertaDescripControl($2.nombre, etiqEntrada, etiqSalida, NULL);
   char *tab = generarTab();
 
-  a->codigo = (char*)malloc(strlen(etiqEntrada) + strlen(": ;\n") + strlen(a3->codigo) + strlen(tab) + strlen("if (!") + strlen(a3->nombre) 
-              + strlen(") goto ") + strlen(etiqSalida) + strlen(";\n") + strlen(a5->codigo) +strlen(tab)+strlen("goto ") + strlen(etiqEntrada) + strlen(";\n") + strlen(etiqSalida) + strlen(": ;\n")+ 1);
+  a->codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen(etiqEntrada) + strlen(": ;\n") + strlen(a3->codigo) + strlen(tab) + strlen("if (!") + strlen(a3->nombre) 
+              + strlen(") goto ") + strlen(etiqSalida) + strlen(";\n") + strlen(a5->codigo) +strlen(tab)+strlen("goto ") + strlen(etiqEntrada) + strlen(";\n") + strlen(etiqSalida) 
+              + strlen(": ;\n") + strlen(tab) + strlen("}\n\n") + 1);
 
-  
-  strcpy(a->codigo,etiqEntrada);
+  strcpy(a->codigo,tab);
+  strcat(a->codigo,"{\n");
+  strcat(a->codigo,etiqEntrada);
   strcat(a->codigo,": ;\n");
   strcat(a->codigo,a3->codigo);
 
@@ -576,6 +578,8 @@ void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atrib
   strcat(a->codigo,";\n");
   strcat(a->codigo,etiqSalida);
   strcat(a->codigo,": ;\n");
+  strcat(a->codigo,tab);
+  strcat(a->codigo,"}\n\n");
 
 }
 
@@ -969,9 +973,14 @@ sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                                      strcat($$.codigo,$1.codigo);
                                      strcat($$.codigo,tab);
                                      strcat($$.codigo,"}\n\n"); }
-            | sentencia_if {  $$.codigo = (char*)malloc(strlen($1.codigo) + strlen("\n") + 1);
-                              strcpy($$.codigo,$1.codigo);
-                              strcat($$.codigo,"\n");
+            | sentencia_if {  
+                              char *tab = generarTab();
+                              $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($1.codigo) + strlen(tab) + strlen("}\n\n") + 1);
+                              strcpy($$.codigo,tab);
+                              strcat($$.codigo,"{\n");
+                              strcat($$.codigo,$1.codigo);
+                              strcat($$.codigo,tab);
+                              strcat($$.codigo,"}\n\n");
                            }
             | MIENTRAS PARIZQ expresion PARDER sentencia
             {
@@ -980,10 +989,12 @@ sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
             | cabecera_for ITERANDO expresion HACER sentencia  
                                   { char *tab = generarTab();
                                     descriptorDeInstrControl descrip = buscarDescrip();
-                                    $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(tab) + strlen("{\n") + strlen($5.codigo) + strlen($3.codigo) + strlen(tab) 
+                                    $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($1.codigo) + strlen(tab) + strlen("{\n") + strlen($5.codigo) + strlen($3.codigo) + strlen(tab) 
                                                 + strlen(descrip.nombreVarControl) + strlen(" += ") + strlen($3.nombre) + strlen(";\n") + strlen(tab) + strlen("goto ") 
-                                                + strlen(descrip.etiquetaEntrada) + strlen(";\n") + strlen(tab) + strlen("}\n") + strlen(descrip.etiquetaSalida) + strlen(": ;\n\n") + 1);
-                                    strcpy($$.codigo,$1.codigo);
+                                                + strlen(descrip.etiquetaEntrada) + strlen(";\n") + strlen(tab) + strlen("}\n") + strlen(descrip.etiquetaSalida) + strlen(": ;\n") + strlen(tab) + strlen("}\n\n") + 1);
+                                    strcpy($$.codigo,tab);
+                                    strcat($$.codigo,"{\n");
+                                    strcat($$.codigo,$1.codigo);
                                     strcat($$.codigo,tab);
                                     strcat($$.codigo,"{\n");
                                     strcat($$.codigo,$5.codigo);
@@ -1000,24 +1011,31 @@ sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                                     strcat($$.codigo,tab);
                                     strcat($$.codigo,"}\n");
                                     strcat($$.codigo,descrip.etiquetaSalida);
-                                    strcat($$.codigo,": ;\n\n");
+                                    strcat($$.codigo,": ;\n");
+                                    strcat($$.codigo,tab);
+                                    strcat($$.codigo,"}\n\n");
 
                                     TOPE -= 1;
                                   }
             | LEER lista_identificadores PYC  {
-                                                $$.codigo = (char*)malloc(strlen($2.codigo) + strlen("\n") + 1);
-                                                strcpy($$.codigo,$2.codigo);
+                                                char *tab = generarTab();
+                                                $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($2.codigo) + strlen(tab) + strlen("}\n\n") + 1);
+                                                strcpy($$.codigo,tab);
+                                                strcat($$.codigo,"{\n");
+                                                strcat($$.codigo,$2.codigo);
                                                 strcat($$.codigo,"\n");
+                                                strcat($$.codigo,tab);
+                                                strcat($$.codigo,"}\n\n");
                                               }
 
             | IMPRIMIR mensajes PYC {
                                       char *tab = generarTab();
-                                      $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($2.codigo) + strlen(tab) + strlen("}\n") + 1);
+                                      $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($2.codigo) + strlen(tab) + strlen("}\n\n") + 1);
                                       strcpy($$.codigo, tab);
                                       strcat($$.codigo, "{\n");
                                       strcat($$.codigo, $2.codigo);
                                       strcat($$.codigo, tab);
-                                      strcat($$.codigo, "}\n");
+                                      strcat($$.codigo, "}\n\n");
                                     } 
             | llamada_proced  {
                                 char *tab = generarTab();
@@ -1117,14 +1135,14 @@ lista_identificadores   : lista_identificadores COMA ID {
                                                           char *etiqPrintf = etiquetaPrinf(tipo);
 
                                                           $$.codigo = (char*)malloc(strlen($1.codigo) + strlen(tab) + strlen("scanf(\"") 
-                                                          + strlen(etiqPrintf) + strlen("\", &") + strlen($3.lexema) + strlen(");\n") + 1);
+                                                          + strlen(etiqPrintf) + strlen("\", &") + strlen($3.lexema) + strlen("); getchar();\n") + 1);
                                                           strcpy($$.codigo, $1.codigo);
                                                           strcat($$.codigo, tab);
                                                           strcat($$.codigo, "scanf(\"");
                                                           strcat($$.codigo, etiqPrintf);
                                                           strcat($$.codigo, "\", &");
                                                           strcat($$.codigo, $3.lexema);
-                                                          strcat($$.codigo, ");\n");
+                                                          strcat($$.codigo, "); getchar();\n");
                                                         }
                         | ID {  
                                 if (declarado($1.lexema) == 0) { 

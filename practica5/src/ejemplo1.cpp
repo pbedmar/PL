@@ -9,7 +9,11 @@ int main(int argc, char* argv[])
 	{
 	printf("%s", "introduce numero : ");
 	}
+
+	{
 	scanf("%i", &n); getchar();
+
+	}
 
 	{
 	printf("%s", " ");
@@ -17,11 +21,13 @@ int main(int argc, char* argv[])
 	printf("%i", temp0);
 	printf("%s", " == ");
 	}
+
 	{
 	int temp1 = 2;
 	curr = temp1;
 	}
 
+	{
 etiqueta3: ;
 	int temp2 = curr;
 	int temp3 = n;
@@ -36,6 +42,7 @@ etiqueta3: ;
 		d = temp7;
 		}
 
+		{
 		int temp8 = d;
 		int temp9 = curr;
 		int temp10 = temp8 * temp9;
@@ -48,6 +55,7 @@ etiqueta3: ;
 			int temp13 = curr;
 			printf("%i", temp13);
 			}
+
 			{
 			int temp14 = n;
 			int temp15 = curr;
@@ -68,11 +76,15 @@ etiqueta1: ;
 
 		}
 etiqueta0: ;
+		}
 
 	}
 	goto etiqueta3;
 etiqueta2: ;
+	}
+
 	{
 	printf("%s", "\n");
 	}
+
 }

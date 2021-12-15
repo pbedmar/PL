@@ -9,13 +9,22 @@ int main(int argc, char* argv[])
 	{
 	printf("%s", "introduce numero : ");
 	}
+
+	{
 	scanf("%i", &ini); getchar();
+
+	}
 
 	{
 	printf("%s", "introduce numero : ");
 	}
+
+	{
 	scanf("%i", &fin); getchar();
 
+	}
+
+	{
 	int temp0 = ini;
 	i = temp0;
 etiqueta1: ;
@@ -25,6 +34,7 @@ etiqueta1: ;
 	if (!temp3) goto etiqueta0;
 	{
 	{
+		{
 		int temp5 = i;
 		int temp6 = 2;
 		int temp7 = temp5 % temp6;
@@ -36,6 +46,7 @@ etiqueta1: ;
 		printf("%i", temp10);
 		printf("%s", " es par\n");
 		}
+
 		goto etiqueta2;
 etiqueta3: ;
 		{
@@ -43,7 +54,9 @@ etiqueta3: ;
 		printf("%i", temp11);
 		printf("%s", " es impar\n");
 		}
+
 etiqueta2: ;
+		}
 
 	}
 	int temp4 = 1;
@@ -51,5 +64,6 @@ etiqueta2: ;
 	goto etiqueta1;
 	}
 etiqueta0: ;
+	}
 
 }

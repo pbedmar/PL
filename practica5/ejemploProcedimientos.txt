@@ -44,6 +44,7 @@ principal ()
             fin_var
 
             procedimiento procedimientoE (caracter e1, caracter e2) {
+                imprimir "Introduzca dos caracteres: ";
                 leer e1, e2 ;
                 si (e1=='a') {
                     imprimir e1 ;
@@ -54,6 +55,7 @@ principal ()
                 }
             }
 
+            imprimir "Introduzca un valor: ";
             leer valor ;
             si (d1 > 0.0) {
                 inicio_var
@@ -66,11 +68,18 @@ principal ()
                 valor = valor*100;
                 d1 = d1 / 1000.0 ;
             }
+
+            procedimientoE('d','e');
         }
         
+        procedimientoD(0.1);
+        
+
         x1 = 1;
         x2 = 2;
     }
+
+    procedimientoA(1, 0.1, 'a');
 
     ve = 0;   
 }

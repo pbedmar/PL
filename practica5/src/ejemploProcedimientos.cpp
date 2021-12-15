@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
 				x1 = temp0;
 				}
 
+				{
 				int temp1 = c2;
 				int temp2 = 10;
 				bool temp3 = temp1 > temp2;
@@ -42,6 +43,7 @@ etiqueta1: ;
 				}
 
 etiqueta0: ;
+				}
 
 			}
 			;
@@ -70,6 +72,7 @@ etiqueta0: ;
 			procedimientoC(temp12, temp13);
 			}
 
+			{
 etiqueta3: ;
 			float temp14 = x2;
 			float temp15 = xf;
@@ -86,6 +89,8 @@ etiqueta3: ;
 
 			goto etiqueta3;
 etiqueta2: ;
+			}
+
 		}
 		;
 
@@ -95,66 +100,97 @@ etiqueta2: ;
 			int valor;
 			auto procedimientoE= [=] (char e1, char e2)
 			{
-				scanf("%c", &e1); getchar();
-				scanf("%c", &e2);
+				{
+				printf("%s", "Introduzca dos caracteres: ");
+				}
 
+				{
+				scanf("%c", &e1); getchar();
+				scanf("%c", &e2); getchar();
+
+				}
+
+				{
+				printf("%s", "Estos son los valores ");
 				char temp22 = e1;
-				char temp23 = 'a';
-				bool temp24 = temp22 == temp23;
-				if (!temp24) goto etiqueta5;
+				printf("%c", temp22);
+				printf("%s", " ");
+				char temp23 = e2;
+				printf("%c", temp23);
+				}
+
+				{
+				char temp24 = e1;
+				char temp25 = 'a';
+				bool temp26 = temp24 == temp25;
+				if (!temp26) goto etiqueta5;
 				{
 					{
-					char temp25 = e1;
-					printf("%c", temp25);
+					char temp27 = e1;
+					printf("%c", temp27);
 					}
+
 				}
 				goto etiqueta4;
 etiqueta5: ;
-				char temp26 = e1;
-				char temp27 = 'b';
-				bool temp28 = temp26 == temp27;
-				if (!temp28) goto etiqueta7;
+				{
+				char temp28 = e1;
+				char temp29 = 'b';
+				bool temp30 = temp28 == temp29;
+				if (!temp30) goto etiqueta7;
 				{
 					{
-					char temp29 = e2;
-					printf("%c", temp29);
+					char temp31 = e2;
+					printf("%c", temp31);
 					}
+
 				}
 				goto etiqueta6;
 etiqueta7: ;
 				{
 					{
-					char temp30 = ' ';
-					printf("%c", temp30);
+					char temp32 = ' ';
+					printf("%c", temp32);
 					}
+
 				}
 etiqueta6: ;
+				}
 
 etiqueta4: ;
+				}
 
 			}
 			;
 
+			{
+			printf("%s", "Introduzca un valor: ");
+			}
+
+			{
 			scanf("%i", &valor); getchar();
 
-			float temp31 = d1;
-			float temp32 = 0.0;
-			bool temp33 = temp31 > temp32;
-			if (!temp33) goto etiqueta9;
+			}
+
+			{
+			float temp33 = d1;
+			float temp34 = 0.0;
+			bool temp35 = temp33 > temp34;
+			if (!temp35) goto etiqueta9;
 			{
 				int dato;
 				{
-				int temp34 = 2;
-				dato = temp34;
+				int temp36 = 2;
+				dato = temp36;
 				}
 
 				{
-				int temp35 = valor;
-				int temp36 = 20;
-				int temp37 = temp35 * temp36;
-				int temp38 = dato;
-				int temp39 = temp37 / temp38;
-				dato = temp39;
+				int temp37 = valor;
+				int temp38 = 20;
+				int temp39 = temp37 * temp38;
+				int temp40 = dato;
+				int temp41 = temp39 / temp40;
+				dato = temp41;
 				}
 
 			}
@@ -162,41 +198,66 @@ etiqueta4: ;
 etiqueta9: ;
 			{
 				{
-				int temp40 = valor;
-				int temp41 = 100;
-				int temp42 = temp40 * temp41;
-				valor = temp42;
+				int temp42 = valor;
+				int temp43 = 100;
+				int temp44 = temp42 * temp43;
+				valor = temp44;
 				}
 
 				{
-				float temp43 = d1;
-				float temp44 = 1000.0;
-				float temp45 = temp43 / temp44;
-				d1 = temp45;
+				float temp45 = d1;
+				float temp46 = 1000.0;
+				float temp47 = temp45 / temp46;
+				d1 = temp47;
 				}
 
 			}
 etiqueta8: ;
+			}
+
+			{
+			char temp48 = 'd';
+
+			char temp49 = 'e';
+
+			procedimientoE(temp48, temp49);
+			}
 
 		}
 		;
 
 		{
-		int temp46 = 1;
-		x1 = temp46;
+		float temp50 = 0.1;
+
+		procedimientoD(temp50);
 		}
 
 		{
-		int temp47 = 2;
-		x2 = temp47;
+		int temp51 = 1;
+		x1 = temp51;
+		}
+
+		{
+		int temp52 = 2;
+		x2 = temp52;
 		}
 
 	}
 	;
 
 	{
-	int temp48 = 0;
-	ve = temp48;
+	int temp53 = 1;
+
+	float temp54 = 0.1;
+
+	char temp55 = 'a';
+
+	procedimientoA(temp53, temp54, temp55);
+	}
+
+	{
+	int temp56 = 0;
+	ve = temp56;
 	}
 
 }
