@@ -224,6 +224,18 @@ char* obtenerTipo(dtipo tipo) {
   else if(tipo == caracter) {
     return "char";
   }
+  else if(tipo == lista_entero) {
+    return "Lista<int>";
+  }
+  else if(tipo == lista_real) {
+    return "Lista<float>";
+  }
+  else if(tipo == lista_booleano) {
+    return "Lista<bool>";
+  }
+  else if(tipo == lista_caracter) {
+    return "Lista<char>";
+  }
 }
 
 char* generarTab() {
@@ -404,8 +416,8 @@ void generarCodNull(atributos *a) {
 }
 
 void generarCodPrograma(atributos *a, atributos *a1, atributos *a2) {
-  a->codigo = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n") + strlen("#include <math.h>\n\n") +strlen(a2->codigoGlobal) + strlen("\n") + strlen(a1->codigo) + strlen(a2->codigo) + 1);
-  strcpy(a->codigo,"#include <stdbool.h>\n#include <stdio.h>\n");
+  a->codigo = (char*)malloc(strlen("#include <stdbool.h>\n#include <stdio.h>\n#include \"Lista.cpp\"\n") + strlen("#include <math.h>\n\n") +strlen(a2->codigoGlobal) + strlen("\n") + strlen(a1->codigo) + strlen(a2->codigo) + 1);
+  strcpy(a->codigo,"#include <stdbool.h>\n#include <stdio.h>\n#include \"Lista.cpp\"\n");
   strcat(a->codigo,"#include <math.h>\n\n");
   strcat(a->codigo,a2->codigoGlobal);
   strcat(a->codigo,"\n");
@@ -583,7 +595,310 @@ void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atrib
 
 }
 
+void genCodInsertarElementoLista(atributos *a, atributos *a1, atributos *a2, atributos *a3){
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  char *tab = generarTab();
 
+  printf("cod1: %s\n", a1->codigo);
+  printf("cod2: %s\n", a2->codigo);
+  printf("cod3: %s\n", a3->codigo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(a3->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) 
+              + strlen(".insertarElementoLista(") + strlen(a2->nombre) + strlen(",") + strlen(a3->nombre) + strlen(");\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,a3->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".insertarElementoLista(");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,",");
+  strcat(a->codigo,a3->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operadores ++ @\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+  
+}
+
+void genCodComienzoLista(atributos *a, atributos *a1){
+  char *tab = generarTab();
+  
+  a->codigo = (char*)malloc(strlen(tab) + strlen(a1->lexema) + strlen(".comienzoLista();\n") + 1);
+  
+  strcpy(a->codigo,tab);
+  strcat(a->codigo,a1->lexema);
+  strcat(a->codigo,".comienzoLista();\n");
+
+  a->nombre = strdup(a1->lexema);
+  printf("operador $\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodMoverLista(atributos *a, atributos *a1, char* op){
+  char *tab = generarTab();
+  
+  if(op == ">>"){
+    a->codigo = (char*)malloc(strlen(tab) + strlen(a1->lexema) + strlen(".avanzarLista();\n") + 1);
+    
+    strcpy(a->codigo,tab);
+    strcat(a->codigo,a1->lexema);
+    strcat(a->codigo,".avanzarLista();\n");
+  }
+  else if(op == "<<"){
+    a->codigo = (char*)malloc(strlen(tab) + strlen(a1->lexema) + strlen(".retrocederLista();\n") + 1);
+    
+    strcpy(a->codigo,tab);
+    strcat(a->codigo,a1->lexema);
+    strcat(a->codigo,".retrocederLista();\n");
+  }
+
+  a->nombre = strdup(a1->lexema);
+  printf("operador %s\n", op);
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodLongitudLista(atributos *a, atributos *a1){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".comienzoLista();\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".tamLista();\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador #\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodObtenerElementoActual(atributos *a, atributos *a1){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".obtenerElementoActual();\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".obtenerElementoActual();\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador ?\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodObtenerElementoPosicion(atributos *a, atributos *a1, atributos *a2){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".obtenerElementoPosicion();\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".obtenerElementoPosicion(");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador @\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodEliminarElementoPosicion(atributos *a, atributos *a1, atributos *a2){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".eliminarElementoPosicion(") + strlen(a2->nombre) + strlen(");\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".eliminarElementoPosicion(");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador --\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+  printf("--FIN--\n");
+}
+
+void genCodEliminarListaAPartirPosicion(atributos *a, atributos *a1, atributos *a2){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".eliminarListaAPartirPosicion(") + strlen(a2->nombre) + strlen(");\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".eliminarListaAPartirPosicion(");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador %s\n", "%");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodConcatenarListas(atributos *a, atributos *a1, atributos *a2){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".concatenarListas(") + strlen(a2->nombre) + strlen(");\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".concatenarListas(");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador **\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodSumarElementoALista(atributos *a, atributos *a1, atributos *a2){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".sumar(") + strlen(a2->nombre) + strlen(");\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".sumar(");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador +\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodRestarElementoALista(atributos *a, atributos *a1, atributos *a2){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".restar(") + strlen(a2->nombre) + strlen(");\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".restar(");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador -\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodMultiplicarElementoALista(atributos *a, atributos *a1, atributos *a2){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".multiplicar(") + strlen(a2->nombre) + strlen(");\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".multiplicar(");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador *\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
+
+void genCodDividirElementoALista(atributos *a, atributos *a1, atributos *a2){
+  char *tab = generarTab();
+  char *varTmp = temporal();
+  char *tipoTmp = obtenerTipo(a->tipo);
+  
+  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) + strlen(".dividir(") + strlen(a2->nombre) + strlen(");\n") + 1);
+  
+  strcpy(a->codigo,a1->codigo);
+  strcat(a->codigo,a2->codigo);
+  strcat(a->codigo,tab);
+  strcat(a->codigo,tipoTmp);
+  strcat(a->codigo," ");
+  strcat(a->codigo,varTmp);
+  strcat(a->codigo," = ");
+  strcat(a->codigo,a1->nombre);
+  strcat(a->codigo,".dividir(");
+  strcat(a->codigo,a2->nombre);
+  strcat(a->codigo,");\n");
+
+  a->nombre = strdup(varTmp);
+  printf("operador /\n");
+  printf("codigo generado: \n%s\n",a->codigo);
+}
 
 
 %}
@@ -1050,8 +1365,22 @@ sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                                 strcat($$.codigo,tab);
                                 strcat($$.codigo,"}\n\n");
                               }
-            | expresion MOV_LISTA PYC {if (esLista($1.tipo)) { $$.tipo = $1.tipo; } else {errorTipoOperador($2.lexema); }}
-            | DOLLAR expresion PYC {if (esLista($2.tipo)) { $$.tipo = $2.tipo; } else {errorTipoOperador($1.lexema); }};
+            | ID MOV_LISTA PYC {  $1.tipo = buscarTipoVariable($1.lexema);
+                                  if (esLista($1.tipo)) { 
+                                    $$.tipo = $1.tipo; 
+                                    genCodMoverLista(&$$, &$1, $2.lexema);
+                                  } else {
+                                    errorTipoOperador($2.lexema);
+                                  }
+                                }
+            | DOLLAR ID PYC {$2.tipo = buscarTipoVariable($2.lexema);
+                              if (esLista($2.tipo)) { 
+                                $$.tipo = $2.tipo; 
+                                genCodComienzoLista(&$$, &$2);
+                              } else {
+                                errorTipoOperador($1.lexema);
+                              }
+                            };
                                                                       
 sentencia_asignacion  : ID IGUAL expresion PYC {
                                                 if (declarado($1.lexema) == 0) {
@@ -1267,7 +1596,12 @@ lista_expresiones   : lista_expresiones COMA expresion { if($$.tipo != $3.tipo) 
                                   strcpy($$.codigo, $1.nombre);  
                                 };
 
-expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
+expresion   : PARIZQ expresion PARDER { $$.tipo = $2.tipo;
+                                        $$.nombre = $2.nombre;
+                                        $$.lexema = $2.lexema;
+                                        $$.codigo = (char*)malloc(strlen($2.codigo) + 1);
+                                        strcat($$.codigo,$2.codigo);
+                                      }
             | DECRE_PRE expresion {
               if (esNumerico($2.tipo)){
                 $$.tipo = $2.tipo;
@@ -1296,8 +1630,10 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               if (esLista($2.tipo)) {
                 if ($1.atrib == 0) {
                   $$.tipo = entero;
+                  genCodLongitudLista(&$$, &$2);
                 } else if ($1.atrib == 1) {
                   $$.tipo = listaATipo($2.tipo);
+                  genCodObtenerElementoActual(&$$, &$2);
                 }
               } else {
                 errorTipoOperador($1.lexema);
@@ -1321,17 +1657,27 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                 correcto = 1;
               } else if ($1.tipo == lista_entero && $3.tipo == entero) {
                 $$.tipo = lista_entero;
-                correcto = 1;
+                if ($2.atrib == 0)
+                  genCodSumarElementoALista(&$$, &$1, &$3);
+                else if ($2.atrib == 1)
+                  genCodRestarElementoALista(&$$, &$1, &$3);
+                correcto = 2;
               } else if ($1.tipo == lista_real && $3.tipo == real) {
                 $$.tipo = lista_real;
-                correcto = 1;
+                if ($2.atrib == 0)
+                  genCodSumarElementoALista(&$$, &$1, &$3);
+                else if ($2.atrib == 1)
+                  genCodRestarElementoALista(&$$, &$1, &$3);
+                correcto = 2;
               } else if ($2.atrib == 0) {
                 if ($1.tipo == real && $3.tipo == lista_real) {
                   $$.tipo = lista_real;
-                  correcto = 1;
+                  genCodSumarElementoALista(&$$, &$3, &$1);
+                  correcto = 2;
                 } else if ($1.tipo == entero && $3.tipo == lista_entero) {
                   $$.tipo = lista_entero;
-                  correcto = 1;
+                  genCodSumarElementoALista(&$$, &$3, &$1);
+                  correcto = 2;
                 } else {
                   errorTipoOperador($2.lexema);
                 }
@@ -1342,13 +1688,14 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               if(correcto == 1) {
                 generarCodExpresion(&$$,&$1,&$2,&$3,$2.lexema);
               }
-              else {
+              else if(correcto != 2){
                 generarCodNull(&$$);
               }
             }
             | expresion DECRE_PRE expresion {
               if (esLista($1.tipo) && $3.tipo == entero) {
                 $$.tipo = $1.tipo;
+                genCodEliminarElementoPosicion(&$$, &$1, &$3);
               } else {
                 errorTipoOperador($2.lexema);
               }
@@ -1356,6 +1703,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | expresion ELEM_POSI expresion %prec ELEM_POSI_BINA {
               if(esLista($1.tipo) && $3.tipo == entero) {
                 $$.tipo = listaATipo($1.tipo);
+                genCodObtenerElementoPosicion(&$$, &$1, &$3);
               } else {
                 errorTipoOperador($2.lexema);
               }
@@ -1371,16 +1719,20 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                   correcto = 1;
                 } else if ($1.tipo == lista_entero && $3.tipo == entero) {
                   $$.tipo = lista_entero;
-                  correcto = 1;
+                  genCodMultiplicarElementoALista(&$$, &$1, &$3);
+                  correcto = 2;
                 } else if ($1.tipo == lista_real && $3.tipo == real) {
                   $$.tipo = lista_real;
-                  correcto = 1;
+                  genCodMultiplicarElementoALista(&$$, &$1, &$3);
+                  correcto = 2;
                 } else if ($1.tipo == real && $3.tipo == lista_real) {
                   $$.tipo = lista_real;
-                  correcto = 1;
+                  genCodMultiplicarElementoALista(&$$, &$3, &$1);
+                  correcto = 2;
                 } else if ($1.tipo == entero && $3.tipo == lista_entero) {
                   $$.tipo = lista_entero;
-                  correcto = 1;
+                  genCodMultiplicarElementoALista(&$$, &$3, &$1);
+                  correcto = 2;
                 } else {
                   errorTipoOperador($2.lexema);
                 }
@@ -1393,26 +1745,32 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                   correcto = 1;
                 } else if ($1.tipo == lista_entero && $3.tipo == entero) {
                   $$.tipo = lista_entero;
-                  correcto = 1;
+                  genCodDividirElementoALista(&$$, &$1, &$3);
+                  correcto = 2;
                 } else if ($1.tipo == lista_real && $3.tipo == real) {
                   $$.tipo = lista_real;
-                  correcto = 1;
+                  genCodDividirElementoALista(&$$, &$1, &$3);
+                  correcto = 2;
                 } else {
                   errorTipoOperador($2.lexema);
                 }
               } else if ($2.atrib == 2) {
                 if ($1.tipo == lista_entero && $3.tipo == entero) {
                   $$.tipo = lista_entero;
-                  correcto = 1;
+                  genCodEliminarListaAPartirPosicion(&$$, &$1, &$3);
+                  correcto = 2;
                 } else if ($1.tipo == lista_real && $3.tipo == entero) {
                   $$.tipo = lista_real;
-                  correcto = 1;
+                  genCodEliminarListaAPartirPosicion(&$$, &$1, &$3);
+                  correcto = 2;
                 } else if ($1.tipo == lista_caracter && $3.tipo == entero) {
                   $$.tipo = lista_caracter;
-                  correcto = 1;
+                  genCodEliminarListaAPartirPosicion(&$$, &$1, &$3);
+                  correcto = 2;
                 } else if ($1.tipo == lista_booleano && $3.tipo == entero) {
                   $$.tipo = lista_booleano;
-                  correcto = 1;
+                  genCodEliminarListaAPartirPosicion(&$$, &$1, &$3);
+                  correcto = 2;
                 } else if ($1.tipo == entero && $3.tipo == entero) {
                   $$.tipo = entero;
                   correcto = 1;
@@ -1424,7 +1782,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               if(correcto == 1) {
                 generarCodExpresion(&$$,&$1,&$2,&$3,$2.lexema);
               }
-              else {
+              else if(correcto != 2){
                 generarCodNull(&$$);
               }
             }
@@ -1438,7 +1796,8 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
                 correcto = 1;
               } else if (esLista($1.tipo) && esLista($3.tipo) && $1.tipo == $3.tipo) {
                 $$.tipo = $1.tipo;
-                correcto = 1;
+                genCodConcatenarListas(&$$, &$1, &$3);
+                correcto = 2;
               } else {
                 errorTipoOperador($2.lexema);
               }
@@ -1446,7 +1805,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
               if(correcto == 1) {
                 potencia(&$$,&$1,&$2,&$3);
               }
-              else {
+              else if(correcto != 2){
                 generarCodNull(&$$);
               }
             }
@@ -1528,6 +1887,7 @@ expresion   : PARIZQ expresion PARDER {$$.tipo = $2.tipo;}
             | expresion INCRE_PRE expresion ELEM_POSI expresion {
               if (esLista($1.tipo) && $3.tipo == listaATipo($1.tipo) && $5.tipo == entero) {
                 $$.tipo = $1.tipo;
+                genCodInsertarElementoLista(&$$, &$1, &$3, &$5);
               } else {
                 errorTipoOperador2($2.lexema, $4.lexema);
               }
@@ -1603,7 +1963,24 @@ tipos   : TIPOS { tipoTmp = $1.tipo;
                     $$.codigo = (char*)malloc(strlen("char") + 1);
                     strcpy($$.codigo,"char");
                   } }
-        | LISTADE TIPOS { tipoTmp = obtenerTipoLista($2.tipo); } ;
+        | LISTADE TIPOS { tipoTmp = obtenerTipoLista($2.tipo); 
+                          if(tipoTmp == 4) {
+                            $$.codigo = (char*)malloc(strlen("Lista<int>") + 1);
+                            strcpy($$.codigo,"Lista<int>");
+                          }
+                          else if(tipoTmp == 5) {
+                            $$.codigo = (char*)malloc(strlen("Lista<float>") + 1);
+                            strcpy($$.codigo,"Lista<float>");
+                          }
+                          else if(tipoTmp == 6) {
+                            $$.codigo = (char*)malloc(strlen("Lista<bool>") + 1);
+                            strcpy($$.codigo,"Lista<bool>");
+                          }
+                          else if(tipoTmp== 7) {
+                            $$.codigo = (char*)malloc(strlen("Lista<char>") + 1);
+                            strcpy($$.codigo,"Lista<char>");
+                          }
+                        } ;
 
 %%
 
