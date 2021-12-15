@@ -882,7 +882,7 @@ declar_proced : cabecera_proced bloque  {
                                           Subprog = 0; 
 
                                           char *tab = generarTab();
-                                          $$.codigo = (char*)malloc(strlen(tab) + strlen($1.codigo) + strlen("\n") + strlen($2.codigo) + strlen(";\n\n") + 1);
+                                          $$.codigo = (char*)malloc(strlen(tab) + strlen($1.codigo) + strlen("\n") + strlen($2.codigo) + strlen(tab) + strlen(";\n\n") + 1);
                                           strcpy($$.codigo, tab);
                                           strcat($$.codigo, $1.codigo);
                                           strcat($$.codigo, "\n");
@@ -1011,10 +1011,13 @@ sentencia   : bloque {  $$.codigo = (char*)malloc(strlen($1.codigo) + 1);
                                               }
 
             | IMPRIMIR mensajes PYC {
-                                      $$.codigo = (char*)malloc(strlen("{\n") + strlen($2.codigo) + strlen("\n}\n") + 1);
-                                      strcat($$.codigo,"{\n");
-                                      strcat($$.codigo,$2.codigo);
-                                      strcat($$.codigo,"\n}\n");
+                                      char *tab = generarTab();
+                                      $$.codigo = (char*)malloc(strlen(tab) + strlen("{\n") + strlen($2.codigo) + strlen(tab) + strlen("}\n") + 1);
+                                      strcpy($$.codigo, tab);
+                                      strcat($$.codigo, "{\n");
+                                      strcat($$.codigo, $2.codigo);
+                                      strcat($$.codigo, tab);
+                                      strcat($$.codigo, "}\n");
                                     } 
             | llamada_proced  {
                                 char *tab = generarTab();

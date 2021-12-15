@@ -98,71 +98,105 @@ etiqueta2: ;
 				scanf("%c", &e1); getchar();
 				scanf("%c", &e2);
 
+				char temp22 = e1;
+				char temp23 = 'a';
+				bool temp24 = temp22 == temp23;
+				if (!temp24) goto etiqueta5;
+				{
+					{
+					char temp25 = e1;
+					printf("%c", temp25);
+					}
+				}
+				goto etiqueta4;
+etiqueta5: ;
+				char temp26 = e1;
+				char temp27 = 'b';
+				bool temp28 = temp26 == temp27;
+				if (!temp28) goto etiqueta7;
+				{
+					{
+					char temp29 = e2;
+					printf("%c", temp29);
+					}
+				}
+				goto etiqueta6;
+etiqueta7: ;
+				{
+					{
+					char temp30 = ' ';
+					printf("%c", temp30);
+					}
+				}
+etiqueta6: ;
+
+etiqueta4: ;
+
 			}
 			;
 
 			scanf("%i", &valor); getchar();
 
-			float temp22 = d1;
-			float temp23 = 0.0;
-			bool temp24 = temp22 > temp23;
-			if (!temp24) goto etiqueta5;
+			float temp31 = d1;
+			float temp32 = 0.0;
+			bool temp33 = temp31 > temp32;
+			if (!temp33) goto etiqueta9;
 			{
 				int dato;
 				{
-				int temp25 = 2;
-				dato = temp25;
+				int temp34 = 2;
+				dato = temp34;
 				}
 
 				{
-				int temp26 = valor;
-				int temp27 = 20;
-				int temp28 = temp26 * temp27;
-				int temp29 = dato;
-				int temp30 = temp28 / temp29;
-				dato = temp30;
+				int temp35 = valor;
+				int temp36 = 20;
+				int temp37 = temp35 * temp36;
+				int temp38 = dato;
+				int temp39 = temp37 / temp38;
+				dato = temp39;
 				}
 
 			}
-			goto etiqueta4;
-etiqueta5: ;
+			goto etiqueta8;
+etiqueta9: ;
 			{
 				{
-				int temp31 = valor;
-				int temp32 = 100;
-				int temp33 = temp31 * temp32;
-				valor = temp33;
+				int temp40 = valor;
+				int temp41 = 100;
+				int temp42 = temp40 * temp41;
+				valor = temp42;
 				}
 
 				{
-				float temp34 = d1;
-				float temp35 = 1000.0;
-				float temp36 = temp34 / temp35;
-				d1 = temp36;
+				float temp43 = d1;
+				float temp44 = 1000.0;
+				float temp45 = temp43 / temp44;
+				d1 = temp45;
 				}
 
 			}
-etiqueta4: ;
+etiqueta8: ;
 
 		}
 		;
 
 		{
-		int temp37 = 1;
-		x1 = temp37;
+		int temp46 = 1;
+		x1 = temp46;
 		}
 
 		{
-		int temp38 = 2;
-		x2 = temp38;
+		int temp47 = 2;
+		x2 = temp47;
 		}
 
 	}
 	;
 
 	{
-	int temp39 = 0;
-	ve = temp39;
+	int temp48 = 0;
+	ve = temp48;
 	}
 
 }
