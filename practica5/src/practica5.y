@@ -461,16 +461,29 @@ char* etiquetaPrinf(dtipo tipo) {
 }
 
 void generarCodMensajeExp(atributos *a, atributos *a1) {
-  char *etiqPrintf = etiquetaPrinf(a1->tipo);
-  char *tab = generarTab();
-  a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen("printf(\"") + strlen(etiqPrintf) + strlen("\", ") + strlen(a1->nombre) + strlen(");\n") + 1);
-  strcpy(a->codigo,a1->codigo);
-  strcat(a->codigo, tab);
-  strcat(a->codigo, "printf(\"");
-  strcat(a->codigo, etiqPrintf);
-  strcat(a->codigo, "\", ");
-  strcat(a->codigo, a1->nombre);
-  strcat(a->codigo, ");\n");
+  if(esLista(a1->tipo)) {
+    char *tab = generarTab();
+    a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen("printf(\"%s")  + strlen("\", ") + strlen(a1->nombre) + strlen(".imprimirLista()") + strlen(");\n") + 1);
+    strcpy(a->codigo,a1->codigo);
+    strcat(a->codigo, tab);
+    strcat(a->codigo, "printf(\"%s");
+    strcat(a->codigo, "\", ");
+    strcat(a->codigo, a1->nombre);
+    strcat(a->codigo, ".imprimirLista()");
+    strcat(a->codigo, ");\n");
+  }
+  else {
+    char *etiqPrintf = etiquetaPrinf(a1->tipo);
+    char *tab = generarTab();
+    a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen("printf(\"") + strlen(etiqPrintf) + strlen("\", ") + strlen(a1->nombre) + strlen(");\n") + 1);
+    strcpy(a->codigo,a1->codigo);
+    strcat(a->codigo, tab);
+    strcat(a->codigo, "printf(\"");
+    strcat(a->codigo, etiqPrintf);
+    strcat(a->codigo, "\", ");
+    strcat(a->codigo, a1->nombre);
+    strcat(a->codigo, ");\n");
+  }
 }
 
 void generarCodMensajeCad(atributos *a, atributos *a1) {
@@ -1597,10 +1610,22 @@ lista_expresiones   : lista_expresiones COMA expresion { if($$.tipo != $3.tipo) 
                                 };
 
 expresion   : PARIZQ expresion PARDER { $$.tipo = $2.tipo;
-                                        $$.nombre = $2.nombre;
                                         $$.lexema = $2.lexema;
-                                        $$.codigo = (char*)malloc(strlen($2.codigo) + 1);
-                                        strcat($$.codigo,$2.codigo);
+                                        char *varTmp = temporal();
+                                        char *tipoTmp = obtenerTipo($$.tipo);
+                                        char *tab = generarTab();
+                                        $$.codigo = (char*)malloc(strlen($2.codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = (") 
+                                        + strlen($2.nombre) + strlen(");\n") + 1);
+                                        strcpy($$.codigo, $2.codigo);
+                                        strcat($$.codigo, tab);
+                                        strcat($$.codigo, tipoTmp);
+                                        strcat($$.codigo, " ");
+                                        strcat($$.codigo, varTmp);
+                                        strcat($$.codigo, " = (");
+                                        strcat($$.codigo, $2.nombre);
+                                        strcat($$.codigo, ");\n");
+
+                                        $$.nombre = varTmp;
                                       }
             | DECRE_PRE expresion {
               if (esNumerico($2.tipo)){

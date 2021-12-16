@@ -1,10 +1,18 @@
 principal ()
 {
     inicio_var
-        entero   n, curr ;
-        lista de entero pe, pe2;
-        entero tam, elem;
+        entero   num_elementos, i;
+        lista de entero resultado, por_dos, sumar;
     fin_var 
+
+    procedimiento procedimientoD (flotante d1) {
+        inicio_var
+            entero   a, b, c;
+            entero ctr;
+        fin_var 
+
+    }
+
 
     imprimir "introduce numero : ";
     leer n;

@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include "Lista.cpp"
 #include <math.h>
 
 int ve;
@@ -111,37 +112,28 @@ etiqueta2: ;
 				}
 
 				{
-				printf("%s", "Estos son los valores ");
 				char temp22 = e1;
-				printf("%c", temp22);
-				printf("%s", " ");
-				char temp23 = e2;
-				printf("%c", temp23);
-				}
-
-				{
-				char temp24 = e1;
-				char temp25 = 'a';
-				bool temp26 = temp24 == temp25;
-				if (!temp26) goto etiqueta5;
+				char temp23 = 'a';
+				bool temp24 = temp22 == temp23;
+				if (!temp24) goto etiqueta5;
 				{
 					{
-					char temp27 = e1;
-					printf("%c", temp27);
+					char temp25 = e1;
+					printf("%c", temp25);
 					}
 
 				}
 				goto etiqueta4;
 etiqueta5: ;
 				{
-				char temp28 = e1;
-				char temp29 = 'b';
-				bool temp30 = temp28 == temp29;
-				if (!temp30) goto etiqueta7;
+				char temp26 = e1;
+				char temp27 = 'b';
+				bool temp28 = temp26 == temp27;
+				if (!temp28) goto etiqueta7;
 				{
 					{
-					char temp31 = e2;
-					printf("%c", temp31);
+					char temp29 = e2;
+					printf("%c", temp29);
 					}
 
 				}
@@ -149,8 +141,8 @@ etiqueta5: ;
 etiqueta7: ;
 				{
 					{
-					char temp32 = ' ';
-					printf("%c", temp32);
+					char temp30 = ' ';
+					printf("%c", temp30);
 					}
 
 				}
@@ -173,24 +165,24 @@ etiqueta4: ;
 			}
 
 			{
-			float temp33 = d1;
-			float temp34 = 0.0;
-			bool temp35 = temp33 > temp34;
-			if (!temp35) goto etiqueta9;
+			float temp31 = d1;
+			float temp32 = 0.0;
+			bool temp33 = temp31 > temp32;
+			if (!temp33) goto etiqueta9;
 			{
 				int dato;
 				{
-				int temp36 = 2;
-				dato = temp36;
+				int temp34 = 2;
+				dato = temp34;
 				}
 
 				{
-				int temp37 = valor;
-				int temp38 = 20;
-				int temp39 = temp37 * temp38;
-				int temp40 = dato;
-				int temp41 = temp39 / temp40;
-				dato = temp41;
+				int temp35 = valor;
+				int temp36 = 20;
+				int temp37 = temp35 * temp36;
+				int temp38 = dato;
+				int temp39 = temp37 / temp38;
+				dato = temp39;
 				}
 
 			}
@@ -198,17 +190,17 @@ etiqueta4: ;
 etiqueta9: ;
 			{
 				{
-				int temp42 = valor;
-				int temp43 = 100;
-				int temp44 = temp42 * temp43;
-				valor = temp44;
+				int temp40 = valor;
+				int temp41 = 100;
+				int temp42 = temp40 * temp41;
+				valor = temp42;
 				}
 
 				{
-				float temp45 = d1;
-				float temp46 = 1000.0;
-				float temp47 = temp45 / temp46;
-				d1 = temp47;
+				float temp43 = d1;
+				float temp44 = 1000.0;
+				float temp45 = temp43 / temp44;
+				d1 = temp45;
 				}
 
 			}
@@ -216,48 +208,48 @@ etiqueta8: ;
 			}
 
 			{
-			char temp48 = 'd';
+			char temp46 = 'd';
 
-			char temp49 = 'e';
+			char temp47 = 'e';
 
-			procedimientoE(temp48, temp49);
+			procedimientoE(temp46, temp47);
 			}
 
 		}
 		;
 
 		{
-		float temp50 = 0.1;
+		float temp48 = 0.1;
 
-		procedimientoD(temp50);
+		procedimientoD(temp48);
 		}
 
 		{
-		int temp51 = 1;
-		x1 = temp51;
+		int temp49 = 1;
+		x1 = temp49;
 		}
 
 		{
-		int temp52 = 2;
-		x2 = temp52;
+		int temp50 = 2;
+		x2 = temp50;
 		}
 
 	}
 	;
 
 	{
-	int temp53 = 1;
+	int temp51 = 1;
 
-	float temp54 = 0.1;
+	float temp52 = 0.1;
 
-	char temp55 = 'a';
+	char temp53 = 'a';
 
-	procedimientoA(temp53, temp54, temp55);
+	procedimientoA(temp51, temp52, temp53);
 	}
 
 	{
-	int temp56 = 0;
-	ve = temp56;
+	int temp54 = 0;
+	ve = temp54;
 	}
 
 }

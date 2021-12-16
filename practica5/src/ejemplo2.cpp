@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include "Lista.cpp"
 #include <math.h>
 
 int ini, fin, i;

@@ -88,8 +88,8 @@ class Lista{
             return *this;        
         }
 
-        string imprimirLista(){
-            string resultado = "{";
+        const char* imprimirLista(){
+            string resultado = "[";
             for (typename list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux){
                 if(typeid(*it_aux) == typeid(char))
                     resultado +=  *it_aux;
@@ -99,8 +99,10 @@ class Lista{
                     resultado += ",";
             }
             
-            resultado += "}";
+            resultado += "]";
 
-            return resultado;
+            const char* resultado_c = resultado.c_str();
+
+            return resultado_c;
         }
 };
