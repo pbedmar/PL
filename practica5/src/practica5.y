@@ -236,6 +236,9 @@ char* obtenerTipo(dtipo tipo) {
   else if(tipo == lista_caracter) {
     return "Lista<char>";
   }
+  else {
+    return "";
+  }
 }
 
 char* generarTab() {
@@ -457,6 +460,9 @@ char* etiquetaPrinf(dtipo tipo) {
     case caracter:
       return "%c";
     break;
+    default:
+      return "";
+    break;
   }
 }
 
@@ -520,9 +526,9 @@ void generarCodExpresion(atributos *a, atributos *a1, atributos *a2, atributos *
   strcat(a->codigo,";\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador %s\n",op);
-  printf("nombre: %s\n",a2->nombre);
-  printf("codigo generado: \n%s\n",a->codigo);
+  // printf("operador %s\n",op);
+  // printf("nombre: %s\n",a2->nombre);
+  // printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void generarCodExpresionUnario(atributos *a, atributos *a1, atributos *a2, char* op){
@@ -545,8 +551,8 @@ void generarCodExpresionUnario(atributos *a, atributos *a1, atributos *a2, char*
   strcat(a->codigo,";\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador %s\n",op);
-  printf("codigo generado: \n%s\n",a->codigo);
+  // printf("operador %s\n",op);
+  // printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void potencia(atributos *a, atributos *a1, atributos *a2, atributos *a3){
@@ -571,7 +577,7 @@ void potencia(atributos *a, atributos *a1, atributos *a2, atributos *a3){
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("codigo generado: \n%s\n",a->codigo);
+  // printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void bucleWhile(atributos *a, atributos *a1, atributos *a2, atributos *a3, atributos *a4, atributos *a5){
@@ -612,10 +618,6 @@ void genCodInsertarElementoLista(atributos *a, atributos *a1, atributos *a2, atr
   char *varTmp = temporal();
   char *tipoTmp = obtenerTipo(a->tipo);
   char *tab = generarTab();
-
-  printf("cod1: %s\n", a1->codigo);
-  printf("cod2: %s\n", a2->codigo);
-  printf("cod3: %s\n", a3->codigo);
   
   a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(a2->codigo) + strlen(a3->codigo) + strlen(tab) + strlen(tipoTmp) + strlen(" ") + strlen(varTmp) + strlen(" = ") + strlen(a1->nombre) 
               + strlen(".insertarElementoLista(") + strlen(a2->nombre) + strlen(",") + strlen(a3->nombre) + strlen(");\n") + 1);
@@ -636,8 +638,8 @@ void genCodInsertarElementoLista(atributos *a, atributos *a1, atributos *a2, atr
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("operadores ++ @\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  // printf("operadores ++ @\n");
+  // printf("codigo generado: \n%s\n",a->codigo);
   
 }
 
@@ -651,8 +653,8 @@ void genCodComienzoLista(atributos *a, atributos *a1){
   strcat(a->codigo,".comienzoLista();\n");
 
   a->nombre = strdup(a1->lexema);
-  printf("operador $\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  // printf("operador $\n");
+  // printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodMoverLista(atributos *a, atributos *a1, char* op){
@@ -674,8 +676,8 @@ void genCodMoverLista(atributos *a, atributos *a1, char* op){
   }
 
   a->nombre = strdup(a1->lexema);
-  printf("operador %s\n", op);
-  printf("codigo generado: \n%s\n",a->codigo);
+  // printf("operador %s\n", op);
+  // printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodLongitudLista(atributos *a, atributos *a1){
@@ -695,8 +697,8 @@ void genCodLongitudLista(atributos *a, atributos *a1){
   strcat(a->codigo,".tamLista();\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador #\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  // printf("operador #\n");
+  // printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodObtenerElementoActual(atributos *a, atributos *a1){
@@ -716,8 +718,8 @@ void genCodObtenerElementoActual(atributos *a, atributos *a1){
   strcat(a->codigo,".obtenerElementoActual();\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador ?\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  //printf("operador ?\n");
+  //printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodObtenerElementoPosicion(atributos *a, atributos *a1, atributos *a2){
@@ -740,8 +742,8 @@ void genCodObtenerElementoPosicion(atributos *a, atributos *a1, atributos *a2){
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador @\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  //printf("operador @\n");
+  //printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodEliminarElementoPosicion(atributos *a, atributos *a1, atributos *a2){
@@ -764,9 +766,9 @@ void genCodEliminarElementoPosicion(atributos *a, atributos *a1, atributos *a2){
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador --\n");
-  printf("codigo generado: \n%s\n",a->codigo);
-  printf("--FIN--\n");
+  //printf("operador --\n");
+  //printf("codigo generado: \n%s\n",a->codigo);
+  //printf("--FIN--\n");
 }
 
 void genCodEliminarListaAPartirPosicion(atributos *a, atributos *a1, atributos *a2){
@@ -789,8 +791,8 @@ void genCodEliminarListaAPartirPosicion(atributos *a, atributos *a1, atributos *
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador %s\n", "%");
-  printf("codigo generado: \n%s\n",a->codigo);
+  //printf("operador %s\n", "%");
+  //printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodConcatenarListas(atributos *a, atributos *a1, atributos *a2){
@@ -813,8 +815,8 @@ void genCodConcatenarListas(atributos *a, atributos *a1, atributos *a2){
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador **\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  //printf("operador **\n");
+  //printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodSumarElementoALista(atributos *a, atributos *a1, atributos *a2){
@@ -837,8 +839,8 @@ void genCodSumarElementoALista(atributos *a, atributos *a1, atributos *a2){
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador +\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  //printf("operador +\n");
+  //printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodRestarElementoALista(atributos *a, atributos *a1, atributos *a2){
@@ -861,8 +863,8 @@ void genCodRestarElementoALista(atributos *a, atributos *a1, atributos *a2){
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador -\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  //printf("operador -\n");
+  //printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodMultiplicarElementoALista(atributos *a, atributos *a1, atributos *a2){
@@ -885,8 +887,8 @@ void genCodMultiplicarElementoALista(atributos *a, atributos *a1, atributos *a2)
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador *\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  //printf("operador *\n");
+  //printf("codigo generado: \n%s\n",a->codigo);
 }
 
 void genCodDividirElementoALista(atributos *a, atributos *a1, atributos *a2){
@@ -909,8 +911,8 @@ void genCodDividirElementoALista(atributos *a, atributos *a1, atributos *a2){
   strcat(a->codigo,");\n");
 
   a->nombre = strdup(varTmp);
-  printf("operador /\n");
-  printf("codigo generado: \n%s\n",a->codigo);
+  //printf("operador /\n");
+  //printf("codigo generado: \n%s\n",a->codigo);
 }
 
 

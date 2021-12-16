@@ -92,44 +92,49 @@ etiqueta2: ;
 
 	{
 	Lista<int> temp20 = pe;
-	pe = temp20;
+	int temp21 = 6;
+	int temp22 = (temp21);
+	int temp23 = 0;
+	int temp24 = (temp23);
+	Lista<int> temp25 = temp20.insertarElementoLista(temp22,temp24);
+	pe = temp25;
 	}
 
 	{
-	Lista<int> temp25 = pe;
-	int temp26 = 2;
-	int temp27 = -temp26;
-	int temp28 = (temp27);
-	int temp29 = 0;
-	int temp30 = (temp29);
-	Lista<int> temp31 = temp25.insertarElementoLista(temp28,temp30);
-	pe = temp31;
+	Lista<int> temp26 = pe;
+	int temp27 = 2;
+	int temp28 = -temp27;
+	int temp29 = (temp28);
+	int temp30 = 0;
+	int temp31 = (temp30);
+	Lista<int> temp32 = temp26.insertarElementoLista(temp29,temp31);
+	pe = temp32;
 	}
 
 	{
-	Lista<int> temp32 = pe;
-	int temp33 = 3;
-	int temp34 = (temp33);
-	int temp35 = 0;
-	int temp36 = (temp35);
-	Lista<int> temp37 = temp32.insertarElementoLista(temp34,temp36);
-	pe = temp37;
+	Lista<int> temp33 = pe;
+	int temp34 = 3;
+	int temp35 = (temp34);
+	int temp36 = 0;
+	int temp37 = (temp36);
+	Lista<int> temp38 = temp33.insertarElementoLista(temp35,temp37);
+	pe = temp38;
 	}
 
 	{
-	Lista<int> temp38 = pe;
-	int temp39 = 7;
-	int temp40 = (temp39);
-	Lista<int> temp41 = pe;
-	int temp42 = temp41.tamLista();
-	int temp43 = (temp42);
-	Lista<int> temp44 = temp38.insertarElementoLista(temp40,temp43);
-	pe = temp44;
+	Lista<int> temp39 = pe;
+	int temp40 = 7;
+	int temp41 = (temp40);
+	Lista<int> temp42 = pe;
+	int temp43 = temp42.tamLista();
+	int temp44 = (temp43);
+	Lista<int> temp45 = temp39.insertarElementoLista(temp41,temp44);
+	pe = temp45;
 	}
 
 	{
-	Lista<int> temp45 = pe;
-	printf("%s", temp45.imprimirLista());
+	Lista<int> temp46 = pe;
+	printf("%s", temp46.imprimirLista());
 	printf("%s", "\n");
 	}
 
@@ -138,99 +143,99 @@ etiqueta2: ;
 	pe.avanzarLista();
 	pe.retrocederLista();
 	{
-	Lista<int> temp46 = pe;
-	int temp47 = temp46.tamLista();
-	tam = temp47;
+	Lista<int> temp47 = pe;
+	int temp48 = temp47.tamLista();
+	tam = temp48;
 	}
 
 	{
-	Lista<int> temp48 = pe;
-	int temp49 = temp48.obtenerElementoActual();
-	elem = temp49;
+	Lista<int> temp49 = pe;
+	int temp50 = temp49.obtenerElementoActual();
+	elem = temp50;
 	}
 
 	{
-	Lista<int> temp50 = pe;
-	int temp51 = 1;
-	int temp52 = temp50.obtenerElementoPosicion(temp51);
-	elem = temp52;
+	Lista<int> temp51 = pe;
+	int temp52 = 1;
+	int temp53 = temp51.obtenerElementoPosicion(temp52);
+	elem = temp53;
 	}
 
 	{
-	Lista<int> temp53 = pe;
-	int temp54 = 1;
-	Lista<int> temp55 = temp53.eliminarElementoPosicion(temp54);
-	pe = temp55;
+	Lista<int> temp54 = pe;
+	int temp55 = 1;
+	Lista<int> temp56 = temp54.eliminarElementoPosicion(temp55);
+	pe = temp56;
 	}
 
 	{
-	Lista<int> temp56 = pe;
 	Lista<int> temp57 = pe;
-	int temp58 = temp57.tamLista();
-	int temp59 = 1;
-	int temp60 = temp58 - temp59;
-	int temp61 = (temp60);
-	Lista<int> temp62 = temp56.eliminarListaAPartirPosicion(temp61);
-	pe = temp62;
+	Lista<int> temp58 = pe;
+	int temp59 = temp58.tamLista();
+	int temp60 = 1;
+	int temp61 = temp59 - temp60;
+	int temp62 = (temp61);
+	Lista<int> temp63 = temp57.eliminarListaAPartirPosicion(temp62);
+	pe = temp63;
 	}
 
 	{
-	Lista<int> temp63 = pe2;
-	int temp64 = 14;
-	int temp65 = (temp64);
-	int temp66 = 0;
-	int temp67 = (temp66);
-	Lista<int> temp68 = temp63.insertarElementoLista(temp65,temp67);
-	pe2 = temp68;
+	Lista<int> temp64 = pe2;
+	int temp65 = 14;
+	int temp66 = (temp65);
+	int temp67 = 0;
+	int temp68 = (temp67);
+	Lista<int> temp69 = temp64.insertarElementoLista(temp66,temp68);
+	pe2 = temp69;
 	}
 
 	{
-	Lista<int> temp69 = pe2;
-	Lista<int> temp70 = pe;
-	Lista<int> temp71 = temp69.concatenarListas(temp70);
-	pe2 = temp71;
+	Lista<int> temp70 = pe2;
+	Lista<int> temp71 = pe;
+	Lista<int> temp72 = temp70.concatenarListas(temp71);
+	pe2 = temp72;
 	}
 
 	{
-	Lista<int> temp72 = pe;
-	int temp73 = 3;
-	Lista<int> temp74 = temp72.sumar(temp73);
-	pe = temp74;
+	Lista<int> temp73 = pe;
+	int temp74 = 3;
+	Lista<int> temp75 = temp73.sumar(temp74);
+	pe = temp75;
 	}
 
 	{
-	Lista<int> temp76 = pe2;
-	int temp75 = 4;
-	Lista<int> temp77 = temp76.sumar(temp75);
-	pe2 = temp77;
+	Lista<int> temp77 = pe2;
+	int temp76 = 4;
+	Lista<int> temp78 = temp77.sumar(temp76);
+	pe2 = temp78;
 	}
 
 	{
-	Lista<int> temp78 = pe;
-	int temp79 = 1;
-	Lista<int> temp80 = temp78.restar(temp79);
-	pe = temp80;
+	Lista<int> temp79 = pe;
+	int temp80 = 1;
+	Lista<int> temp81 = temp79.restar(temp80);
+	pe = temp81;
 	}
 
 	{
-	Lista<int> temp81 = pe;
-	int temp82 = 2;
-	Lista<int> temp83 = temp81.multiplicar(temp82);
-	pe = temp83;
+	Lista<int> temp82 = pe;
+	int temp83 = 2;
+	Lista<int> temp84 = temp82.multiplicar(temp83);
+	pe = temp84;
 	}
 
 	{
-	Lista<int> temp85 = pe2;
-	int temp84 = 7;
-	Lista<int> temp86 = temp85.multiplicar(temp84);
-	pe2 = temp86;
+	Lista<int> temp86 = pe2;
+	int temp85 = 7;
+	Lista<int> temp87 = temp86.multiplicar(temp85);
+	pe2 = temp87;
 	}
 
 	{
-	Lista<int> temp87 = pe2;
-	int temp88 = 3;
-	Lista<int> temp89 = temp87.dividir(temp88);
-	pe2 = temp89;
+	Lista<int> temp88 = pe2;
+	int temp89 = 3;
+	Lista<int> temp90 = temp88.dividir(temp89);
+	pe2 = temp90;
 	}
 
 }

@@ -1,65 +1,8 @@
 principal ()
 {
     inicio_var
-        entero   num_elementos, i;
-        lista de entero resultado, por_dos, sumar;
+        entero   i;
     fin_var 
 
-    procedimiento procedimientoD (flotante d1) {
-        inicio_var
-            entero   a, b, c;
-            entero ctr;
-        fin_var 
-
-    }
-
-
-    imprimir "introduce numero : ";
-    leer n;
-    imprimir " ", n, " == ";
-    curr = 2;
-    
-    mientras (curr <= n) {
-        inicio_var
-            entero d;
-        fin_var
-
-        d = n/curr;
-
-        si(d*curr == n) {
-            imprimir " * ", curr;
-            n = n / curr;
-        } en otro caso {
-            curr = curr+1 ;
-        }
-    }
-
-    imprimir "\n";
-
-    pe = pe++(6.0)@(0);
-    pe = pe++(-2)@(0);
-    pe = pe++(3)@(0);
-    pe = pe++(7)@(#pe);
-    imprimir pe, "\n";
-    $pe;
-    pe>>;
-    pe>>;
-    pe<<;
-
-    tam = #pe;
-    elem = ?pe;
-    elem = pe@1;
-    pe = pe--1;
-    pe = pe%(#pe-1);
-
-    pe2 = pe2++(14)@(0);
-    pe2 = pe2**pe;
-
-    pe = pe+3;
-    pe2 = 4+pe2;
-    pe = pe-1;
-
-    pe = pe*2;
-    pe2 = 7*pe2;
-    pe2 = pe2/3;
+    i = 0;
 }

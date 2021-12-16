@@ -28,7 +28,7 @@ principal ()
 
     imprimir "\n";
 
-    pe = pe++(6.0)@(0);
+    pe = pe++(6)@(0);
     pe = pe++(-2)@(0);
     pe = pe++(3)@(0);
     pe = pe++(7)@(#pe);
