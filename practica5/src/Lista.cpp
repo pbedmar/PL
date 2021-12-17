@@ -32,6 +32,12 @@ class Lista{
             return *this;       
         }
 
+        Lista<T>& operator=(const Lista<T>& other) {
+            this->l = other.l;
+            this->it = other.it;
+            return *this;
+        }
+
         Lista<T> eliminarElementoPosicion(unsigned int pos){
             typename list<T>::iterator it_aux = l.begin();
             for (unsigned int i = 0; i < pos; i++)
@@ -74,11 +80,16 @@ class Lista{
             return *this;        
         }
 
-        Lista<T> multiplicar(T n){  
-            for (typename list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux)
-                *it_aux *= n;
+        Lista<T> multiplicar(T n){ 
+            Lista<T> auxList; 
+            for (typename list<T>::iterator it_aux = this->l.begin(); it_aux != this->l.end(); ++it_aux){
+                int num = *it_aux * n;
+
+                auxList.l.push_back(num);
+            }
+
                 
-            return *this;        
+            return auxList;        
         }
 
         Lista<T> dividir(T n){  
@@ -88,7 +99,7 @@ class Lista{
             return *this;        
         }
 
-        const char* imprimirLista(){
+        string imprimirLista(){
             string resultado = "[";
             for (typename list<T>::iterator it_aux = l.begin(); it_aux != l.end(); ++it_aux){
                 if(typeid(*it_aux) == typeid(char))
@@ -101,8 +112,6 @@ class Lista{
             
             resultado += "]";
 
-            const char* resultado_c = resultado.c_str();
-
-            return resultado_c;
+            return resultado;
         }
 };

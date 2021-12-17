@@ -1,0 +1,58 @@
+principal ()
+{
+    inicio_var
+        entero   n;
+        lista de entero le, le2, leFinal;
+    fin_var 
+    
+    procedimiento calcularPrimos (entero nPrimos) {
+        inicio_var
+            entero contPrimo = 0 ;
+            entero divisor;
+            entero primoActual = 2 ;
+            booleano esPrimo;
+        fin_var
+
+        procedimiento insertarLista (entero primoAInsertar) {
+            procedimiento imprimirLista () {
+                imprimir le, "\n";
+            }
+
+            le = le++(primoAInsertar)@(#le);
+            imprimirLista();
+        }
+
+        mientras (contPrimo != nPrimos){
+            divisor = 2;
+            esPrimo = verdadero;
+
+            mientras ((divisor <= primoActual/2) y esPrimo) {
+                si(primoActual % divisor == 0) {
+                    esPrimo = falso;
+                }
+
+                divisor = divisor + 1;
+            }
+
+            si(esPrimo) {
+                insertarLista(primoActual);
+                contPrimo = contPrimo + 1;
+            }
+
+            primoActual = primoActual + 1;
+        }
+    }
+
+    imprimir "introduce numero : >>";
+    leer n;
+
+    calcularPrimos(n);
+
+    le2 = le * 2;
+
+    imprimir le2, "\n";
+
+    leFinal = le ** le2;
+
+    imprimir leFinal, "\n";
+}

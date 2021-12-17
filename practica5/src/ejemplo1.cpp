@@ -134,7 +134,7 @@ etiqueta2: ;
 
 	{
 	Lista<int> temp46 = pe;
-	printf("%s", temp46.imprimirLista());
+	cout << temp46.imprimirLista();
 	printf("%s", "\n");
 	}
 

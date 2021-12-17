@@ -469,14 +469,13 @@ char* etiquetaPrinf(dtipo tipo) {
 void generarCodMensajeExp(atributos *a, atributos *a1) {
   if(esLista(a1->tipo)) {
     char *tab = generarTab();
-    a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen("printf(\"%s")  + strlen("\", ") + strlen(a1->nombre) + strlen(".imprimirLista()") + strlen(");\n") + 1);
+    a->codigo = (char*)malloc(strlen(a1->codigo) + strlen(tab) + strlen("cout << ") + strlen(a1->nombre) + strlen(".imprimirLista()") + strlen(";\n") + 1);
     strcpy(a->codigo,a1->codigo);
     strcat(a->codigo, tab);
-    strcat(a->codigo, "printf(\"%s");
-    strcat(a->codigo, "\", ");
+    strcat(a->codigo, "cout << ");
     strcat(a->codigo, a1->nombre);
     strcat(a->codigo, ".imprimirLista()");
-    strcat(a->codigo, ");\n");
+    strcat(a->codigo, ";\n");
   }
   else {
     char *etiqPrintf = etiquetaPrinf(a1->tipo);

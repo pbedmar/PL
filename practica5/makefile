@@ -21,12 +21,15 @@ generadorCodEjemplos: $(BIN)/generadorCodInter ejemplo1.txt ejemplo2.txt
 	mv ./$(SRC)/codInter.cpp ./$(SRC)/ejemploProcedimientos.cpp
 	./$(BIN)/generadorCodInter pruebaFinal.txt
 	mv ./$(SRC)/codInter.cpp ./$(SRC)/pruebaFinal.cpp
+	./$(BIN)/generadorCodInter defensa.txt
+	mv ./$(SRC)/codInter.cpp ./$(SRC)/defensa.cpp
 
 ejecutableEjemplos: $(SRC)/ejemplo1.cpp $(SRC)/ejemplo2.cpp
 	g++ -std=$(VERSION) $(HIDE_WARNINGS) $(SRC)/ejemplo1.cpp -o $(BIN)/ejemplo1
 	g++ -std=$(VERSION) $(HIDE_WARNINGS) $(SRC)/ejemplo2.cpp -o $(BIN)/ejemplo2
 	g++ -std=$(VERSION) $(HIDE_WARNINGS) $(SRC)/ejemploProcedimientos.cpp -o $(BIN)/ejemploProcedimientos
 	g++ -std=$(VERSION) $(HIDE_WARNINGS) $(SRC)/pruebaFinal.cpp -o $(BIN)/pruebaFinal
+	g++ -std=$(VERSION) $(HIDE_WARNINGS) $(SRC)/defensa.cpp -o $(BIN)/defensa
 
 $(OBJ)/y.tab.o: $(SRC)/y.tab.c
 	g++ $(HIDE_WARNINGS) -std=$(VERSION) -pthread -g -DYYDEBUG=1 -c $(SRC)/y.tab.c -o $(OBJ)/y.tab.o
